@@ -28,9 +28,7 @@ const start = () => {
       startButton(chatId);
     }
 
-    if (text === "/apartments") {
-      return bot.sendMessage(chatId, "В наявності");
-    }
+
   });
 };
 

@@ -7,12 +7,17 @@ bot.on("message", async (msg) => {
     const apiUrl = "http://localhost:3000/aparts";
     const response = await fetch(apiUrl);
     const fetchedData = await response.json(); // Assuming JSON response
-  
-    console.log(fetchedData.text);
-    return bot.sendMessage(
-      chatId,
-      "Усі квартири в наявності: " + fetchedData.text
-    ); 
-  }
+    console.log(fetchedData);
+    let imageUrl;
+    for (const room of fetchedData.data) {
+      imageUrl = room.imgurl[0];
+    }
+    console.log(imageUrl);
+    const allnames = fetchedData.data.map((room) => room.name).join(", ");
 
+    await bot.sendMessage(chatId, `Усі квартири в наявності: `);
+    await bot.sendPhoto(chatId, imageUrl, {
+      caption: `Ось зображення квартири. ${allnames}`,
+    });
+  }
 });
