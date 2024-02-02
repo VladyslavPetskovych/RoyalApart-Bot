@@ -4,7 +4,7 @@ const app = express();
 const dbConfig = require("./db");
 
 app.get("/", (req, res) => {
-  res.json({ text: " 33 квартири на сьогодні" }); // Return JSON data for the bot
+  res.json({ text: " 33 квартири на сьогодні" }); 
 });
 
 const useRouter = require("./routes/apart");

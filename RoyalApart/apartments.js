@@ -6,7 +6,7 @@ bot.on("message", async (msg) => {
   if (text === "/apartments") {
     const apiUrl = "http://localhost:3000/aparts";
     const response = await fetch(apiUrl);
-    const fetchedData = await response.json(); // Assuming JSON response
+    const fetchedData = await response.json();
     console.log(fetchedData);
     let imageUrl;
     for (const room of fetchedData.data) {
