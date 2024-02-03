@@ -28,5 +28,5 @@ const roomSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-const rmModel = 'dfdfd' //mongoose.model("aparts", roomSchema);
+const rmModel = mongoose.model("aparts", roomSchema);
 module.exports = rmModel;

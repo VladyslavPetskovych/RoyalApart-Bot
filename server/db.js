@@ -8,6 +8,7 @@ var mongoURL = `mongodb+srv://andriyyavir7:1244@cluster0.nbom1sb.mongodb.net/apa
 mongoose.connect(mongoURL);
 
 var conection = mongoose.connection;
+console.log(conection)
 
 conection.on("error", () => {
   console.log("mongo db conection failed");
