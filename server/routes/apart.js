@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-let Roomsr = require("../models/rooms");
+let Roomsr = "FFFFFFFFFFFFFFFFFFF"//require("../models/rooms");
 
 router.get("/", (req, res) => {
   try {
     //let rooms = Roomsr.find({});
     console.log(Roomsr);
 
-    return res.json({ data: rooms });
+    return res.send({ data: Roomsr });
   } catch (error) {
     console.log("AAAAAAAAAA" + error);
   }
