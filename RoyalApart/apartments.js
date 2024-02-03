@@ -7,7 +7,7 @@ bot.on("message", async (msg) => {
 
   if (text === "/apartments") {
     const apiUrl = "https://194.99.21.21/aparts";
-
+    console.log('clicked /apartments');
     try {
       const response = await axios.get(apiUrl);
       const fetchedData = response.data;
