@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
     let rooms = await Roomsr.find({});
     
 
-    
+    console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB')
     return res.json({ data: rooms });
   } catch (error) {
     console.log('AAAAAAAAAA'+error)
