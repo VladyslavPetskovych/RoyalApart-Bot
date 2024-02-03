@@ -4,7 +4,7 @@ bot.on("message", async (msg) => {
   const text = msg.text;
   const chatId = msg.chat.id;
   if (text === "/apartments") {
-    const apiUrl = "http://localhost:3000/aparts";
+    const apiUrl = "https://194.99.21.21/aparts";
     const response = await fetch(apiUrl);
     const fetchedData = await response.json();
     console.log(fetchedData);
