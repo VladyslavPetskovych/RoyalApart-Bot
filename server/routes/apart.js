@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-let Roomsr = "FFFFFFFFFFFFFFFFFFF"//require("../models/rooms");
+let Roomsr = require("../models/rooms");
 
 router.get("/", (req, res) => {
   try {
