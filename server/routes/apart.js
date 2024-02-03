@@ -2,21 +2,16 @@ const express = require("express");
 const router = express.Router();
 let Roomsr = require("../models/rooms");
 
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => {
   try {
-    let rooms = await Roomsr.find({});
-    
+    let rooms = Roomsr.find({});
+    console.log(rooms);
 
-    console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB')
     return res.json({ data: rooms });
   } catch (error) {
-    console.log('AAAAAAAAAA'+error)
+    console.log("AAAAAAAAAA" + error);
   }
-
 });
-
-
-
 
 module.exports = router;
 // router.get("/:id", (req, res) => {
