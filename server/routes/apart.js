@@ -4,8 +4,8 @@ let Roomsr = require("../models/rooms");
 
 router.get("/", (req, res) => {
   try {
-    let rooms = Roomsr.find({});
-    console.log(rooms);
+    //let rooms = Roomsr.find({});
+    console.log(Roomsr);
 
     return res.json({ data: rooms });
   } catch (error) {
