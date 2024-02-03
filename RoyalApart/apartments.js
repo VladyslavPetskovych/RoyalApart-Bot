@@ -5,7 +5,7 @@ bot.on("message", async (msg) => {
   const text = msg.text;
   const chatId = msg.chat.id;
   console.log('fdfsfdsfdsfsd /apartments');
-  
+
   if (text === "/apartments") {
     const apiUrl = "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts";
     console.log('clicked /apartments');
@@ -24,7 +24,7 @@ bot.on("message", async (msg) => {
       const allnames = fetchedData.data.map((room) => room.name).join(", ");
 
       await bot.sendMessage(chatId, `Усі квартири в наявності: `);
-      await bot.sendPhoto(chatId, imageUrl, {
+      await bot.sendPhoto(chatId, `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/${imageUrl}`, {
         caption: `Ось зображення квартири. ${allnames}`,
       });
     } catch (error) {
