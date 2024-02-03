@@ -6,7 +6,7 @@ bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
 
   if (text === "/apartments") {
-    const apiUrl = "https://194.99.21.21/aparts";
+    const apiUrl = "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts";
     console.log('clicked /apartments');
     try {
       const response = await axios.get(apiUrl);
