@@ -17,4 +17,4 @@ const useRouter = require("./routes/apart");
 
 app.use("/aparts", useRouter);
 
-app.listen(3000,"0.0.0.0");
+app.listen(3000);

@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const mongopass = process.env.mongopass;
 
-var mongoURL = `mongodb+srv://andriyyavir7:1244@cluster0.nbom1sb.mongodb.net/apartments`;
+var mongoURL = `mongodb+srv://andriyyavir7:1111@cluster0.nbom1sb.mongodb.net/apartments`;
 
 mongoose.connect(mongoURL);
 
