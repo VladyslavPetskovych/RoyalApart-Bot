@@ -24,7 +24,7 @@ bot.on("message", async (msg) => {
       const allnames = fetchedData.data.map((room) => room.name).join(", ");
 
       await bot.sendMessage(chatId, `Усі квартири в наявності: `);
-      await bot.sendPhoto(chatId, `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/${imageUrl}`, {
+      await bot.sendPhoto(chatId, `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgs/${imageUrl}`, {
         caption: `Ось зображення квартири. ${allnames}`,
       });
     } catch (error) {
