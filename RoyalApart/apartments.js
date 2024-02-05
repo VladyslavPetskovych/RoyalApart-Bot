@@ -9,8 +9,8 @@ const roomOptions = {
   reply_markup: JSON.stringify({
     inline_keyboard: [
       [
-        { text: "<<", callback_data: "prev room" },
-        { text: ">>", callback_data: "next room" },
+        { text: "<<<", callback_data: "prev room" },
+        { text: ">>>", callback_data: "next room" },
       ],
       [{ text: "🔙 Назад ●", callback_data: "back" }],
     ],
