@@ -1,9 +1,9 @@
 const bot = require("./bot");
 const axios = require("axios");
 
-// Assuming the room data is stored globally for simplicity
 let currentRoomIndex = 0;
 let roomData = [];
+let msgId;
 
 const roomOptions = {
   reply_markup: JSON.stringify({
@@ -17,60 +17,64 @@ const roomOptions = {
   }),
 };
 
-// Function to send room details
 const sendRoomDetails = async (chatId, room) => {
   const imageUrl = room.imgurl[0];
   const roomName = room.name;
   const roomDescription = room.description;
 
-  // Send the photo with caption
   await bot.sendPhoto(chatId, `../server/imgs/${imageUrl}`, {
     caption: `Адреса: ${roomName}\n\n${roomDescription}`,
     reply_markup: roomOptions.reply_markup,
   });
 };
 
-// Message handling
+const fetchRoomData = async () => {
+  const apiUrl = "http://localhost:3000/aparts";
+  try {
+    const response = await axios.get(apiUrl);
+    roomData = response.data.data;
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+  }
+};
+
+const showApartments = async (chatId) => {
+  await fetchRoomData();
+  const currentRoom = roomData[currentRoomIndex];
+  if (currentRoom) {
+    await sendRoomDetails(chatId, currentRoom);
+  }
+};
+
 bot.on("message", async (msg) => {
   const text = msg.text;
   const chatId = msg.chat.id;
-
-  if (text === "/apartments") {
-    const apiUrl = "http://localhost:3000/aparts";
-
-    try {
-      const response = await axios.get(apiUrl);
-      roomData = response.data.data;
-
-      // Send details for the current room
-      const currentRoom = roomData[currentRoomIndex];
-      if (currentRoom) {
-        await sendRoomDetails(chatId, currentRoom);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-    }
+  msgId = msg.message_id+1;
+  if (text === "/apartments" || text === "Show Apartments") {
+    await showApartments(chatId);
   }
+
 });
 
-// Callback query handling
+
 bot.on("callback_query", async (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
-  const messageId = callbackQuery.message.message_id;
   const data = callbackQuery.data;
 
-  if (data === "prev room") {
-    currentRoomIndex = (currentRoomIndex - 1 + roomData.length) % roomData.length;
-  } else if (data === "next room") {
-    currentRoomIndex = (currentRoomIndex + 1) % roomData.length;
-  }
+  if (data === "prev room" || data === "next room") {
+    currentRoomIndex =
+      (currentRoomIndex + (data === "prev room" ? -1 : 1) + roomData.length) %
+      roomData.length;
 
-  // Send details for the updated room
-  const updatedRoom = roomData[currentRoomIndex];
-  if (updatedRoom) {
-    await sendRoomDetails(chatId, updatedRoom);
+    const updatedRoom = roomData[currentRoomIndex];
+    if (updatedRoom) {
+      await sendRoomDetails(chatId, updatedRoom);
+    }
+    console.log("room is already send", msgId);
+    bot.deleteMessage(chatId, msgId)
+    msgId=msgId+1
+    await bot.answerCallbackQuery({ callback_query_id: callbackQuery.id });
   }
-
-  // Assuming you want to answer the callback query
-  await bot.answerCallbackQuery({ callback_query_id: callbackQuery.id });
 });
+
+module.exports = showApartments;
