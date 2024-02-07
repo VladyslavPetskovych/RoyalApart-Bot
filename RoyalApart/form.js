@@ -21,6 +21,12 @@ const form = (receivedChatId) => {
   bot.sendMessage(chatId, `Напишіть Ваше ім'я:`);
 
   bot.on("message", handleFormResponse);
+  bot.on("callback_query", (query) => {
+    const data = query.data;
+    if (data === "change form") {
+      form(chatId);
+    }
+  });
 };
 
 const handleFormResponse = (message) => {
@@ -39,9 +45,7 @@ const handleFormResponse = (message) => {
       chatId,
       `Ім'я прийнято. Тепер напишіть Ваш номер телефону:`
     );
-  }
-  else  
-  {
+  } else {
     if (isNaN(userInput) || userInput.length < 6 || userInput.length > 15) {
       bot.sendMessage(
         chatId,
@@ -58,10 +62,15 @@ const handleFormResponse = (message) => {
         `\tВаші дані: \nім'я: ${userName}\nномер телефону: ${userPhone}`,
         formButtons
       );
+    
 
       bot.removeListener("message", handleFormResponse);
     }
   }
+};
+
+const changeForm = (chatId) => {
+
 };
 
 module.exports = form;

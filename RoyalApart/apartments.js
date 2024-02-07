@@ -80,11 +80,11 @@ bot.on("callback_query", async (callbackQuery) => {
     await bot.answerCallbackQuery({ callback_query_id: callbackQuery.id });
   }
   if (data === "send form") {
-    bot.deleteMessage(chatId, msgId);
+    await bot.deleteMessage(chatId, msgId);
     await bot.sendPhoto(chatId, `../server/imgs/${currentRoom.imgurl[0]}`, {
       caption: `Ви обрали квартиру за адресою: ${currentRoom.name}\n`,
     });
-    formModule(chatId);
+    await formModule(chatId);
   }
 });
 
