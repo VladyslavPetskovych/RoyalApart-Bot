@@ -18,7 +18,7 @@ const formButtons = {
 const form = (receivedChatId) => {
   chatId = receivedChatId;
 
-  bot.sendMessage(chatId, `Напишіть Ваше ім'я:`);
+  bot.sendMessage(chatId, `\nНапишіть Ваше ім'я: \t...✍️`);
 
   bot.on("message", handleFormResponse);
   bot.on("callback_query", (query) => {
@@ -43,7 +43,7 @@ const handleFormResponse = (message) => {
 
     bot.sendMessage(
       chatId,
-      `Ім'я прийнято. Тепер напишіть Ваш номер телефону:`
+      `Ім'я прийнято... \n Тепер напишіть Ваш номер телефону: \t...\t✍️`
     );
   } else {
     if (isNaN(userInput) || userInput.length < 6 || userInput.length > 15) {
