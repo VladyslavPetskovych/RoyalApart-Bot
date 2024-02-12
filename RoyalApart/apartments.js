@@ -14,11 +14,9 @@ const roomOptions2 = {
       { text: "2-кімнатні", callback_data: "room2" },
       { text: "3-кімнатні", callback_data: "room3" },
     ],
-    [
-      { text: "для романтичного відпочинку", callback_data: "romantic" },
-      { text: "для сімейного відпочинку", callback_data: "family" },
-      { text: "для бізнес подорожей", callback_data: "busines" },
-    ],
+    [{ text: "💖для романтичного відпочинку", callback_data: "romantic" }],
+    [{ text: "👪для сімейного відпочинку", callback_data: "family" }],
+    [{ text: "💼для бізнес подорожей", callback_data: "busines" }],
   ],
 };
 
@@ -120,8 +118,8 @@ bot.on("callback_query", async (callbackQuery) => {
     await formModule(chatId);
   }
 
-  if (data === "room1" || data === "room2" || data === "room3") {
-    const roomsToCheck = ["room1", "room2", "room3"];
+  if (data === "room1" || data === "room2" || data === "room3"  || data === "romantic"|| data === "family" || data === "busines") {
+    const roomsToCheck = ["room1", "room2", "room3", "romantic","family","busines"];
 
     if (roomsToCheck.includes(data)) {
       for (const row of roomOptions2.inline_keyboard) {
