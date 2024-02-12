@@ -118,49 +118,49 @@ bot.on("callback_query", async (callbackQuery) => {
     await formModule(chatId);
   }
 
-  if (data === "room1" || data === "room2" || data === "room3"  || data === "romantic"|| data === "family" || data === "busines") {
-    const roomsToCheck = ["room1", "room2", "room3", "romantic","family","busines"];
+  // if (data === "room1" || data === "room2" || data === "room3"  || data === "romantic"|| data === "family" || data === "busines") {
+  //   const roomsToCheck = ["room1", "room2", "room3", "romantic","family","busines"];
 
-    if (roomsToCheck.includes(data)) {
-      for (const row of roomOptions2.inline_keyboard) {
-        for (const button of row) {
-          if (button.callback_data === data) {
-            button.text = button.text.endsWith("✅")
-              ? button.text.slice(0, -1)
-              : button.text + "✅";
-          }
-        }
-      }
-    }
+  //   if (roomsToCheck.includes(data)) {
+  //     for (const row of roomOptions2.inline_keyboard) {
+  //       for (const button of row) {
+  //         if (button.callback_data === data) {
+  //           button.text = button.text.endsWith("✅")
+  //             ? button.text.slice(0, -1)
+  //             : button.text + "✅";
+  //         }
+  //       }
+  //     }
+  //   }
 
-    const updatedRoomOptions = {
-      reply_markup: JSON.stringify({
-        inline_keyboard: [
-          [
-            { text: "<<<", callback_data: "prev room" },
-            { text: ">>>", callback_data: "next room" },
-          ],
-          ...roomOptions2.inline_keyboard,
-          [{ text: "Заповнити форму", callback_data: "send form" }],
-          [{ text: "🔙 Назад ●", callback_data: "back_to_menu" }],
-        ],
-      }),
-    };
+  //   const updatedRoomOptions = {
+  //     reply_markup: JSON.stringify({
+  //       inline_keyboard: [
+  //         [
+  //           { text: "<<<", callback_data: "prev room" },
+  //           { text: ">>>", callback_data: "next room" },
+  //         ],
+  //         ...roomOptions2.inline_keyboard,
+  //         [{ text: "Заповнити форму", callback_data: "send form" }],
+  //         [{ text: "🔙 Назад ●", callback_data: "back_to_menu" }],
+  //       ],
+  //     }),
+  //   };
 
-    console.log(roomOptions2.inline_keyboard);
-    currentRoom = roomData[currentRoomIndex];
-    const updatedRoom = roomData[currentRoomIndex];
-    if (updatedRoom) {
-      const sentMessage = await sendRoomDetails(
-        chatId,
-        updatedRoom,
-        updatedRoomOptions
-      );
-      msgId = sentMessage.message_id;
-    }
-    console.log("room is already sent", msgId);
-    await bot.deleteMessage(chatId, msgId - 1);
-  }
+  //   console.log(roomOptions2.inline_keyboard);
+  //   currentRoom = roomData[currentRoomIndex];
+  //   const updatedRoom = roomData[currentRoomIndex];
+  //   if (updatedRoom) {
+  //     const sentMessage = await sendRoomDetails(
+  //       chatId,
+  //       updatedRoom,
+  //       updatedRoomOptions
+  //     );
+  //     msgId = sentMessage.message_id;
+  //   }
+  //   console.log("room is already sent", msgId);
+  //   await bot.deleteMessage(chatId, msgId - 1);
+  // }
 });
 
 module.exports = showApartments;
