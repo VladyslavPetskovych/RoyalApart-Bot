@@ -87,7 +87,6 @@ function handleDaySelection(chatId, selectedDay, mode) {
   );
 }
 
-// Helper function to pad single-digit numbers with a leading zero
 function padZero(num) {
   return num < 10 ? `0${num}` : num;
 }
@@ -143,7 +142,6 @@ bot.on("callback_query", async (msg) => {
       1
     ).toLocaleString("uk-UA", { month: "long" });
 
-    // Call the common function to update both text and inline keyboard
     updateMessage(chatId, messageId, monthName, modee);
   } else if (data > 0 && data < 32) {
     const selectedDay = parseInt(data);

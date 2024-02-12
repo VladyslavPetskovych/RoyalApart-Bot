@@ -13,8 +13,10 @@ app.get("/", (req, res) => {
 });
 
 
-const useRouter = require("./routes/apart");
+const apartRouter = require("./routes/apart");
+const userRouter = require("./routes/user");
 
-app.use("/aparts", useRouter);
+app.use("/aparts", apartRouter);
+app.use("/users", userRouter);
 
 app.listen(3000);

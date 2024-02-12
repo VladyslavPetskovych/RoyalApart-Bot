@@ -28,20 +28,15 @@ function sendBookingInstructions(
 ) {
   bot.sendMessage(
     chatId,
-    `Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText}- дата виїзду.`,
-    qOptions
+    `Як забронювати?\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \nМенеджер зв'яжеться з Вами і розкаже подальші кроки\n\n Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText} - дата виїзду.`, qOptions
   );
+  
 }
 
 bot.on("message", async (msg) => {
   const text = msg.text;
   const chatId = msg.chat.id;
   if (text === "/book") {
-    bot.sendMessage(
-      chatId,
-      "<strong><b>Як забронювати?</b></strong>\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \n\nМенеджер зв'яжеться з Вами і розкаже подальші кроки",
-      { parse_mode: "HTML" }
-    );
     return sendBookingInstructions(chatId);
   }
 });
@@ -53,7 +48,7 @@ bot.on("callback_query", async (msg) => {
 
   if (data === "send dates") {
     console.log("send dates");
-    showApartments(chatId);
+    await showApartments(chatId);
   }
   if (data === "Check in" || data === "Check out") {
     userState[chatId] = data;
