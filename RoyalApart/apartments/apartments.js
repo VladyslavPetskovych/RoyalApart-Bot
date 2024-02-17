@@ -1,26 +1,12 @@
-const bot = require("./bot");
+const bot = require("../bot");
 const axios = require("axios");
-const formModule = require("./form");
+const formModule = require("../form");
+const { filterModule, roomOptions2 } = require("./filterRooms");
 
 let currentRoomIndex = 0;
 let roomData = [];
 let msgId;
 let currentRoom;
-
-const roomOptions2 = {
-  reply_markup: JSON.stringify({
-    inline_keyboard: [
-      [
-        { text: "1-кімнатні", callback_data: "room1" },
-        { text: "2-кімнатні", callback_data: "room2" },
-        { text: "3-кімнатні", callback_data: "room3" },
-      ],
-      [{ text: "💖для романтичного відпочинку", callback_data: "romantic" }],
-      [{ text: "👪для сімейного відпочинку", callback_data: "family" }],
-      [{ text: "💼для бізнес подорожей", callback_data: "busines" }],
-    ],
-  }),
-};
 
 const roomOptions = {
   reply_markup: JSON.stringify({
@@ -87,7 +73,9 @@ bot.on("message", async (msg) => {
   msgId = msg.message_id + 1;
   if (text === "/apartments" || text === "Show Apartments") {
     console.log("/apartments clicked" + currentRoom);
-    await bot.sendMessage(chatId, "Оберіть категорію", roomOptions2);
+    // console.log(msg.message_id);
+    // console.log(msgId + "fdddddddddddddddddddddddd");
+    filterModule(chatId, msg.message_id + 2);
     await showApartments(chatId);
   }
 });
@@ -119,58 +107,6 @@ bot.on("callback_query", async (callbackQuery) => {
     });
     await formModule(chatId);
   }
-
-  const userData = {};
-
-  if (
-    data === "room1" ||
-    data === "room2" ||
-    data === "room3" ||
-    data === "romantic" ||
-    data === "family" ||
-    data === "busines"
-) {
-    const roomsToCheck = ["room1", "room2", "room3", "romantic", "family", "busines"];
-
-    if (roomsToCheck.includes(data)) {
-        const parsedMarkup = JSON.parse(roomOptions2.reply_markup);
-
-        for (const row of parsedMarkup.inline_keyboard) {
-            for (const button of row) {
-                if (button.callback_data === data) {
-                    const isChecked = userData[chatId] && userData[chatId][data];
-                    button.text = isChecked ? button.text.replace("✅", "") : button.text + "✅";
-
-                    if (!userData[chatId]) {
-                        userData[chatId] = {};
-                    }
-
-                    // Toggle the value in userData
-                    userData[chatId][data] = !isChecked;
-
-                    // Remove the check emoji from other buttons in the same group
-                    for (const otherData of roomsToCheck) {
-                        if (otherData !== data) {
-                            userData[chatId][otherData] = false;
-                        }
-                    }
-                }
-            }
-        }
-
-        // Use bot.editMessageText to edit the message text only if it has changed
-        await bot.editMessageText('Оберіть категорію .', {
-            chat_id: chatId,
-            message_id: msgId - 1,
-            reply_markup: JSON.stringify(parsedMarkup),
-        });
-    }
-}
-
-  
-  
-  
-
 });
 
 module.exports = showApartments;

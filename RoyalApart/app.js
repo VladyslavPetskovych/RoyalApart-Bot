@@ -1,4 +1,4 @@
-require('./genaral')
-require('./book')
-require('./apartments')
-require('./info')
+require("./genaral");
+require("./book");
+require("./apartments/apartments");
+require("./info");

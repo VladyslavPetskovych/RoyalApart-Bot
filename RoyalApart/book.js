@@ -1,11 +1,12 @@
 const bot = require("./bot");
+const moment = require("moment");
 const {
   handleDateSelection,
   getCheckInDate,
   getCheckOutDate,
 } = require("./bookdates");
 const start = require("./genaral");
-const  showApartments  = require("./apartments");
+const showApartments = require("./apartments/apartments");
 const qOptions = {
   reply_markup: JSON.stringify({
     inline_keyboard: [
@@ -28,9 +29,9 @@ function sendBookingInstructions(
 ) {
   bot.sendMessage(
     chatId,
-    `Як забронювати?\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \nМенеджер зв'яжеться з Вами і розкаже подальші кроки\n\n Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText} - дата виїзду.`, qOptions
+    `Як забронювати?\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \nМенеджер зв'яжеться з Вами і розкаже подальші кроки\n\n Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText} - дата виїзду.`,
+    qOptions
   );
-  
 }
 
 bot.on("message", async (msg) => {
@@ -48,7 +49,23 @@ bot.on("callback_query", async (msg) => {
 
   if (data === "send dates") {
     console.log("send dates");
-    await showApartments(chatId);
+    let chkin = getCheckInDate();
+    let chkout = getCheckOutDate();
+    console.log(chkin + "!!!!!!");
+    let chkinString = chkin.replace("✅ ", "");
+    let chkoutString = chkout.replace("✅ ", "");
+    let chkinDate = moment(chkinString, "DD.MM.YYYY").toDate();
+    let chkoutDate = moment(chkoutString, "DD.MM.YYYY").toDate();
+
+    if (chkinDate < chkoutDate) {
+      await showApartments(chatId);
+    } else {
+      await bot.sendMessage(
+        chatId,
+        "❌ПОМИЛКА! ОБЕРІТЬ ПРАВИЛЬНІ ДАТИ ПРОЖИВАННЯ!⚠️"
+      );
+      await sendBookingInstructions(chatId);
+    }
   }
   if (data === "Check in" || data === "Check out") {
     userState[chatId] = data;

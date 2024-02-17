@@ -20,9 +20,18 @@ function generateDaysLayout(month) {
   let buttonRow = [];
   let keyboard = [];
 
+  let day = 1;
+
   const maxDays = getMonth(month);
   console.log(maxDays);
-  for (let day = 1; day <= maxDays; day++) {
+
+  const d = new Date();
+  console.log(month)
+  if(d.getMonth()+1 ===month){
+    day = d.getDate();
+  }
+
+  for ( day; day <= maxDays; day++) {
     buttonRow.push({ text: day.toString(), callback_data: day.toString() });
     if (day % 7 === 0) {
       keyboard.push([...buttonRow]);
@@ -73,9 +82,9 @@ function handleDaySelection(chatId, selectedDay, mode) {
   console.log(mode);
 
   if (mode === "Check in") {
-    checkInDate = "☑️ " + selectedDate.toLocaleDateString("uk-UA");
+    checkInDate = "✅ " + selectedDate.toLocaleDateString("uk-UA");
   } else if (mode === "Check out") {
-    checkOutDate = "☑️ " + selectedDate.toLocaleDateString("uk-UA");
+    checkOutDate = "✅ " + selectedDate.toLocaleDateString("uk-UA");
   }
 
   const displayedDateString = `${padZero(selectedDate.getDate())}.${padZero(currentMonth)}.${selectedDate.getFullYear()}`;
