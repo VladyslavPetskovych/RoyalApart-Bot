@@ -75,7 +75,7 @@ bot.on("message", async (msg) => {
     console.log("/apartments clicked" + currentRoom);
     // console.log(msg.message_id);
     // console.log(msgId + "fdddddddddddddddddddddddd");
-    filterModule(chatId, msg.message_id + 2);
+    await filterModule(chatId, msg.message_id + 1);
     await showApartments(chatId);
   }
 });
