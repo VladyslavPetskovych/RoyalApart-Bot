@@ -32,15 +32,13 @@ const filterModule = async (chatId, msgId) => {
   const msg = await bot.sendMessage(chatId, "Оберіть категорію .", {
     reply_markup: roomOptions2.reply_markup,
   });
-
   const msgIdOfReply = msg.message_id;
-
   bot.on("callback_query", async (callbackQuery) => {
     const data = callbackQuery.data;
-
+    chatId = callbackQuery.message.chat.id;
+    msgId = callbackQuery.message.message_id;
     try {
       const parsedMarkup = JSON.parse(roomOptions2.reply_markup);
-
       const isValidData = parsedMarkup.inline_keyboard
         .flatMap((row) => row.map((button) => button.callback_data))
         .includes(data);
@@ -54,10 +52,9 @@ const filterModule = async (chatId, msgId) => {
             text:
               userData[chatId] && userData[chatId][button.callback_data]
                 ? `${button.text}✅`
-                : button.text.replace(/✅$/, ''), // Remove check emoji if present
+                : button.text.replace(/✅$/, ""), // Remove check emoji if present
           }))
         );
-
         // Edit the message with the updated markup
         await bot.editMessageText("Оберіть категорію .", {
           chat_id: chatId,
@@ -82,23 +79,49 @@ const filterModule = async (chatId, msgId) => {
 const generateMarkupFromData = (storedData) => {
   return [
     [
-      { text: "1-кімнатні", callback_data: "room1", checked: storedData["room1"] },
-      { text: "2-кімнатні", callback_data: "room2", checked: storedData["room2"] },
-      { text: "3-кімнатні", callback_data: "room3", checked: storedData["room3"] },
+      {
+        text: "1-кімнатні",
+        callback_data: "room1",
+        checked: storedData["room1"],
+      },
+      {
+        text: "2-кімнатні",
+        callback_data: "room2",
+        checked: storedData["room2"],
+      },
+      {
+        text: "3-кімнатні",
+        callback_data: "room3",
+        checked: storedData["room3"],
+      },
     ],
     [
-      { text: "💖для романтичного відпочинку", callback_data: "romantic", checked: storedData["romantic"] },
+      {
+        text: "💖для романтичного відпочинку",
+        callback_data: "romantic",
+        checked: storedData["romantic"],
+      },
     ],
     [
-      { text: "👪для сімейного відпочинку", callback_data: "family", checked: storedData["family"] },
+      {
+        text: "👪для сімейного відпочинку",
+        callback_data: "family",
+        checked: storedData["family"],
+      },
     ],
     [
-      { text: "💼для бізнес подорожей", callback_data: "business", checked: storedData["business"] },
+      {
+        text: "💼для бізнес подорожей",
+        callback_data: "business",
+        checked: storedData["business"],
+      },
     ],
-  ].map(row => row.map(button => ({
-    ...button,
-    text: `${button.text}${button.checked ? "✅" : ""}`, // Add check emoji if button is checked
-  })));
+  ].map((row) =>
+    row.map((button) => ({
+      ...button,
+      text: `${button.text}${button.checked ? "✅" : ""}`, // Add check emoji if button is checked
+    }))
+  );
 };
 module.exports = {
   filterModule,
