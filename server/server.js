@@ -15,8 +15,10 @@ app.get("/", (req, res) => {
 
 const apartRouter = require("./routes/apart");
 const userRouter = require("./routes/user");
+const froomsRouter = require("./routes/freeRooms");
 
 app.use("/aparts", apartRouter);
 app.use("/users", userRouter);
+app.use("/freeRooms",froomsRouter)
 
 app.listen(3000);

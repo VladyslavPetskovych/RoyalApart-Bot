@@ -22,6 +22,7 @@ const roomSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    wubid: { type: Number },
     imgurl: [],
     currentbookings: [],
   },

@@ -1,4 +1,4 @@
 require("./genaral");
-require("./book");
+require("./book/book");
 require("./apartments/apartments");
 require("./info");

@@ -53,6 +53,7 @@ const fetchRoomData = async () => {
     const response = await axios.get(apiUrl);
     roomData = response.data.data;
     currentRoom = roomData[currentRoomIndex];
+    console.log(currentRoom.wubid)
   } catch (error) {
     console.error("Error fetching data:", error.message);
   }
@@ -73,8 +74,7 @@ bot.on("message", async (msg) => {
   msgId = msg.message_id + 1;
   if (text === "/apartments" || text === "Show Apartments") {
     console.log("/apartments clicked" + currentRoom);
-    // console.log(msg.message_id);
-    // console.log(msgId + "fdddddddddddddddddddddddd");
+
     await filterModule(chatId, msg.message_id + 1);
     await showApartments(chatId);
   }

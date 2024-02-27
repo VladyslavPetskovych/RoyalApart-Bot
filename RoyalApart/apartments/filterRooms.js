@@ -76,53 +76,7 @@ const filterModule = async (chatId, msgId) => {
     }
   });
 };
-const generateMarkupFromData = (storedData) => {
-  return [
-    [
-      {
-        text: "1-кімнатні",
-        callback_data: "room1",
-        checked: storedData["room1"],
-      },
-      {
-        text: "2-кімнатні",
-        callback_data: "room2",
-        checked: storedData["room2"],
-      },
-      {
-        text: "3-кімнатні",
-        callback_data: "room3",
-        checked: storedData["room3"],
-      },
-    ],
-    [
-      {
-        text: "💖для романтичного відпочинку",
-        callback_data: "romantic",
-        checked: storedData["romantic"],
-      },
-    ],
-    [
-      {
-        text: "👪для сімейного відпочинку",
-        callback_data: "family",
-        checked: storedData["family"],
-      },
-    ],
-    [
-      {
-        text: "💼для бізнес подорожей",
-        callback_data: "business",
-        checked: storedData["business"],
-      },
-    ],
-  ].map((row) =>
-    row.map((button) => ({
-      ...button,
-      text: `${button.text}${button.checked ? "✅" : ""}`, // Add check emoji if button is checked
-    }))
-  );
-};
+
 module.exports = {
   filterModule,
   roomOptions2,
