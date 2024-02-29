@@ -1,6 +1,9 @@
 const bot = require("../bot");
 const axios = require("axios");
 const moment = require("moment");
+const { filterModule } = require("../apartments/filterRooms");
+const apartmentsHandler = require("./apartmentsHandler");
+const {showApartments} = require("../apartments/apartments")
 const {
   handleDateSelection,
   getCheckInDate,
@@ -43,12 +46,12 @@ bot.on("message", async (msg) => {
     return sendBookingInstructions(chatId);
   }
 });
+let rooms;
 
 bot.on("callback_query", async (msg) => {
   const data = msg.data;
   const chatId = msg.message.chat.id;
   await bot.answerCallbackQuery({ callback_query_id: msg.id, cache_time: 1 });
-
 
   if (data === "send dates") {
     console.log("send dates");
@@ -77,16 +80,22 @@ bot.on("callback_query", async (msg) => {
         // You don't need to provide rtid as it will be fetched from the database on the server side
       };
 
+
       axios.post(apiUrl, postData)
         .then(response => {
-          console.log('Response:', response.data);
+          // console.log('Response:', response.data);
           const availableRoomsCount = response.data.data.length;
-
+          rooms = response.data.data;
           bot.sendMessage(chatId, `Усі квартири. Доступно ${availableRoomsCount} кімнат.`);
+
+          showApartments(chatId,rooms)
+        //await filterModule(chatId, msg.message_id + 1);
+         //apartmentsHandler(chatId,rooms)
         })
         .catch(error => {
           console.error('Error:', error.message);
         });
+
     } else {
       await bot.sendMessage(
         chatId,
@@ -94,6 +103,7 @@ bot.on("callback_query", async (msg) => {
       );
       await sendBookingInstructions(chatId);
     }
+
   }
   if (data === "Check in" || data === "Check out") {
     userState[chatId] = data;

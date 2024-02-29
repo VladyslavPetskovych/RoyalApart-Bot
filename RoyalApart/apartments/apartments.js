@@ -53,20 +53,33 @@ const fetchRoomData = async () => {
     const response = await axios.get(apiUrl);
     roomData = response.data.data;
     currentRoom = roomData[currentRoomIndex];
-    console.log(currentRoom.wubid)
+    console.log(currentRoom.wubid);
   } catch (error) {
     console.error("Error fetching data:", error.message);
   }
 };
 
-const showApartments = async (chatId) => {
-  await fetchRoomData();
-  currentRoom = roomData[currentRoomIndex];
-  if (currentRoom) {
+const showApartments = async (chatId, rooms = []) => {
+  console.log(rooms);
+
+  if (rooms.length > 0) {
+    roomData = rooms; // Assigning to the global variable
+  } else {
+    await fetchRoomData();
+    // Remove the local declaration of roomData here
+  }
+
+  if (roomData.length > 0) {
+    currentRoom = roomData[0]; // Assuming you want to start with the first room
     const sentMessage = await sendRoomDetails(chatId, currentRoom);
     msgId = sentMessage.message_id;
+  } else {
+    console.error("No room data available");
+    // Handle the case where there is no room data
   }
 };
+
+
 
 bot.on("message", async (msg) => {
   const text = msg.text;
@@ -109,4 +122,4 @@ bot.on("callback_query", async (callbackQuery) => {
   }
 });
 
-module.exports = showApartments;
+module.exports = { showApartments, sendRoomDetails };

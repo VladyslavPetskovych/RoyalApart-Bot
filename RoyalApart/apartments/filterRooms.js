@@ -51,7 +51,7 @@ const filterModule = async (chatId, msgId) => {
             ...button,
             text:
               userData[chatId] && userData[chatId][button.callback_data]
-                ? `${button.text}✅`
+                ? `✅${button.text}`
                 : button.text.replace(/✅$/, ""), // Remove check emoji if present
           }))
         );
