@@ -2,12 +2,14 @@ const bot = require("../bot");
 const axios = require("axios");
 const formModule = require("../form");
 const { filterModule, roomOptions2 } = require("./filterRooms");
+const checkFilter = require("../book/checkFilter");
 
 let currentRoomIndex = 0;
 let roomData = [];
 let msgId;
 let currentRoom;
 
+let fetchedRoom;
 const roomOptions = {
   reply_markup: JSON.stringify({
     inline_keyboard: [
@@ -60,7 +62,13 @@ const fetchRoomData = async () => {
 };
 
 const showApartments = async (chatId, rooms = []) => {
-  console.log(rooms);
+  console.log(
+    rooms.map((room) => ({
+      name: room.name,
+      category: room.category,
+      numrooms: room.numrooms,
+    }))
+  );
 
   if (rooms.length > 0) {
     roomData = rooms; // Assigning to the global variable
@@ -79,8 +87,6 @@ const showApartments = async (chatId, rooms = []) => {
   }
 };
 
-
-
 bot.on("message", async (msg) => {
   const text = msg.text;
   const chatId = msg.chat.id;
@@ -88,11 +94,10 @@ bot.on("message", async (msg) => {
   if (text === "/apartments" || text === "Show Apartments") {
     console.log("/apartments clicked" + currentRoom);
 
-    await filterModule(chatId, msg.message_id + 1);
+    //await filterModule(chatId, msg.message_id + 1);
     await showApartments(chatId);
   }
 });
-
 bot.on("callback_query", async (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
   const data = callbackQuery.data;
@@ -107,9 +112,11 @@ bot.on("callback_query", async (callbackQuery) => {
     if (updatedRoom) {
       const sentMessage = await sendRoomDetails(chatId, updatedRoom);
       msgId = sentMessage.message_id;
+
+      // Move the deleteMessage inside the sendRoomDetails callback
+      console.log("room is already sent", msgId);
+      bot.deleteMessage(chatId, msgId - 1);
     }
-    console.log("room is already sent", msgId);
-    bot.deleteMessage(chatId, msgId - 1);
     await bot.answerCallbackQuery({ callback_query_id: callbackQuery.id });
   }
 
@@ -121,5 +128,6 @@ bot.on("callback_query", async (callbackQuery) => {
     await formModule(chatId);
   }
 });
+
 
 module.exports = { showApartments, sendRoomDetails };

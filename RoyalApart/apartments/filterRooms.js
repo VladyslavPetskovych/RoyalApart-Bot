@@ -12,6 +12,7 @@ const roomOptions2 = {
       [{ text: "💖для романтичного відпочинку", callback_data: "romantic" }],
       [{ text: "👪для сімейного відпочинку", callback_data: "family" }],
       [{ text: "💼для бізнес подорожей", callback_data: "business" }],
+      [{ text: "ПОКАЗАТИ ЖИТЛО", callback_data: "shw" }],
     ],
   }),
 };
@@ -24,8 +25,11 @@ const filterModule = async (chatId, msgId) => {
       userData[chatId] = {};
     }
 
-    // Toggle the check state
-    userData[chatId][data] = !userData[chatId][data];
+    // Toggle the check state, except for "shw" button
+    if (data !== "shw") {
+      userData[chatId][data] = !userData[chatId][data];
+    }
+
     return userData[chatId][data];
   };
 
@@ -37,6 +41,7 @@ const filterModule = async (chatId, msgId) => {
     const data = callbackQuery.data;
     chatId = callbackQuery.message.chat.id;
     msgId = callbackQuery.message.message_id;
+
     try {
       const parsedMarkup = JSON.parse(roomOptions2.reply_markup);
       const isValidData = parsedMarkup.inline_keyboard
@@ -63,13 +68,14 @@ const filterModule = async (chatId, msgId) => {
         });
 
         // Use Axios to make a POST request to store the checkedRooms object
-        const checkedRoomsData = {
-          chatId: chatId,
-          checkedRooms: userData[chatId] || {},
-          markup: JSON.stringify({ inline_keyboard: updatedMarkup }),
-        };
-
-        await axios.post("http://localhost:3000/users", checkedRoomsData);
+        if (data !== "shw") {
+          const checkedRoomsData = {
+            chatId: chatId,
+            checkedRooms: userData[chatId] || {},
+            markup: JSON.stringify({ inline_keyboard: updatedMarkup }),
+          };
+          await axios.post("http://localhost:3000/users", checkedRoomsData);
+        }
       }
     } catch (error) {
       console.error("Error parsing markup:", error);

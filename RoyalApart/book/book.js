@@ -2,13 +2,13 @@ const bot = require("../bot");
 const axios = require("axios");
 const moment = require("moment");
 const { filterModule } = require("../apartments/filterRooms");
-const apartmentsHandler = require("./apartmentsHandler");
-const {showApartments} = require("../apartments/apartments")
+const checkFilter = require("./checkFilter");
+const { showApartments } = require("../apartments/apartments");
 const {
   handleDateSelection,
   getCheckInDate,
   getCheckOutDate,
-  UserDatas,  // Import UserDatas from bookdates module
+  UserDatas, // Import UserDatas from bookdates module
 } = require("./bookdates");
 const start = require("../genaral");
 
@@ -51,12 +51,13 @@ let rooms;
 bot.on("callback_query", async (msg) => {
   const data = msg.data;
   const chatId = msg.message.chat.id;
+  const msgId = msg.message.id;
   await bot.answerCallbackQuery({ callback_query_id: msg.id, cache_time: 1 });
 
   if (data === "send dates") {
     console.log("send dates");
-    let chkin = UserDatas[chatId].checkInDate
-    let chkout = UserDatas[chatId].checkOutDate
+    let chkin = UserDatas[chatId].checkInDate;
+    let chkout = UserDatas[chatId].checkOutDate;
     if (!chkin || !chkout) {
       await bot.sendMessage(
         chatId,
@@ -71,31 +72,33 @@ bot.on("callback_query", async (msg) => {
     let chkoutDate = moment(chkoutString, "DD.MM.YYYY").toDate();
 
     if (chkinDate < chkoutDate) {
-      const apiUrl = 'http://localhost:3000/freeRooms'; // Replace with your actual route
-      let chkinDate2 = moment(chkinString, 'DD.MM.YYYY').format('DD/MM/YYYY');
-      let chkoutDate2 = moment(chkoutString, 'DD.MM.YYYY').format('DD/MM/YYYY');
+      const apiUrl = "http://localhost:3000/freeRooms"; // Replace with your actual route
+      let chkinDate2 = moment(chkinString, "DD.MM.YYYY").format("DD/MM/YYYY");
+      let chkoutDate2 = moment(chkoutString, "DD.MM.YYYY").format("DD/MM/YYYY");
       const postData = {
         dfrom: chkinDate2,
         dto: chkoutDate2,
         // You don't need to provide rtid as it will be fetched from the database on the server side
       };
 
-
-      axios.post(apiUrl, postData)
-        .then(response => {
+      axios
+        .post(apiUrl, postData)
+        .then((response) => {
           // console.log('Response:', response.data);
           const availableRoomsCount = response.data.data.length;
           rooms = response.data.data;
-          bot.sendMessage(chatId, `Усі квартири. Доступно ${availableRoomsCount} кімнат.`);
-
-          showApartments(chatId,rooms)
-        //await filterModule(chatId, msg.message_id + 1);
-         //apartmentsHandler(chatId,rooms)
+          bot.sendMessage(
+            chatId,
+            `Усі квартири. Доступно ${availableRoomsCount} кімнат.`
+          );
+          console.log("!!!!!!!!!!!!!!!!!sdffdsfdsfdsfdsf");
+          console.log(rooms);
+          checkFilter(chatId, msgId, rooms);
+          //showApartments(chatId, rooms);
         })
-        .catch(error => {
-          console.error('Error:', error.message);
+        .catch((error) => {
+          console.error("Error:", error.message);
         });
-
     } else {
       await bot.sendMessage(
         chatId,
@@ -103,14 +106,13 @@ bot.on("callback_query", async (msg) => {
       );
       await sendBookingInstructions(chatId);
     }
-
   }
   if (data === "Check in" || data === "Check out") {
     userState[chatId] = data;
     handleDateSelection(chatId, userState[chatId]);
   } else if (data === "back") {
-    let chkin = UserDatas[chatId].checkInDate
-    let chkout = UserDatas[chatId].checkOutDate
+    let chkin = UserDatas[chatId].checkInDate;
+    let chkout = UserDatas[chatId].checkOutDate;
     sendBookingInstructions(chatId, chkin, chkout);
   } else if (data === "back_to_menu") {
     start(chatId);
