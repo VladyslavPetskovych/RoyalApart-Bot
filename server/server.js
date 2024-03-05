@@ -16,9 +16,11 @@ app.get("/", (req, res) => {
 const apartRouter = require("./routes/apart");
 const userRouter = require("./routes/user");
 const froomsRouter = require("./routes/freeRooms");
+const pricesRouter = require("./routes/getprices");
 
 app.use("/aparts", apartRouter);
 app.use("/users", userRouter);
 app.use("/freeRooms",froomsRouter)
+app.use("/getprices",pricesRouter)
 
 app.listen(3000);

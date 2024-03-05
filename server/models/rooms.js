@@ -24,6 +24,21 @@ const roomSchema = mongoose.Schema(
     },
     wubid: { type: Number },
     imgurl: [],
+    globalId: {
+      type: Number,
+    },
+    floor: {
+      type: Number,
+    },
+    beds: {
+      type: Number,
+    },
+    surface:{
+      type: Number,
+    },
+    guests: {
+      type: Number,
+    },
     currentbookings: [],
   },
   { timestamps: true }

@@ -14,8 +14,8 @@ const roomOptions = {
   reply_markup: JSON.stringify({
     inline_keyboard: [
       [
-        { text: "<<<", callback_data: "prev room" },
-        { text: ">>>", callback_data: "next room" },
+        { text: "<<< Попередня ", callback_data: "prev room" },
+        { text: "Наступна >>>", callback_data: "next room" },
       ],
       [{ text: "Заповнити форму", callback_data: "send form" }],
       [{ text: "🔙 Назад ●", callback_data: "back_to_menu" }],
@@ -27,7 +27,14 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
   const imageUrl = room.imgurl[0];
   const roomName = room.name;
   const roomDescription = room.description;
-
+  const roomSurface = room.surface;
+  const roomBeds = room.beds;
+  const roomGuests = room.guests;
+  const roomFloor = room.floor;
+  let roomPrice = room.price;
+  if (roomPrice > 10000) {
+    roomPrice = " договірна. Лише довготривала оренда";
+  }
   try {
     const replyMarkup = updatedRoomOptions
       ? updatedRoomOptions.reply_markup
@@ -37,7 +44,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
       chatId,
       `../server/imgs/${imageUrl}`,
       {
-        caption: `Адреса: ${roomName}\n\n${roomDescription}`,
+        caption: `Адреса: ${roomName}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice}\n\n${roomDescription}`,
         reply_markup: replyMarkup,
       }
     );
@@ -128,6 +135,5 @@ bot.on("callback_query", async (callbackQuery) => {
     await formModule(chatId);
   }
 });
-
 
 module.exports = { showApartments, sendRoomDetails };
