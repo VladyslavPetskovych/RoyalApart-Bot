@@ -55,8 +55,10 @@ router.get("/setPrice", async (req, res) => {
   try {
     const apiUrl = 'https://kapi.wubook.net/kp/inventory/fetch_rate_values';
     const apiKey = 'wb_5dc6d45a-5f50-11ec-acc7-001a4a908fff'; // Replace with your actual API key
-    const currentDate = new Date();
-    const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
+    let currentDate = new Date();
+    let formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+
+    // 
 
     // Make a POST request to the specified API with the x-api-key header
     const response = await axios.post(apiUrl, null, {
@@ -96,5 +98,47 @@ router.get("/setPrice", async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+router.get('/getPrices', async (req, res) => {
+    try {
+      const apiUrl = 'https://kapi.wubook.net/kp/inventory/fetch_rate_values';
+      const apiKey = 'wb_5dc6d45a-5f50-11ec-acc7-001a4a908fff'; // Replace with your actual API key
+  
+      // Extract parameters from the request query
+      const formattedDate = req.query.formattedDate;
+      const n = req.query.n;
+  
+      // Check if parameters are present, otherwise throw an error
+      if (!formattedDate || !n) {
+        throw new Error('Missing required parameters: formattedDate and n');
+      }
+  
+      // http://localhost:3000/getprices/getPrices?formattedDate=8/3/2024&n=15
+      const response = await axios.post(apiUrl, null, {
+        params: {
+          from: formattedDate,
+          rate: 31732,
+          n: n,
+        },
+        headers: {
+          'x-api-key': apiKey,
+        },
+      });
+  
+      const responseData = response.data.data;
+  
+      const pricesMap = {};
+      for (const roomId in responseData) {
+        const prices = responseData[roomId].map(priceData => priceData.p);
+        pricesMap[roomId] = prices;
+      }
+      res.json(pricesMap);
+    } catch (error) {
+      console.error('Error fetching prices:', error.message);
+      res.status(400).json({ error: error.message });
+    }
+  });
+
 
 module.exports = router;

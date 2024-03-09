@@ -46,7 +46,7 @@ bot.on("message", async (msg) => {
     return sendBookingInstructions(chatId);
   }
 });
-let rooms;
+
 
 bot.on("callback_query", async (msg) => {
   const data = msg.data;
@@ -72,7 +72,7 @@ bot.on("callback_query", async (msg) => {
     let chkoutDate = moment(chkoutString, "DD.MM.YYYY").toDate();
 
     if (chkinDate < chkoutDate) {
-      const apiUrl = "http://localhost:3000/freeRooms"; // Replace with your actual route
+      const apiUrl = "http://localhost:3000/freeRooms";
       let chkinDate2 = moment(chkinString, "DD.MM.YYYY").format("DD/MM/YYYY");
       let chkoutDate2 = moment(chkoutString, "DD.MM.YYYY").format("DD/MM/YYYY");
       const postData = {
@@ -86,7 +86,7 @@ bot.on("callback_query", async (msg) => {
         .then((response) => {
           // console.log('Response:', response.data);
           const availableRoomsCount = response.data.data.length;
-          rooms = response.data.data;
+          let rooms = response.data.data;
           bot.sendMessage(
             chatId,
             `Усі квартири. Доступно ${availableRoomsCount} кімнат.`
@@ -99,6 +99,8 @@ bot.on("callback_query", async (msg) => {
         .catch((error) => {
           console.error("Error:", error.message);
         });
+      const data = { chatId: chatId, chkin: chkinString, chkout: chkoutString };
+      await axios.post("http://localhost:3000/users", data);
     } else {
       await bot.sendMessage(
         chatId,

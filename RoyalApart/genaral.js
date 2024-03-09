@@ -1,6 +1,12 @@
 const bot = require("./bot");
+const axios = require("axios");
 
-const startButton = (chatId) =>{
+const startButton = async (chatId) =>{
+  const checkedRoomsData = {
+    chatId: chatId,
+  };
+  await axios.post(`http://localhost:3000/users`, checkedRoomsData);
+
   return bot.sendMessage(
     chatId,
     "Привіт, це бот для швидкого пошуку і бронювання квартир у Львові. 🏡" +
@@ -13,12 +19,13 @@ const startButton = (chatId) =>{
   );
 }
 
-const start = () => {
+const start =  () => {
+
   bot.setMyCommands([
     { command: "/start", description: "Запустити бота" },
-    { command: "/info", description: "Як це працює?" },
-    { command: "/book", description: "Забронювати квартиру" },
-    { command: "/apartments", description: "Асортимент квартир" },
+    // { command: "/info", description: "Як це працює?" },
+    // { command: "/book", description: "Забронювати квартиру" },
+    // { command: "/apartments", description: "Асортимент квартир" },
   ]);
 
   bot.on("message", async (msg) => {

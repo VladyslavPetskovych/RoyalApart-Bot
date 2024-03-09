@@ -1,89 +1,106 @@
 const bot = require("../bot");
 const axios = require("axios");
 
-const roomOptions2 = {
-  reply_markup: JSON.stringify({
-    inline_keyboard: [
-      [
-        { text: "1-кімнатні", callback_data: "room1" },
-        { text: "2-кімнатні", callback_data: "room2" },
-        { text: "3-кімнатні", callback_data: "room3" },
-      ],
-      [{ text: "💖для романтичного відпочинку", callback_data: "romantic" }],
-      [{ text: "👪для сімейного відпочинку", callback_data: "family" }],
-      [{ text: "💼для бізнес подорожей", callback_data: "business" }],
-      [{ text: "ПОКАЗАТИ ЖИТЛО", callback_data: "shw" }],
-    ],
-  }),
+const roomOptions = [
+  [
+    { text: "1-кімнатні", callback_data: "room1" },
+    { text: "2-кімнатні", callback_data: "room2" },
+    { text: "3-кімнатні", callback_data: "room3" },
+  ],
+  [{ text: "💖для романтичного відпочинку", callback_data: "romantic" }],
+  [{ text: "👪для сімейного відпочинку", callback_data: "family" }],
+  [{ text: "💼для бізнес подорожей", callback_data: "business" }],
+  [{ text: "ПОКАЗАТИ ЖИТЛО", callback_data: "shw" }],
+];
+
+const getUserSelections = async (chatId) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/users/${chatId}`);
+    return response.data.checkedRooms || {};
+  } catch (error) {
+    console.error("Error getting user selections:", error);
+    return {};
+  }
 };
 
-const filterModule = async (chatId, msgId) => {
-  const userData = {};
+const updateUserSelections = async (chatId, selections, markup) => {
+  try {
+    const data = { chatId: chatId, checkedRooms: selections, markup: markup };
+    console.log(chatId);
+    await axios.post("http://localhost:3000/users", data);
+  } catch (error) {
+    console.error("Error updating user selections:", error);
+  }
+};
 
-  const toggleCheck = (chatId, data) => {
-    if (!userData[chatId]) {
-      userData[chatId] = {};
-    }
+const filterModule = async (chatId) => {
+  const userSelections = await getUserSelections(chatId);
 
-    // Toggle the check state, except for "shw" button
-    if (data !== "shw") {
-      userData[chatId][data] = !userData[chatId][data];
-    }
-
-    return userData[chatId][data];
+  const initialMarkup = {
+    inline_keyboard: roomOptions.map((row) =>
+      row.map((button) => ({
+        ...button,
+        text: userSelections[button.callback_data]
+          ? `✅ ${button.text}`
+          : button.text,
+      }))
+    ),
   };
 
-  const msg = await bot.sendMessage(chatId, "Оберіть категорію .", {
-    reply_markup: roomOptions2.reply_markup,
+  const msg = await bot.sendMessage(chatId, "Оберіть категорію.", {
+    reply_markup: JSON.stringify(initialMarkup),
   });
-  const msgIdOfReply = msg.message_id;
+
   bot.on("callback_query", async (callbackQuery) => {
     const data = callbackQuery.data;
-    chatId = callbackQuery.message.chat.id;
-    msgId = callbackQuery.message.message_id;
+    const chatId = callbackQuery.message.chat.id;
+    const userSelections = await getUserSelections(chatId);
+    const wasChecked = userSelections[data];
+    userSelections[data] = !wasChecked;
+    const updatedMarkup = {
+      inline_keyboard: roomOptions.map((row) =>
+        row.map((button) => ({
+          ...button,
+          text: userSelections[button.callback_data]
+            ? `✅ ${button.text}`
+            : button.text,
+        }))
+      ),
+    };
+    const currentMarkupJSON = JSON.stringify(initialMarkup);
+    const updatedMarkupJSON = JSON.stringify(updatedMarkup);
 
-    try {
-      const parsedMarkup = JSON.parse(roomOptions2.reply_markup);
-      const isValidData = parsedMarkup.inline_keyboard
-        .flatMap((row) => row.map((button) => button.callback_data))
-        .includes(data);
-
-      if (isValidData) {
-        const wasChecked = toggleCheck(chatId, data);
-
-        const updatedMarkup = parsedMarkup.inline_keyboard.map((row) =>
-          row.map((button) => ({
-            ...button,
-            text:
-              userData[chatId] && userData[chatId][button.callback_data]
-                ? `✅${button.text}`
-                : button.text.replace(/✅$/, ""), // Remove check emoji if present
-          }))
-        );
-        // Edit the message with the updated markup
-        await bot.editMessageText("Оберіть категорію .", {
+    if (
+      currentMarkupJSON !== updatedMarkupJSON &&
+      (data === "room1" ||
+        data === "room2" ||
+        data === "room3" ||
+        data === "romantic" ||
+        data === "family" ||
+        data === "business")
+    ) {
+      try {
+        await bot.editMessageText("Оберіть категорію.", {
           chat_id: chatId,
-          message_id: msgId,
-          reply_markup: JSON.stringify({ inline_keyboard: updatedMarkup }),
+          message_id: msg.message_id,
+          reply_markup: JSON.stringify(updatedMarkup),
         });
 
-        // Use Axios to make a POST request to store the checkedRooms object
-        if (data !== "shw") {
-          const checkedRoomsData = {
-            chatId: chatId,
-            checkedRooms: userData[chatId] || {},
-            markup: JSON.stringify({ inline_keyboard: updatedMarkup }),
-          };
-          await axios.post("http://localhost:3000/users", checkedRoomsData);
-        }
+        console.log("#@#@323232#23232#@#@##@#");
+        console.log(chatId, userSelections, updatedMarkupJSON);
+        console.log(`My user selection \n ${userSelections}`);
+        await updateUserSelections(chatId, userSelections, updatedMarkupJSON);
+      } catch (error) {
+        console.error("Error editing message:", error);
       }
-    } catch (error) {
-      console.error("Error parsing markup:", error);
+    } else {
+      console.log(
+        "Message content and reply markup are exactly the same. No modifications needed."
+      );
     }
   });
 };
 
 module.exports = {
   filterModule,
-  roomOptions2,
 };

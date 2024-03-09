@@ -3,11 +3,9 @@ const axios = require("axios");
 const formModule = require("../form");
 const { filterModule, roomOptions2 } = require("./filterRooms");
 const checkFilter = require("../book/checkFilter");
-
-let currentRoomIndex = 0;
 let roomData = [];
 let msgId;
-let currentRoom;
+//let currentRoom;
 
 let fetchedRoom;
 const roomOptions = {
@@ -61,35 +59,38 @@ const fetchRoomData = async () => {
   try {
     const response = await axios.get(apiUrl);
     roomData = response.data.data;
-    currentRoom = roomData[currentRoomIndex];
-    console.log(currentRoom.wubid);
+    //currentRoom = roomData[0];
+    //console.log(currentRoom.wubid);
   } catch (error) {
     console.error("Error fetching data:", error.message);
   }
 };
 
 const showApartments = async (chatId, rooms = []) => {
-  console.log(
-    rooms.map((room) => ({
-      name: room.name,
-      category: room.category,
-      numrooms: room.numrooms,
-    }))
-  );
+  await fetchRoomData();
+  // Remove the local declaration of roomData here
+  const response = await axios.get(`http://localhost:3000/users/${chatId}`);
 
-  if (rooms.length > 0) {
-    roomData = rooms; // Assigning to the global variable
-  } else {
-    await fetchRoomData();
-    // Remove the local declaration of roomData here
-  }
+  // Extract relevant data from the response
+  const userData = response.data;
+  console.log("------------------------");
+  console.log(userData);
+  console.log("------------------------");
 
-  if (roomData.length > 0) {
-    currentRoom = roomData[0]; // Assuming you want to start with the first room
-    const sentMessage = await sendRoomDetails(chatId, currentRoom);
+  if (roomData.length > 0 && userData.roomsid.length > 0) {
+    //currentRoom = roomData.find(
+    //  (room) => room.wubid === userData.roomsid[userData.insexr]
+    //); // Assuming you want to start with the first room
+    const sentMessage = await sendRoomDetails(
+      chatId,
+      roomData.find((room) => room.wubid === userData.roomsid[userData.insexr])
+    );
     msgId = sentMessage.message_id;
   } else {
-    console.error("No room data available");
+    bot.sendMessage(chatId, "На разі немає даних квартир!");
+    console.error(
+      "No room data available!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    );
     // Handle the case where there is no room data
   }
 };
@@ -99,39 +100,112 @@ bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   msgId = msg.message_id + 1;
   if (text === "/apartments" || text === "Show Apartments") {
-    console.log("/apartments clicked" + currentRoom);
-
+    await fetchRoomData();
+    //console.log("/apartments clicked" + currentRoom);
+    const apiUrlUpdate = `http://localhost:3000/users`;
+    const userDataId = {
+      chatId: chatId,
+      insexr: 0,
+      roomsid: roomData.map((room) => room.wubid),
+    };
+    await axios.post(apiUrlUpdate, userDataId);
     //await filterModule(chatId, msg.message_id + 1);
     await showApartments(chatId);
   }
 });
+
+const lastPickedRoomsMap = new Map();
+
 bot.on("callback_query", async (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
   const data = callbackQuery.data;
+  const messageId = callbackQuery.message.message_id;
 
   if (data === "prev room" || data === "next room") {
-    currentRoomIndex =
-      (currentRoomIndex + (data === "prev room" ? -1 : 1) + roomData.length) %
-      roomData.length;
+    const response = await axios.get(
+      `http://localhost:3000/users/${chatId}?_=${Date.now()}`
+    );
+    const userData = response.data;
+    let userRoomIndex =
+      (userData.insexr +
+        (data === "prev room" ? -1 : 1) +
+        userData.roomsid.length) %
+      userData.roomsid.length;
+    console.log(
+      `Current id ${userRoomIndex}. Довжина масиву ${userData.roomsid.length}, індекс ${userData.insexr}`
+    );
+    // currentRoom = roomData.find(
+    //   (room) => room.wubid === userData.roomsid[userRoomIndex]
+    // );
+    const updatedRoom = roomData.find(
+      (room) => room.wubid === userData.roomsid[userRoomIndex]
+    );
 
-    currentRoom = roomData[currentRoomIndex];
-    const updatedRoom = roomData[currentRoomIndex];
+    console.log(`Updated room !!!!!!!!!!!!!!!!!!\n ${updatedRoom}`);
+    const apiUrlUpdate = `http://localhost:3000/users`;
+    const userDataId = {
+      chatId: userData.chatId,
+      insexr: userRoomIndex,
+    };
+    await axios.post(apiUrlUpdate, userDataId);
     if (updatedRoom) {
+      const apiUrl = `http://localhost:3000/users/updateLastMessage/${chatId}`;
+      const userData = {
+        chatId: `${chatId}`,
+        message: `${messageId}`,
+      };
+      axios
+        .post(apiUrl, userData)
+        .then((response) => {
+          //console.log("Response:", response.data);
+        })
+        .catch((error) => {
+          console.error(
+            "Error:",
+            error.response ? error.response.data : error.message
+          );
+        });
       const sentMessage = await sendRoomDetails(chatId, updatedRoom);
       msgId = sentMessage.message_id;
 
-      // Move the deleteMessage inside the sendRoomDetails callback
       console.log("room is already sent", msgId);
-      bot.deleteMessage(chatId, msgId - 1);
+      let lastmsg;
+
+      axios
+        .get(`http://localhost:3000/users/getLastMessageId/${chatId}`)
+        .then((response) => {
+          lastmsg = response.data.lastMessageId;
+          console.log("lastMEssageID:", response.data.lastMessageId);
+
+          bot.deleteMessage(chatId, parseInt(lastmsg));
+        })
+        .catch((error) => {
+          console.error(
+            "Error:",
+            error.response ? error.response.data : error.message
+          );
+        });
     }
     await bot.answerCallbackQuery({ callback_query_id: callbackQuery.id });
   }
 
   if (data === "send form") {
-    await bot.deleteMessage(chatId, msgId);
-    await bot.sendPhoto(chatId, `../server/imgs/${currentRoom.imgurl[0]}`, {
-      caption: `Ви обрали квартиру за адресою: ${currentRoom.name}\n`,
-    });
+    const response = await axios.get(`http://localhost:3000/users/${chatId}`);
+    const userData = response.data;
+
+    const currentRoomId = userData.roomsid[userData.insexr];
+
+    const currentRoom = roomData.find(room => room.wubid === currentRoomId);
+
+    
+   await bot.deleteMessage(chatId, msgId);
+    await bot.sendPhoto(
+      chatId,
+      `../server/imgs/${currentRoom.imgurl[0]}`,
+      {
+        caption: `Ви обрали квартиру за адресою: ${currentRoom.name}\n`,
+      }
+    );
     await formModule(chatId);
   }
 });

@@ -8,11 +8,17 @@ const userSchema = mongoose.Schema(
     },
     checkedRooms: {
       type: Object,
-      required: true,
     },
     markup: {
       type: String,
-    }
+    },
+    lastMessage: { type: String },
+    insexr: {
+      type: Number,
+    },
+    chkin:{type: String},
+    chkout:{type: String},
+    roomsid: [],
   },
   { timestamps: true }
 );
