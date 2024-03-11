@@ -16,8 +16,11 @@ const userSchema = mongoose.Schema(
     insexr: {
       type: Number,
     },
-    chkin:{type: String},
-    chkout:{type: String},
+    chkin: { type: String },
+    chkout: { type: String },
+    name: { type: String },
+    phone: { type: Number },
+    currentroom: { type: Object },
     roomsid: [],
   },
   { timestamps: true }

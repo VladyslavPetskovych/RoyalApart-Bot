@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const urModel = require("../models/users");
+const nodemailer = require("nodemailer");
 
 router.use(express.json());
 
@@ -40,7 +41,6 @@ router.post("/", async (req, res) => {
     res.status(500).json({ err: "Internal server error" });
   }
 });
-
 router.get("/:chatId", (req, res) => {
   const chatId = req.params.chatId;
 
@@ -55,6 +55,12 @@ router.get("/:chatId", (req, res) => {
           insexr: user.insexr,
           roomsid: user.roomsid,
           markup: user.markup,
+          chkin: user.chkin,
+          chkout: user.chkout,
+          lastMessage: user.lastMessage,
+          name: user.name,
+          phone: user.phone,
+          currentroom: user.currentroom,
         });
       } else {
         res.status(404).json({ message: "User not found" });

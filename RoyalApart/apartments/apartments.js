@@ -1,10 +1,10 @@
 const bot = require("../bot");
 const axios = require("axios");
-const formModule = require("../form");
+const form = require("../form");
 const { filterModule, roomOptions2 } = require("./filterRooms");
 const checkFilter = require("../book/checkFilter");
 let roomData = [];
-let msgId;
+
 //let currentRoom;
 
 let fetchedRoom;
@@ -46,6 +46,23 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
         reply_markup: replyMarkup,
       }
     );
+
+    const apiUrl = `http://localhost:3000/users/updateLastMessage/${chatId}`;
+    const userData = {
+      chatId: `${chatId}`,
+      message: `${sentMessage.message_id}`,
+    };
+    axios
+      .post(apiUrl, userData)
+      .then((response) => {
+        //console.log("Response:", response.data);
+      })
+      .catch((error) => {
+        console.error(
+          "Error:",
+          error.response ? error.response.data : error.message
+        );
+      });
 
     return sentMessage;
   } catch (error) {
@@ -149,22 +166,6 @@ bot.on("callback_query", async (callbackQuery) => {
     };
     await axios.post(apiUrlUpdate, userDataId);
     if (updatedRoom) {
-      const apiUrl = `http://localhost:3000/users/updateLastMessage/${chatId}`;
-      const userData = {
-        chatId: `${chatId}`,
-        message: `${messageId}`,
-      };
-      axios
-        .post(apiUrl, userData)
-        .then((response) => {
-          //console.log("Response:", response.data);
-        })
-        .catch((error) => {
-          console.error(
-            "Error:",
-            error.response ? error.response.data : error.message
-          );
-        });
       const sentMessage = await sendRoomDetails(chatId, updatedRoom);
       msgId = sentMessage.message_id;
 
@@ -194,19 +195,31 @@ bot.on("callback_query", async (callbackQuery) => {
     const userData = response.data;
 
     const currentRoomId = userData.roomsid[userData.insexr];
-
-    const currentRoom = roomData.find(room => room.wubid === currentRoomId);
-
-    
-   await bot.deleteMessage(chatId, msgId);
-    await bot.sendPhoto(
-      chatId,
-      `../server/imgs/${currentRoom.imgurl[0]}`,
-      {
-        caption: `Ви обрали квартиру за адресою: ${currentRoom.name}\n`,
-      }
+    console.log(`Response##############`);
+    console.log(response);
+    console.log(
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     );
-    await formModule(chatId);
+    console.log(`Data##############`);
+    console.log(userData);
+    const currentRoom = roomData.find((room) => room.wubid === currentRoomId);
+
+    try {
+      const response = await axios.post("http://localhost:3000/users", {
+        chatId: chatId,
+        currentroom: currentRoom,
+      });
+
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+    await bot.deleteMessage(chatId, userData.lastMessage);
+    await bot.sendPhoto(chatId, `../server/imgs/${currentRoom.imgurl[0]}`, {
+      caption: `Ви обрали квартиру за адресою: ${currentRoom.name}\n`,
+    });
+
+    await form(chatId);
   }
 });
 
