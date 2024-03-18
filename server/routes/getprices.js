@@ -18,16 +18,13 @@ router.get("/", async (req, res) => {
     // Extract the data from the response
     const responseData = response.data.data;
 
-    // Iterate through the responseData and process each room object
     for (const room of responseData) {
       try {
-        // Update the existing document in MongoDB using wubid
         const updateResult = await Roomsrr.updateOne(
           { wubid: room.id_zak_room_type },
           {
             $set: {
-              globalId: room.id, // Assuming "id" from the API is the globalId
-              // ... other fields ...
+              globalId: room.id, 
             }
           }
         );
