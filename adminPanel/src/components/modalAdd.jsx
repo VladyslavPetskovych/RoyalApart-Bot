@@ -6,7 +6,7 @@ const Modal = ({ isOpen, onClose, children }) => {
   const overlayStyle = isOpen ? "fixed inset-0 overflow-y-auto" : "hidden";
   const modalStyle = isOpen ? "fixed inset-0 bg-black opacity-75" : "hidden";
   const contentStyle = isOpen
-    ? "relative z-10 bg-slate-200 p-8 w-[80%] h-[900px] mx-auto"
+    ? "relative z-50 bg-slate-200 p-8 w-[80%] h-[900px] mx-auto"
     : "hidden";
 
   return (

@@ -6,13 +6,39 @@ const formButtons = {
   reply_markup: JSON.stringify({
     inline_keyboard: [
       [{ text: "Змінити дані", callback_data: "change form" }],
+      [
+        {
+          text: "Додати коментар або побажання 📝",
+          callback_data: "coment form",
+        },
+      ],
       [{ text: "Надіслати запит менеджеру", callback_data: "user data" }],
       [{ text: "🔙 Назад ●", callback_data: "back_to_menu" }],
     ],
   }),
 };
 
+const cooldowns = new Map();
+
 const sendUserData = async (chatId) => {
+  const currentTime = Date.now();
+  if (cooldowns.has(chatId)) {
+    const lastSentTime = cooldowns.get(chatId);
+    const timeDifference = currentTime - lastSentTime;
+    const cooldownDuration = 60 * 1000; // 1 minute in milliseconds
+
+    if (timeDifference < cooldownDuration) {
+      const remainingTime = cooldownDuration - timeDifference;
+      const remainingSeconds = Math.ceil(remainingTime / 1000);
+      bot.sendMessage(
+        chatId,
+        `Будь ласка, Зачекайте ${remainingSeconds} секунд, перед ПОВТОРНИМ надсиланням.`
+      );
+      return; // Exit the function if still in cooldown
+    }
+  }
+
+  // If not in cooldown or cooldown has expired, proceed with sending data
   console.log("!!!!!USER DATA IS SEND!!!!!");
   console.log(chatId);
   let data = {
@@ -23,9 +49,13 @@ const sendUserData = async (chatId) => {
     chatId,
     "Ваші дані надіслані менеджеру, дякуємо за бронювання, очікуйте"
   );
-  // Reset user state after sending data
+
   resetUserState(chatId);
+  
+  // Update cooldown timestamp
+  cooldowns.set(chatId, currentTime);
 };
+
 
 const resetUserState = (chatId) => {
   delete userStates[chatId];
@@ -77,12 +107,14 @@ const waitForUserInput = (chatId) => {
     userResolvers.set(chatId, resolve);
 
     const messageListener = (message) => {
+      if (message.text.startsWith("/")) {
+        return;
+      }
       const resolver = userResolvers.get(message.chat.id);
       if (resolver) {
         resolver(message);
         userResolvers.delete(message.chat.id);
 
-        // Remove the event listener
         bot.removeListener("message", messageListener);
       }
     };
@@ -95,43 +127,72 @@ const waitForUserInput = (chatId) => {
 const form = async (receivedChatId) => {
   const userName = await askForName(receivedChatId);
 
-  // Save user data to your backend or use roomMap to store data
   const userData = {
     name: userName,
     phone: "",
-    // Add other user properties as needed
+    coment: "",
   };
+
   roomMap.set(receivedChatId, userData);
 
   const userPhone = await askForPhone(receivedChatId);
 
-  // Save user data to your backend or update roomMap
   const existingUserData = roomMap.get(receivedChatId);
   existingUserData.phone = userPhone;
   roomMap.set(receivedChatId, existingUserData);
 
-  // Additional processing or sending messages
+  const response = await axios.get(
+    `http://localhost:3000/users/${receivedChatId}`
+  );
+  let Userinf = response.data;
 
-  // Check if currentRoom is defined before accessing its properties
   const roomMessage =
-    existingUserData.currentRoom &&
-    `Ви обрали квартиру ${existingUserData.currentRoom.name} за ціною: ${existingUserData.currentRoom.price}`;
+    Userinf.currentroom.price > 10000
+      ? `Ви обрали квартиру ${Userinf.currentroom.name} - Договірна ціна`
+      : `Ви обрали квартиру ${Userinf.currentroom.name} за ціною: ${Userinf.currentroom.price}`;
 
-  // Send final message
   bot.sendMessage(
     receivedChatId,
-    `${roomMessage}\n\tВаші дані: \nім'я: ${userName}\nномер телефону: ${userPhone}`,
+    `${roomMessage}\n\n\n\tВаші дані: \nім'я: ${userName}\nномер телефону: ${userPhone}`,
     formButtons
   );
+};
 
-  // Listen for callback_query events
+const askForComment = async (chatId) => {
+  bot.sendMessage(chatId, `Будь ласка, залиште ваш коментар: \t...\t✍️`);
+  const message = await waitForUserInput(chatId);
+  try {
+    const response = await axios.post("http://localhost:3000/users", {
+      chatId: chatId,
+      coment: message.text,
+    });
+
+    console.log("Response:", response.data);
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+  const response = await axios.get(
+    `http://localhost:3000/users/${chatId}`
+  );
+  let Userinf = response.data;
+
+  const roomMessage =
+    Userinf.currentroom.price > 10000
+      ? `Ви обрали квартиру ${Userinf.currentroom.name} - Договірна ціна`
+      : `Ви обрали квартиру ${Userinf.currentroom.name} за ціною: ${Userinf.currentroom.price}`;
+
+  bot.sendMessage(
+    chatId ,
+    `${roomMessage}\n\n\n\tВаші дані: \nім'я: ${Userinf.name}\nномер телефону: ${Userinf.phone} \nКоментар:  ${Userinf.coment}`,
+    formButtons
+  );
+  return message.text;
 };
 
 bot.on("callback_query", async (query) => {
   const callbackData = query.data;
 
   if (callbackData === "user data") {
-    // Send user data
     console.log(
       "Sended data !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     );
@@ -139,7 +200,11 @@ bot.on("callback_query", async (query) => {
   }
 
   if (callbackData === "change form") {
-    resetUserState(query.message.chat.id);
+    await resetUserState(query.message.chat.id);
+    await form(query.message.chat.id);
+  }
+  if (callbackData === "coment form") {
+    askForComment(query.message.chat.id);
   }
 });
 module.exports = form;

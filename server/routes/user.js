@@ -59,6 +59,7 @@ router.get("/:chatId", (req, res) => {
           chkout: user.chkout,
           lastMessage: user.lastMessage,
           name: user.name,
+          coment: user.coment,
           phone: user.phone,
           currentroom: user.currentroom,
         });

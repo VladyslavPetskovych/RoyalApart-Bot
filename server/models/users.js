@@ -19,6 +19,7 @@ const userSchema = mongoose.Schema(
     chkin: { type: String },
     chkout: { type: String },
     name: { type: String },
+    coment: { type: String },
     phone: { type: Number },
     currentroom: { type: Object },
     roomsid: [],

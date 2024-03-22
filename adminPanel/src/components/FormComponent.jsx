@@ -115,7 +115,7 @@ export default function FormComponent() {
           <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
             Поверх
           </label>
-          <input type="number" onChange={(e) =>setFloor(e.target.value)} />
+          <input type="number" onChange={(e) => setFloor(e.target.value)} />
         </div>
         <div className="flex flex-row mt-2">
           <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
@@ -139,7 +139,7 @@ export default function FormComponent() {
           <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
             wuBook id
           </label>
-          <input type="number" onChange={(e)=>setWubid(e.target.value)}/>
+          <input type="number" onChange={(e) => setWubid(e.target.value)} />
         </div>
         <div className="bg-slate-300">
           <p>Вписані дані</p>

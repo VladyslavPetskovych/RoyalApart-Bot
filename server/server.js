@@ -17,11 +17,13 @@ const userRouter = require("./routes/user");
 const froomsRouter = require("./routes/freeRooms");
 const pricesRouter = require("./routes/getprices");
 const emailRouter = require("./routes/email");
+const authRouter = require("./routes/auth");
 
 app.use("/aparts", apartRouter);
 app.use("/users", userRouter);
 app.use("/freeRooms", froomsRouter);
 app.use("/getprices", pricesRouter);
 app.use("/email", emailRouter);
+app.use("/auth", authRouter);
 
 app.listen(3000);

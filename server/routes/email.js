@@ -26,7 +26,7 @@ router.post("/sendEmail", async (req, res) => {
     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!dfsdfdsfdsfdsfdsfdsds!!!!");
     console.log(userData);
     let textS =
-      `<h1>Дані бронювання ${userData.name} ${userData.phone} </h1> <br>` +
+      `<h1>Дані бронювання ІМЯ: ${userData.name} НОМЕР ТЕЛЕФОНУ: ${userData.phone} </h1> <br>КОМЕНТАР: ${userData.coment}<br>` +
       `<b>Обрана квартира ${userData.currentroom.name}\t <br> Ціна за якою бронювали ${userData.currentroom.price}  \n</b> <br>` +
       `<b>Дати заїзду ${userData.chkin}  Дата виїзду ${userData.chkout} </b>`;
 

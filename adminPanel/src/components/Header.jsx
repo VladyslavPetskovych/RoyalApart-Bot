@@ -1,37 +1,64 @@
+import React, { useState } from "react";
 import axios from "axios";
-import { useState } from "react";
-function Header() {
-  const [cooldown, setCooldown] = useState(false);
-  function updtPrices() {
-    if (!cooldown) {
-      axios.get("http://localhost:3000/getprices/setPrice");
-      // Show an alert
-      alert("Ціни Оновлені!");
 
-      // Set cooldown to true
-      setCooldown(true);
+function Header({ onLoginSuccess, isLoggedIn }) {
 
-      // Reset cooldown after 1 minute (60 seconds)
-      setTimeout(() => {
-        setCooldown(false);
-      }, 60000);
-    } else {
-      alert("Зачекайте хвилину, щоб оновити ціни ще раз!");
+  const [credentials, setCredentials] = useState({ login: "", password: "" });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials({ ...credentials, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/auth/login",
+        credentials
+      );
+
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token); // Store token in local storage
+        onLoginSuccess(); // Trigger login success callback
+      } else {
+        setError("Invalid credentials");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("An error occurred. Please try again later.");
     }
-  }
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-black">
-      <div className="p-4 ">
-        <button className="bg-red-600 h-[60px] ml-[20px] p-2 font-serif text-2xl font-bold text-zinc-50 hover:bg-sky-700">
-          Login
-        </button>
-        <button
-          onClick={updtPrices}
-          className="bg-green-600 ml-[90px] h-[60px] ml-[20px] p-2 font-serif text-2xl font-bold text-zinc-50 hover:bg-sky-700"
-        >
-          {" "}
-          Оновити ціни
-        </button>
+      <div className="flex justify-between items-center p-4">
+        <form onSubmit={handleSubmit} className="flex items-center">
+          <input
+            type="text"
+            name="login"
+            placeholder="Login"
+            value={credentials.login}
+            onChange={handleChange}
+            className="bg-green-600 h-12 px-2 mr-2 text-lg font-bold text-zinc-50 outline-none"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={credentials.password}
+            onChange={handleChange}
+            className="bg-green-600 h-12 px-2 mr-2 text-lg font-bold text-zinc-50 outline-none"
+          />
+          <button
+            type="submit"
+            className="bg-green-600 h-12 px-4 text-lg font-bold text-zinc-50 hover:bg-sky-700"
+          >
+            Login
+          </button>
+        </form>
+        {error && <div className="text-red-500">{error}</div>}
       </div>
     </nav>
   );
