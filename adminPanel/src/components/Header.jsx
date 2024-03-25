@@ -41,7 +41,7 @@ function Header({ onLoginSuccess, isLoggedIn }) {
             placeholder="Login"
             value={credentials.login}
             onChange={handleChange}
-            className="bg-green-600 h-12 px-2 mr-2 text-lg font-bold text-zinc-50 outline-none"
+            className=" h-12 px-2 mr-2 text-lg font-bold  outline-none"
           />
           <input
             type="password"
@@ -49,11 +49,11 @@ function Header({ onLoginSuccess, isLoggedIn }) {
             placeholder="Password"
             value={credentials.password}
             onChange={handleChange}
-            className="bg-green-600 h-12 px-2 mr-2 text-lg font-bold text-zinc-50 outline-none"
+            className=" h-12 px-2 mr-2 text-lg font-bold  outline-none"
           />
           <button
             type="submit"
-            className="bg-green-600 h-12 px-4 text-lg font-bold text-zinc-50 hover:bg-sky-700"
+            className=" h-12 px-4 text-lg font-bold text-zinc-50 bg-red-600 hover:bg-sky-700"
           >
             Login
           </button>

@@ -19,7 +19,7 @@ const Modal = ({ isOpen, onClose, children }) => {
               <div className="flex flex-row h-16 items-center  justify-between">
                 <p>Додати нову квартиру</p>
                 <button
-                  className="bg-red-500 border m-10 hover:text-gray-700 focus:outline-none"
+                  className="bg-red-500 border h-12 w-40 text-xl  m-10 hover:text-gray-700 focus:outline-none"
                   onClick={onClose}
                 >
                   Вийти 🗙
