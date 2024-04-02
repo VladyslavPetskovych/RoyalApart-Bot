@@ -13,6 +13,8 @@ router.post("/login", (req, res) => {
 
   const envLogin = process.env.LGTOKEN;
   const envPassword = process.env.PSTOKEN;
+  console.log(envLogin)
+  console.log(envPassword)
 
   if (login === envLogin && password === envPassword) {
     res.status(200).json({ message: "Login successful" });
