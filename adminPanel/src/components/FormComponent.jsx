@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Wubook from "./wubook";
 
 export default function FormComponent() {
   const [image, setImage] = useState("");
@@ -14,6 +15,15 @@ export default function FormComponent() {
   const [floor, setFloor] = useState(4);
   const [square, setSquare] = useState(50);
   const [wubid, setWubid] = useState(50);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   const handleImage = (e) => {
     const file = e.target.files[0];
@@ -140,6 +150,12 @@ export default function FormComponent() {
             wuBook id
           </label>
           <input type="number" onChange={(e) => setWubid(e.target.value)} />
+          <button className="bg-red-500 m-2" onClick={handleOpenModal}>
+           знайти ID
+          </button>
+          <Wubook isOpen={isModalOpen} onClose={handleCloseModal}>
+            <div className="text-2xl">Hello, World!</div>
+          </Wubook>
         </div>
         <div className="bg-slate-300">
           <p>Вписані дані</p>

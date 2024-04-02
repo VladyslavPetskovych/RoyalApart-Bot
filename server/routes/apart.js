@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const crypto = require("crypto");
 const fs = require("fs");
+const axios = require('axios')
 
 router.get("/", async (req, res) => {
   try {
@@ -14,6 +15,30 @@ router.get("/", async (req, res) => {
     return res.json({ data: rooms });
   } catch (error) {
     console.log("AAAAAAAAAA" + error);
+  }
+});
+router.get("/roomType", async (req, res) => {
+  try {
+    // Make the Axios request to the external API
+    const response = await axios.post(
+      "https://kapi.wubook.net/kp/property/fetch_rooms",
+      {},
+      {
+        headers: {
+          "x-api-key": "wb_5dc6d45a-5f50-11ec-acc7-001a4a908fff",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      }
+    );
+
+    // Send the response from the external API to the client
+    res.json(response.data);
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 router.delete("/:id", async (req, res) => {

@@ -8,17 +8,22 @@ function mainPageContent() {
     >
       <div className="flex h-full font-serif">
         <div className="text-textW">
-          <div className=" w-screen  flex justify-center items-center flex-col  text-5xl ">
-            <div>
+          <div className=" w-screen  flex  flex-col  text-5xl ">
+            <div className="flex flex-col justify-center items-center ">
               <h2 className="mb-4  mt-64 z-5 drop-shadow-lg shadow-blue-500">
                 КВАРТИРИ ПОДОБОВО ЛЬВІВ
               </h2>
-              <h4 className=" text-3xl  ">
+              <h6 className="text-2xl w-[50%] ">
+                З Royal Apart Bи можете легко знайти свою ідеальну квартиру за
+                допомогою нашого інноваційного бота Telegram, який забезпечує
+                швидку оренду прямо у вас під рукою.
+              </h6>
+              {/* <h4 className=" text-3xl  ">
                 Великий вибір житла за доступними цінами.
               </h4>
               <h6 className="text-2xl  mt-4 mb-48">
                 Нерухомість в центрі Львова
-              </h6>
+              </h6> */}
             </div>
 
             <h2 className="   m-5 text-5xl ">Обрати апартаменти в 2 кліки</h2>
