@@ -3,8 +3,8 @@
 import Container from "./Container";
 
 export default function Footer() {
-  const navigation = ["Product", "Features", "Pricing", "Company", "Blog"];
-  const legal = ["Terms", "Privacy", "Legal"];
+  const navigation = ["Послуги", "Можливості", "Ціни", "Компанія", "Блог"];
+  const legal = ["Умови", "Приватність", "Легальність"];
   return (
     <div className="relative">
       <Container>
@@ -13,10 +13,11 @@ export default function Footer() {
             <div> </div>
 
             <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
-              Nextly is a free landing page & marketing website template for
-              startups and indie projects. Its built with Next.js & TailwindCSS.
-              And its completely open-source.
+              Контактна інформація
             </div>
+            <div>м. Львів, вулиця Весела 5</div>
+            <div>+38(067)677-73-30</div>
+            <div>royal.apartments@ukr.net</div>
 
             <div className="mt-5">
               <a
@@ -24,9 +25,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener"
                 className="relative block w-44"
-              >
-                
-              </a>
+              ></a>
             </div>
           </div>
 
@@ -57,7 +56,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="">
-            <div>Follow us</div>
+            <div>Підпишись на нас:</div>
             <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
               <a
                 href="https://twitter.com/web3templates"
@@ -83,27 +82,15 @@ export default function Footer() {
                 <span className="sr-only">Instagram</span>
                 <Instagram />
               </a>
-              <a href="https://aedin.com/" target="_blank" rel="noopener">
-                <span className="sr-only">aedin</span>
-                <aedin />
-              </a>
             </div>
           </div>
         </div>
 
         <div className="my-10 text-sm text-center text-gray-600 dark:text-gray-400">
-          Copyright © {new Date().getFullYear()}. Made with ♥ by{" "}
-          <a href="https://web3templates.com/" target="_blank" rel="noopener">
-            Web3Templates.
-          </a>{" "}
-          Illustrations from{" "}
-          <a href="https://www.glazestock.com/" target="_blank" rel="noopener ">
-            Glazestock
-          </a>
+          Copyright © {new Date().getFullYear()}. Зроблено з ♥ Royal Apart IT
+          department
         </div>
       </Container>
-      {/* Do not remove this */}
-      <Backa />
     </div>
   );
 }
@@ -142,31 +129,3 @@ const Instagram = ({ size = 24 }) => (
     <path d="M16.98 0a6.9 6.9 0 0 1 5.08 1.98A6.94 6.94 0 0 1 24 7.02v9.96c0 2.08-.68 3.87-1.98 5.13A7.14 7.14 0 0 1 16.94 24H7.06a7.06 7.06 0 0 1-5.03-1.89A6.96 6.96 0 0 1 0 16.94V7.02C0 2.8 2.8 0 7.02 0h9.96zm.05 2.23H7.06c-1.45 0-2.7.43-3.53 1.25a4.82 4.82 0 0 0-1.3 3.54v9.92c0 1.5.43 2.7 1.3 3.58a5 5 0 0 0 3.53 1.25h9.88a5 5 0 0 0 3.53-1.25 4.73 4.73 0 0 0 1.4-3.54V7.02a5 5 0 0 0-1.3-3.49 4.82 4.82 0 0 0-3.54-1.3zM12 5.76c3.39 0 6.2 2.8 6.2 6.2a6.2 6.2 0 0 1-12.4 0 6.2 6.2 0 0 1 6.2-6.2zm0 2.22a3.99 3.99 0 0 0-3.97 3.97A3.99 3.99 0 0 0 12 15.92a3.99 3.99 0 0 0 3.97-3.97A3.99 3.99 0 0 0 12 7.98zm6.44-3.77a1.4 1.4 0 1 1 0 2.8 1.4 1.4 0 0 1 0-2.8z" />
   </svg>
 );
-
-const Backa = () => {
-  return (
-    <a
-      href="https://web3templates.com"
-      target="_blank"
-      rel="noopener"
-      className="absolute flex px-3 py-1 space-x-2 text-sm font-semibold text-gray-900 bg-white border border-gray-300 rounded shadow-sm place-items-center left-5 bottom-5 dark:bg-trueGray-900 dark:border-trueGray-700 dark:text-trueGray-300"
-    >
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 30 30"
-        fill="none"
-        className="w-4 h-4"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect width="30" height="29.5385" rx="2.76923" fill="#362F78" />
-        <path
-          d="M10.14 21.94H12.24L15.44 12.18L18.64 21.94H20.74L24.88 8H22.64L19.58 18.68L16.36 8.78H14.52L11.32 18.68L8.24 8H6L10.14 21.94Z"
-          fill="#F7FAFC"
-        />
-      </svg>
-
-      <span>Web3Templates</span>
-    </a>
-  );
-};

@@ -1,47 +1,56 @@
 import React, { useEffect } from "react";
 
- function wubook() {
+function Wubook() {
   useEffect(() => {
-    // Initialize WuBook object
-    var WuBook = new _WuBook(1638349860);
-    var wbparams = {
-      bgcolor: "#ffffff",
-      textcolor: "#2c2c2c",
-      buttoncolor: "#108dbd",
-      iconcolor: "#888888",
-      bordercolor: "#108dbd",
-      lang: "",
-      failback_lang: "en",
-      wbgoogle: 1,
-      dcode: 0,
-      leisure: 0,
-      default_nights: 1,
-      dcodeval: "",
+    const script = document.createElement("script");
+    script.src = "https://wubook.net/js/nebi/iframe.jgz";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    const iframeConfig = {
+      id: "nebi_11310131",
+      src: "https://wubook.net/neb/bk?f=&n=1&ep=95d630b4&iframe_session=-1",
+      scrolling: "no",
+      width: "100%",
+      height: "1000px",
+      marginheight: "0",
+      marginwidth: "0",
+      frameborder: "0",
+      horizontalscrolling: "no",
+      verticalscrolling: "no",
+      allow: "autoplay; fullscreen; accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share",
+      allowfullscreen: ""
     };
 
-    // Call WuBook.design_rwidget() with the specified div id and parameters
-    WuBook.design_rwidget("_baror_", wbparams);
+    const targetElement = document.querySelector("#the_place_where_iframe_will_be_installed");
+    const iframe = createIframe(iframeConfig);
+
+    targetElement.appendChild(iframe);
+
+    return () => {
+      targetElement.removeChild(iframe);
+    };
   }, []);
 
+  function createIframe(config) {
+    const iframe = document.createElement("iframe");
+    Object.entries(config).forEach(([key, value]) => {
+      iframe.setAttribute(key, value);
+    });
+    iframe.style.display = "block";
+    iframe.style.border = "none";
+    iframe.style.overflowY = "hidden";
+    return iframe;
+  }
+
   return (
-    <div className="w-96">
-      wubook
-      <div>
-        {" "}
-        <div id="_baror_">
-          <a
-            href="https://wubook.net/page/WooDoo-Booking-Engine-35.html"
-            target="_blank"
-          >
-            <img
-              src="https://wubook.net/imgs/default/booking_by_wu.gif"
-              alt="booking engine for hotel websites by wubook"
-              title="Hotel and tourism solutions"
-            />
-          </a>
-        </div>
+    <div className="bg-mainC flex justify-center">
+      <div className="w-full h-full mt-12">
+        <div id="the_place_where_iframe_will_be_installed" ></div>
       </div>
     </div>
   );
 }
-export default wubook;
+
+export default Wubook;

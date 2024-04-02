@@ -5,7 +5,13 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React</title>
-    <script src="https://wubook.net/js/wblib.jgz"></script>
+    <script src="https://wubook.net/js/nebi/iframe.jgz"></script>
+    <script>
+      var url= 'https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782';
+      var target= '#the_place_where_iframe_will_be_installed';
+      var Neb= new ZakNebIframe(target, url);
+      Neb.render();
+    </script>
   </head>
   <body>
     <div id="root"></div>
