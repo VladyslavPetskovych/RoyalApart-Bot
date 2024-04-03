@@ -59,7 +59,7 @@ function generateDaysLayout(month) {
       { text: "<<", callback_data: "prev" },
       { text: ">>", callback_data: "next" },
     ],
-    [{ text: "Назад", callback_data: "back" }]
+    [{ text: "Далі", callback_data: "back" }]
   );
   return keyboard;
 }
@@ -92,7 +92,7 @@ function handleDaySelection(chatId, selectedDay) {
   console.log(selectedDate);
   bot.sendMessage(
     chatId,
-    `Ви обрали дату: ${displayedDateString}. Mode: ${UserDatas[chatId].mode}`
+    `Ви обрали дату: ${displayedDateString}. `
   );
 }
 

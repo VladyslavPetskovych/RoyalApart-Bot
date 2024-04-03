@@ -20,7 +20,7 @@ const qOptions = {
         { text: "Виїзд", callback_data: "Check out" },
       ],
       [{ text: "Показати вільні апартаменти", callback_data: "send dates" }],
-      [{ text: " 🔙 Назад ●", callback_data: "back_to_menu" }],
+      [{ text: " 🔙 Далі ●", callback_data: "back_to_menu" }],
     ],
   }),
 };

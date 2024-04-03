@@ -13,7 +13,7 @@ const formButtons = {
         },
       ],
       [{ text: "Надіслати запит менеджеру", callback_data: "user data" }],
-      [{ text: "🔙 Назад ●", callback_data: "back_to_menu" }],
+      [{ text: "🔙 Меню ●", callback_data: "back_to_menu" }],
     ],
   }),
 };

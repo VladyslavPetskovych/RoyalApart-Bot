@@ -16,7 +16,7 @@ const roomOptions = {
         { text: "Наступна >>>", callback_data: "next room" },
       ],
       [{ text: "Заповнити форму", callback_data: "send form" }],
-      [{ text: "🔙 Назад ●", callback_data: "back_to_menu" }],
+      [{ text: "🔙 Меню ●", callback_data: "back_to_menu" }],
     ],
   }),
 };

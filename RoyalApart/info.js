@@ -2,7 +2,7 @@ const bot = require("./bot");
 
 const back = {
   reply_markup: JSON.stringify({
-    inline_keyboard: [[{ text: " 🔙 Назад ●", callback_data: "back_to_menu" }]],
+    inline_keyboard: [[{ text: " 🔙 Далі ●", callback_data: "back_to_menu" }]],
   }),
 };
 

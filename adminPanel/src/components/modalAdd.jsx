@@ -12,7 +12,7 @@ const Modal = ({ isOpen, onClose, children }) => {
   return (
     <>
       <div className={overlayStyle}>
-        <div className="flex items-center justify-center min-h-screen ">
+        <div className="flex items-center justify-center min-h-screen mt-5">
           <div className={modalStyle}></div>
           <div className={contentStyle}>
             <div className="flex flex-col h-96 ">

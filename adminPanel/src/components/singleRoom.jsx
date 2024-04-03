@@ -149,9 +149,9 @@ function SingleRoom({ room, onDelete }) {
             className="absolute inset-0 bg-black opacity-50"
             onClick={closeModal}
           ></div>
-          <div className="bg-white rounded-lg text-xl z-50 flex flex-col h-screen md:h-[90%] w-[90%]">
+          <div className="bg-white rounded-lg text-xl z-50 flex flex-col h-screen md:h-[95%] w-[95%]">
             <div className="flex p-6 flex-row rounded-lg justify-between bg-slate-400">
-              <h2 className="text-2xl font-bold">Змінити дані про квартиру</h2>
+              <h2 className="text-xl font-bold">Змінити дані про квартиру</h2>
 
               <button
                 className="bg-red-500 border h-12 w-40    hover:text-gray-700 focus:outline-none"
@@ -160,7 +160,7 @@ function SingleRoom({ room, onDelete }) {
                 Вийти 🗙
               </button>
             </div>
-            <div className="p-6 flex flex-col xl:w-[35%] lg:w-[70%] w-[95%] md:w-[85%] text-2xl font-bold ">
+            <div className="p-6 flex flex-col xl:w-[35%] lg:w-[70%] w-[95%] md:w-[85%] text-xl font-bold ">
               <div className="flex justify-between m-2">
                 <label>Назва квартири:</label>
                 <input
@@ -185,7 +185,7 @@ function SingleRoom({ room, onDelete }) {
               <div className="flex justify-between m-2">
                 <label>Опис: </label>
                 <textarea
-                  className="bg-slate-200  w-[600px] h-[300px]"
+                  className="bg-slate-200  w-[800px] h-[150px]"
                   name="description"
                   value={editedRoomData.description || ""}
                   onChange={handleInputChange}

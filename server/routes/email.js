@@ -32,7 +32,7 @@ router.post("/sendEmail", async (req, res) => {
 
     const mailOptions = {
       from: "botfroyal@gmail.com",
-      to: ["andriyyavir7@gmail.com"],
+      to: ["royal.apartments@ukr.net"],
       subject: "Нове бронювання",
       html: textS,
     };
