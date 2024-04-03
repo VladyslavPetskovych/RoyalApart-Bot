@@ -29,6 +29,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
   const roomBeds = room.beds;
   const roomGuests = room.guests;
   const roomFloor = room.floor;
+  const numroom = room.numrooms;
   let roomPrice = room.price;
   if (roomPrice > 10000) {
     roomPrice = " договірна. Лише довготривала оренда";
@@ -42,7 +43,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
       chatId,
       `../server/imgs/${imageUrl}`,
       {
-        caption: `Адреса: ${roomName}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice}\n\n${roomDescription}`,
+        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice}\n\n${roomDescription}`,
         reply_markup: replyMarkup,
       }
     );

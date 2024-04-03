@@ -86,7 +86,6 @@ const filterModule = async (chatId) => {
           reply_markup: JSON.stringify(updatedMarkup),
         });
 
-        console.log("#@#@323232#23232#@#@##@#");
         console.log(chatId, userSelections, updatedMarkupJSON);
         console.log(`My user selection \n ${userSelections}`);
         await updateUserSelections(chatId, userSelections, updatedMarkupJSON);

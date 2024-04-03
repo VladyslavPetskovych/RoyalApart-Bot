@@ -44,9 +44,34 @@ bot.on("callback_query", async (msg) => {
     console.log("1111111111111111111111111111111111111111111111111111");
     if (checkedRooms) {
       filteredRooms = userRooms.filter((room) => {
-        let shouldInclude = Object.keys(checkedRooms).some(
-          (category) => checkedRooms[category] && room.category === category
+        console.log(
+          "!!!!!!!!!!!!№№№№№№№№!!!!!№№№№№!!!!!!!!№№№№№!!!!!!!!!№№№№№№№!!!!!!!"
         );
+        let shouldInclude;
+        if (
+          !(
+            checkedRooms["romantic"] ||
+            checkedRooms["business"] ||
+            checkedRooms["family"]
+          )
+        ) {
+          shouldInclude = true;
+        } else {
+          shouldInclude = Object.keys(checkedRooms).some(
+            (category) => checkedRooms[category] && room.category === category
+          );
+        }
+        console.log(shouldInclude);
+        if (
+          !(
+            checkedRooms["room1"] ||
+            checkedRooms["room2"] ||
+            checkedRooms["room2"]
+          )
+        ) {
+          return shouldInclude;
+        }
+
         return (
           shouldInclude &&
           ((checkedRooms["room1"] && room.numrooms === 1) ||
@@ -62,7 +87,7 @@ bot.on("callback_query", async (msg) => {
       insexr: 0,
     };
     await axios.post(`http://localhost:3000/users`, checkedRoomsData);
-   
+
     // console.log(
     //   filteredRooms.map((room) => {
     //     return { name: room.name };
