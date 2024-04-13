@@ -55,7 +55,7 @@ export default function FormComponent() {
     formData.append("wubid", wubid);
     try {
       const response = await axios.post(
-        "http://localhost:3000/aparts/newRoom",
+        "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/newRoom",
         formData,
         {
           headers: {

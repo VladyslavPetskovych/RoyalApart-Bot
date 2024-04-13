@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/footer";
 import Wubook from "./components/wubook";
 import MainPagebody from "./components/mainpage/mainPagebody";
-import Aparts from "./pages/aparts";
+import Aparts from "./pages/aparts/aparts";
 import Rules from "./pages/rules";
 import Contact from "./pages/contact";
 function App() {

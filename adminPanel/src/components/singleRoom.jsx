@@ -81,7 +81,7 @@ function SingleRoom({ room, onDelete }) {
     formData.append("file", fileData);
 
     axios
-      .put(`http://localhost:3000/aparts/${room._id}`, formData, {
+      .put(`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/${room._id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -98,7 +98,7 @@ function SingleRoom({ room, onDelete }) {
   const deleteRoom = async () => {
     try {
       if (confirm("Ви впевнені що хочете видалити цю квартиру??")) {
-        axios.delete(`http://localhost:3000/aparts/${room._id}`).then(() => {
+        axios.delete(`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/${room._id}`).then(() => {
           onDelete(room._id);
         });
       }
@@ -129,7 +129,7 @@ function SingleRoom({ room, onDelete }) {
 
       <img
         className="object-cover h-96 w-96"
-        src={`http://localhost:3000/imgs/${room.imgurl[0]}`}
+        src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgs/${room.imgurl[0]}`}
         alt=""
       />
 

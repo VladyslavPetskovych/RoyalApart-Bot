@@ -7,7 +7,7 @@ const Wubook = ({ isOpen, onClose }) => {
     const fetchRoomData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/aparts/roomType"
+          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/roomType"
         );
         console.log();
         const filteredData = response.data.data.map((item) => ({

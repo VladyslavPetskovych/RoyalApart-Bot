@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import fon from "../../assets/fon.jpg";
-import fon2 from "../../assets/IMG_8653.jpg";
-import fon3 from "../../assets/зображення_viber_2021-09-18_13-26-53-911.jpg";
+import fon from "../../assets/hero_imgs/fon.png";
+import fon2 from "../../assets/hero_imgs/fon2.png";
+import fon3 from "../../assets/hero_imgs/fon3.png";
+//import fon4 from "../../assets/hero_imgs/";
 import tele from "../../assets/telegram.png";
 import curs from "../../assets/cursor.332x512.png";
 import crown from "../../assets/crown.png";
 import MainPageContent from "./mainPageContent";
 import Courosel from "./courosel";
 
-import "./body.css";
+import SliderCategories from "./home/sliderCategories";
+import "../../../src/hideScrollbar.css";
+import MySVG from "../../assets/svgg.svg";
+
+import "./mainPagebody.css";
 
 function mainPagebody() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -23,7 +28,6 @@ function mainPagebody() {
     {
       image: fon3,
     },
-    // Add more slides here
   ];
 
   useEffect(() => {
@@ -54,7 +58,7 @@ function mainPagebody() {
 
   return (
     <>
-      <div className="h-[1000px]">
+      <div className="h-[700px] md:h-[1000px] ">
         <div
           className="text-textW relative h-full overflow-hidden bg-cover bg-no-repeat  text-center"
           style={{
@@ -69,35 +73,50 @@ function mainPagebody() {
         <img
           src={tele}
           alt=""
-          className="h-32 w-32  basis-1/2 md:basis-1/3 object-contain"
+          className="h-16  md:h-32 lg:h-48 w-auto  basis-1/2 md:basis-1/3 object-contain"
         />
-        <h2 className="text-3xl text-textW text-center font-serif flex flex-row">
-          Скористайся нашим унікальним ботом для ‎
-          <a
-            href="https://t.me/RoyalApartBot"
-            className="text-blue-500 underline "
-          >
-            бронювання в телеграмі
-          </a>
-          <img
-            src={curs}
-            alt=""
-            className="h-8 w-8 object-contain float ml-[-3px] "
-          />
-        </h2>
+        <div className="flex items-center justify-center">
+          <span className="text-xl md:text-3xl text-textW font-serif leading-none">
+            Скористайся нашим унікальним ботом для{" "}
+            <a
+              href="https://t.me/RoyalApartBot"
+              className="text-blue-500 underline"
+            >
+              бронювання в телеграмі
+            </a>
+          </span>
+        </div>
+
+        <img
+          src={curs}
+          alt=""
+          className=" h-4 md:h-8 w-auto object-contain float ml-[-3px] "
+        />
+      </div>
+      <div className=" left-0 top-0 w-full h-6 ">
+        <div className="bg-gradient-to-b from-black to-back w-full h-full transition-all duration-500"></div>
       </div>
 
-      <div className="bg-back h-[600px] flex w-full md:h-[420px] flex-col md:flex-row ">
+      <div className="bg-back h-[600px] flex w-full lg:h-[420px] flex-col lg:flex-row ">
         <div className=" flex flex-col items-center justify-center">
-          <p className="font-oswald sm:text-2xl text-black mt-8 lg:text-4xl w-[60%] flex items-center justify-center text-center">
+          <p className="font-oswald sm:text-2xl text-black mt-8 lg:text-4xl w-[80%] flex items-center justify-center text-center">
             {" "}
             У кожних апартаментах виконаний авторський ремонт, це підкреслить
             Ваш відпочинок новими враженнями і затишком.
           </p>
         </div>
-        <div className=" mr-4 sm:mr-32 md:mr-64">
+        <div className="  md:mr-16 lg:mr-32 w-full flex  items-center justify-center">
           <Courosel />
         </div>
+      </div>
+      {/* <div
+        className="w-full h-8  bg-contain "
+        style={{ backgroundImage: `url(${MySVG})` }}
+      ></div>
+  */}
+
+      <div className=" left-0 top-0 w-full h-6 ">
+        <div className="bg-gradient-to-t from-black to-back w-full h-full transition-all duration-500"></div>
       </div>
 
       <div className="bg-black text-white py-16 ">
@@ -125,6 +144,13 @@ function mainPagebody() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="w-[94vw] h-[330px] px-8  lg:h-[500px] ">
+        <SliderCategories />
+      </div>
+
+      <div className=" left-0 top-0 w-full h-6 ">
+        <div className="bg-gradient-to-b from-black to-back w-full h-full transition-all duration-500"></div>
       </div>
     </>
   );
