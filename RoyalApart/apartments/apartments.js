@@ -3,6 +3,7 @@ const axios = require("axios");
 const form = require("../form");
 const { filterModule, roomOptions2 } = require("./filterRooms");
 const checkFilter = require("../book/checkFilter");
+//const { getPrices } = require("./getPrices");
 let roomData = [];
 
 //let currentRoom;
@@ -31,6 +32,12 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
   const roomFloor = room.floor;
   const numroom = room.numrooms;
   let roomPrice = room.price;
+  // try {
+  //   const roomPrices = await getPrices(chatId, 4, "13/04/2024");
+   
+  // } catch (error) {
+  //   console.error("Failed to fetch data:", error);
+  // }
   if (roomPrice > 10000) {
     roomPrice = " договірна. Лише довготривала оренда";
   }

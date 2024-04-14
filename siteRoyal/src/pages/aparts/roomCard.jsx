@@ -27,7 +27,7 @@ function RoomCard() {
   console.log(rooms);
 
   return (
-    <div className="w-[75%]">
+    <div className="w-[100%] md:w-[75%]">
       <div className="flex flex-wrap ">
         {Array.isArray(rooms) && rooms.length > 0 ? (
           rooms.map((room) => (

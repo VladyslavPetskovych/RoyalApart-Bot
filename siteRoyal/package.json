@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mantine/core": "^7.8.0",
     "@material-tailwind/react": "^2.1.9",
     "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.6.8",
