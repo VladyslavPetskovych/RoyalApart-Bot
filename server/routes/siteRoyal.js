@@ -1,53 +1,148 @@
 const express = require("express");
 const router = express.Router();
-let Roomsr = require("../models/rooms");
+const Room = require("../models/rooms");
+const mongoose = require("../db");
+const fs = require("fs");
+const path = require("path");
+
 router.use(express.json());
-const axios = require("axios");
-const mongoose = require("mongoose");
+
+const connection = mongoose.connection;
+async function createRoomFoldersAndCopyImages(rooms) {
+  try {
+    const imgsRoyalDir = path.join(__dirname, "../imgsRoyal");
+    if (!fs.existsSync(imgsRoyalDir)) {
+      fs.mkdirSync(imgsRoyalDir, { recursive: true });
+    }
+
+    for (const room of rooms) {
+      const roomDir = path.join(imgsRoyalDir, room.name);
+      if (!fs.existsSync(roomDir)) {
+        fs.mkdirSync(roomDir, { recursive: true });
+      }
+
+      const imgFilename = Array.isArray(room.imgurl)
+        ? room.imgurl[0]
+        : room.imgurl; // Accessing the image filename correctly
+      const imgPath = path.join(__dirname, "../imgs/", imgFilename); // Constructing the full path to the image
+
+      if (fs.existsSync(imgPath)) {
+        const imgDest = path.join(roomDir, imgFilename); // Constructing the destination path correctly
+        fs.copyFileSync(imgPath, imgDest);
+        console.log(`Copied ${imgFilename} to ${room.name} folder.`);
+      } else {
+        console.warn(
+          `Image file ${imgFilename} not found for room ${room.name}. Skipping...`
+        );
+      }
+    }
+
+    console.log("Folders and images copied successfully!");
+  } catch (error) {
+    console.error("Error creating folders and copying images:", error);
+    throw error;
+  }
+}
+async function updateImgUrlsInCopyAparts() {
+  try {
+    const imgsRoyalDir = path.join(__dirname, "../imgsRoyal");
+
+    // Read the names of folders in imgsRoyal
+    const roomFolders = fs
+      .readdirSync(imgsRoyalDir, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory())
+      .map((dirent) => dirent.name);
+
+    // Get the connection to the 'apartments' database
+    const db = connection.useDb("apartments");
+    const newCollection = db.collection("copy_aparts");
+
+    for (const folderName of roomFolders) {
+      const imgNames = fs.readdirSync(path.join(imgsRoyalDir, folderName));
+
+      // Update the corresponding document in the 'copy_aparts' collection
+      await newCollection.updateOne(
+        { name: folderName },
+        { $set: { imgurl: imgNames } }
+      );
+
+      console.log(`Updated imgurl for room '${folderName}'`);
+    }
+
+    console.log("Imgurls updated successfully!");
+  } catch (error) {
+    console.error("Error updating imgurls:", error);
+    throw error;
+  }
+}
 
 async function copyData() {
-    try {
-      // Ensure that the MongoDB connection is established
-      if (mongoose.connection.readyState !== 1) {
-        console.log("MongoDB connection is not established.");
-        return;
-      }
-  
-      // Find all documents from the existing collection
-      const rooms = await Roomsr.find();
-  
-      // Define a new model with the same schema for the copy
-      const NewRoomsr = mongoose.model("aparts_copy", Roomsr.schema);
-  
-      // Iterate over the documents and save each one to the new collection
-      for (const room of rooms) {
-        // Create a new instance of the document to avoid VersionError
-        const newRoom = new NewRoomsr(room.toObject());
-        await newRoom.save();
-      }
-  
-      console.log("Data copied successfully!");
-    } catch (error) {
-      console.error("Error copying data:", error);
-    }
-  }
-  
+  try {
+    const rooms = await Room.find().lean();
 
-// Route to trigger the copy process
+    const roomsWithoutIds = rooms.map((room) => {
+      const { _id, ...rest } = room;
+      return rest;
+    });
+    const db = connection.useDb("apartments");
+
+    const newCollection = db.collection("copy_aparts");
+
+    for (const room of roomsWithoutIds) {
+      const existingRoom = await newCollection.findOne({ name: room.name });
+      if (!existingRoom) {
+        await newCollection.insertOne(room);
+        console.log(`Room '${room.name}' copied successfully!`);
+      } else {
+        console.log(
+          `Room '${room.name}' already exists in the new collection. Skipping...`
+        );
+      }
+    }
+
+    await createRoomFoldersAndCopyImages(roomsWithoutIds);
+    await updateImgUrlsInCopyAparts();
+    console.log("Data copied successfully!");
+
+    return "Data copied successfully!";
+  } catch (error) {
+    console.error("Error copying data:", error);
+    throw error;
+  }
+}
+
 router.get("/copy-db", async (req, res) => {
   try {
-    // Call the function to copy the data
-    await copyData();
-
+    const copiedData = await copyData();
     return res.json({
       success: true,
       message: "Database copied successfully!",
+      data: copiedData,
     });
   } catch (error) {
     console.error("Error:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Failed to copy database." });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to copy database.",
+    });
+  }
+});
+router.get("/copied-rooms", async (req, res) => {
+  try {
+    const db = mongoose.connection.useDb("apartments");
+
+    const copiedRooms = await db.collection("copy_aparts").find({}).toArray();
+
+    return res.json({
+      data: copiedRooms,
+    });
+  } catch (error) {
+    console.error("Error fetching copied rooms:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch copied rooms",
+      error: error.message,
+    });
   }
 });
 

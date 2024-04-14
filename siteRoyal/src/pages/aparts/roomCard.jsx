@@ -13,7 +13,7 @@ function RoomCard() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts"
+          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/copied-rooms"
         );
         setRooms(response.data.data);
       } catch (error) {
