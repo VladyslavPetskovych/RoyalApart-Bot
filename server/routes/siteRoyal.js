@@ -16,7 +16,7 @@ async function createRoomFoldersAndCopyImages(rooms) {
     }
 
     for (const room of rooms) {
-      const roomDir = path.join(imgsRoyalDir, room.name);
+      const roomDir = path.join(imgsRoyalDir, room.wubid);
       if (!fs.existsSync(roomDir)) {
         fs.mkdirSync(roomDir, { recursive: true });
       }
@@ -29,10 +29,10 @@ async function createRoomFoldersAndCopyImages(rooms) {
       if (fs.existsSync(imgPath)) {
         const imgDest = path.join(roomDir, imgFilename); // Constructing the destination path correctly
         fs.copyFileSync(imgPath, imgDest);
-        console.log(`Copied ${imgFilename} to ${room.name} folder.`);
+        console.log(`Copied ${imgFilename} to ${room.wubid} folder.`);
       } else {
         console.warn(
-          `Image file ${imgFilename} not found for room ${room.name}. Skipping...`
+          `Image file ${imgFilename} not found for room ${room.wubid}. Skipping...`
         );
       }
     }

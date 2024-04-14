@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 var cors = require("cors");
-
+const cron = require("node-cron");
+const axios = require("axios");
 const dbConfig = require("./db");
 
 app.use(cors());
@@ -28,5 +29,18 @@ app.use("/getprices", pricesRouter);
 app.use("/email", emailRouter);
 app.use("/auth", authRouter);
 app.use("/siteRoyal", siteRouter);
+
+// Schedule the job to run every hour
+cron.schedule("0 * * * *", async () => {
+  try {
+    // Make the HTTP request to update prices
+    await axios.get(
+      "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices/setPrice"
+    );
+    console.log("Prices updated successfully.");
+  } catch (error) {
+    console.error("Error updating prices:", error);
+  }
+});
 
 app.listen(3000);
