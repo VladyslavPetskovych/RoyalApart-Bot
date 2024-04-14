@@ -7,6 +7,7 @@ const dbConfig = require("./db");
 app.use(cors());
 
 app.use("/imgs", express.static("imgs"));
+app.use("/imgsRoyal", express.static("imgs"));
 app.get("/", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.json({ text: " 33 квартири на сьогодні" });

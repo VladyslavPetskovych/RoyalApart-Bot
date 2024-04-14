@@ -1,33 +1,29 @@
 /* eslint-disable react/prop-types */
 
-import React from 'react';
-
 function SingleRoom({ room }) {
   return (
-    <div className="bg-gray-300 h-[400px] w-[680px] mb-4 mx-2 rounded-lg text-lg flex flex-row">
-      <div className="relative overflow-hidden">
-        {room.imgurl.map((img, index) => (
-          <img
-            key={index}
-            className="object-cover h-[400px] w-96"
-            src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgs/${img}`}
-            alt=""
-          />
-        ))}
-      </div>
+    
+<div className="bg-gray-300 h-[400px] w-[680px] mb-4 mx-2 rounded-lg text-lg flex flex-row ">
+  <div className="relative overflow-hidden">
+    <img
+      className="object-cover h-[400px] w-96"
+      src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.name}/${room.imgurl[0]}`}
+      alt=""
+    />
+  </div>
 
-      <div className="w-[250px]">
-        <p className="font-semibold text-2xl">{room.name}</p>
-        <p>Ціна: {room.price} грн</p>
-        <p>Кількість кімнат: {room.numrooms}</p>
-        <p>Поверх: {room.floor}</p>
-        <p>Кількість гостей: {room.guests}</p>
-        <p>Площа: {room.surface} м2</p>
-        <p>Кількість ліжок: {room.beds}</p>
-      </div>
-    </div>
+  <div className="w-[250px]">
+    <p className="font-semibold text-2xl">{room.name}</p>
+    <p>Ціна: {room.price} грн</p>
+    <p>Кількість кімнат: {room.numrooms}</p>
+    <p>Поверх: {room.floor}</p>
+    <p>Кількість гостей: {room.guests}</p>
+    <p>Площа: {room.surface} м2</p>
+    <p>Кількість ліжок: {room.beds}</p>
+  </div>
+</div>
+
   );
 }
 
 export default SingleRoom;
-
