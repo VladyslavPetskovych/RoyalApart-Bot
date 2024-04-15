@@ -5,7 +5,7 @@ function searchBar() {
     <div>
       <div className="pt-2 relative  md:w-[490px] text-gray-600">
         <input
-          className="border-2 border-gray-300  bg-white h-12 md:px-10 md:pr-32 rounded-full text-xl focus:outline-none"
+          className="border-2 border-gray-300  bg-white h-12 md:px-10 md:pr-32  text-xl focus:outline-none"
           type="search"
           name="search"
           placeholder="Пошук квартир"

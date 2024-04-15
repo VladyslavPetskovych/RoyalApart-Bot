@@ -12,6 +12,7 @@ export default {
         textW: "#D5D0D0",
         shit: "#452b05",
         shit2: "#1f1306",
+        shit3: "#6b3c00",
         back: "#fff4ed",
       },
       fontFamily: {

@@ -15,7 +15,7 @@ function aparts() {
           <SearchBar />
         </div>
         <div className="flex flex-col lg:flex-row p-2">
-          <div className="flex flex-col md:flex-row lg:flex-col">
+          <div className="flex flex-col md:flex-row lg:flex-col font-oswald font-bold ">
             <PickNumRoom />
             <PickCategory />
           </div>

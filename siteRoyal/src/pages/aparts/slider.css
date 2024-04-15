@@ -1,0 +1,7 @@
+img {
+  transition: opacity 0.3s ease-in-out;
+}
+.arrow-button {
+    transition: opacity 0.3s ease;
+  }
+  
