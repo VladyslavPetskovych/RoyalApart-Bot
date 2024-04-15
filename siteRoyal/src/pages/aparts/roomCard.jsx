@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SingleRoom from "./singleRoom";
 import SearchBar from "./searchBar";
 
-// RoomCard component
-function RoomCard() {
+function RoomCard({ selectedNumRoom, selectedCategory }) {
   const [rooms, setRooms] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -25,9 +22,14 @@ function RoomCard() {
     fetchData();
   }, []);
 
-  const filteredRooms = rooms.filter(room =>
-    room.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredRooms = rooms.filter((room) => {
+    const matchesSearchQuery = room.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesCategory = selectedCategory === "" || room.category === selectedCategory;
+    const matchesNumRoom = selectedNumRoom === "" || room.numrooms === selectedNumRoom;
+
+    return matchesSearchQuery && matchesCategory && matchesNumRoom;
+  });
 
   return (
     <div className="w-[100%] md:w-[75%]">
@@ -35,11 +37,15 @@ function RoomCard() {
         <p className="text-white text-2xl mx-5">Обери апартаменти для себе.</p>
         <SearchBar setSearchQuery={setSearchQuery} />
       </div>
-      <div className="flex flex-wrap ">
-        {Array.isArray(filteredRooms) && filteredRooms.length > 0 ? (
-          filteredRooms.map(room => <SingleRoom key={room.wubid} room={room} />)
+      <div className="flex flex-wrap">
+        {filteredRooms.length > 0 ? (
+          filteredRooms.map((room) => (
+            <SingleRoom key={room.wubid} room={room} />
+          ))
         ) : (
-          <p>No rooms available</p>
+          rooms.map((room) => (
+            <SingleRoom key={room.wubid} room={room} />
+          ))
         )}
       </div>
     </div>
