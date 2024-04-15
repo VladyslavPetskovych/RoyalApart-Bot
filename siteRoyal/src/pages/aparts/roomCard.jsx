@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SingleRoom from "./singleRoom";
+import SearchBar from "./searchBar";
 
 // RoomCard component
 function RoomCard() {
   const [rooms, setRooms] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -24,15 +25,19 @@ function RoomCard() {
     fetchData();
   }, []);
 
-  console.log(rooms);
+  const filteredRooms = rooms.filter(room =>
+    room.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="w-[100%] md:w-[75%]">
+      <div className="flex flex-col md:flex-row font-oswald items-center my-10">
+        <p className="text-white text-2xl mx-5">Обери апартаменти для себе.</p>
+        <SearchBar setSearchQuery={setSearchQuery} />
+      </div>
       <div className="flex flex-wrap ">
-        {Array.isArray(rooms) && rooms.length > 0 ? (
-          rooms.map((room) => (
-            <SingleRoom key={room.wubid} room={room}  />
-          ))
+        {Array.isArray(filteredRooms) && filteredRooms.length > 0 ? (
+          filteredRooms.map(room => <SingleRoom key={room.wubid} room={room} />)
         ) : (
           <p>No rooms available</p>
         )}

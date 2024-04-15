@@ -1,6 +1,10 @@
 import React from "react";
 
-function searchBar() {
+function SearchBar({ setSearchQuery }) {
+  const handleSearchChange = event => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <div>
       <div className="pt-2 relative  md:w-[490px] text-gray-600">
@@ -9,14 +13,17 @@ function searchBar() {
           type="search"
           name="search"
           placeholder="Пошук квартир"
+          onChange={handleSearchChange}
         />
         <button
           type="submit"
           className="absolute top-0 mt-2 w-12 h-12 text-2xl bg-blue-500 rounded-full ml-[-48px]"
-        >🔎</button>
+        >
+          🔎
+        </button>
       </div>
     </div>
   );
 }
 
-export default searchBar;
+export default SearchBar;
