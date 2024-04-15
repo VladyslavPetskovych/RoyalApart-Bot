@@ -7,7 +7,7 @@ function SingleRoom({ room }) {
   <div className="relative overflow-hidden">
     <img
       className="object-cover h-[400px] w-96"
-      src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.name}/${room.imgurl[0]}`}
+      src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.wubid}/${room.imgurl[0]}`}
       alt=""
     />
   </div>
