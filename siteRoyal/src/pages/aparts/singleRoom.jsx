@@ -8,6 +8,7 @@ function SingleRoom({ room }) {
 
       <div className="w-[250px]">
         <p className="font-semibold text-2xl">{room.name}</p>
+        <p>Категорія {room.category} грн</p>
         <p>Ціна: {room.price} грн</p>
         <p>Кількість кімнат: {room.numrooms}</p>
         <p>Поверх: {room.floor}</p>

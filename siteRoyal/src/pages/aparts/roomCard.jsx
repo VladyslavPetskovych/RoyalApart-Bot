@@ -25,10 +25,11 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
   const filteredRooms = rooms.filter((room) => {
     const matchesSearchQuery = room.name.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesCategory = selectedCategory === "" || room.category === selectedCategory;
-    const matchesNumRoom = selectedNumRoom === "" || room.numrooms === selectedNumRoom;
+    const matchesCategories =
+      !selectedCategory || selectedCategory.length === 0 || selectedCategory.includes(room.category);
+    const matchesNumRoom = selectedNumRoom.length === 0 || selectedNumRoom.includes(room.numrooms);
 
-    return matchesSearchQuery && matchesCategory && matchesNumRoom;
+    return matchesSearchQuery && matchesCategories && matchesNumRoom;
   });
 
   return (
@@ -39,13 +40,9 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
       </div>
       <div className="flex flex-wrap">
         {filteredRooms.length > 0 ? (
-          filteredRooms.map((room) => (
-            <SingleRoom key={room.wubid} room={room} />
-          ))
+          filteredRooms.map((room) => <SingleRoom key={room.wubid} room={room} />)
         ) : (
-          rooms.map((room) => (
-            <SingleRoom key={room.wubid} room={room} />
-          ))
+          rooms.map((room) => <SingleRoom key={room.wubid} room={room} />)
         )}
       </div>
     </div>
