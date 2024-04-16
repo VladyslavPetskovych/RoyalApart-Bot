@@ -60,6 +60,7 @@ router.get("/:chatId", (req, res) => {
           lastMessage: user.lastMessage,
           name: user.name,
           coment: user.coment,
+          context: user.context,
           phone: user.phone,
           currentroom: user.currentroom,
         });
@@ -122,6 +123,34 @@ router.get("/getLastMessageId/:chatId", async (req, res) => {
       // Return the lastMessage ID if user exists
       const lastMessageId = existingUser.lastMessage;
       res.status(200).json({ lastMessageId });
+    } else {
+      // User not found
+      res.status(404).json({ err: "User not found" });
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ err: "Internal server error" });
+  }
+});
+router.post("/updateContext/:chatId", async (req, res) => {
+  try {
+    const { chatId } = req.params;
+    const { context } = req.body;
+
+    // Find the user by chatId
+    const existingUser = await urModel.findOne({ chatId });
+
+    if (existingUser) {
+      // User exists, update the context field
+      try {
+        existingUser.context = context;
+        await existingUser.save();
+
+        res.status(200).json(existingUser);
+      } catch (updateError) {
+        console.error("Error updating user context:", updateError);
+        res.status(500).json({ err: "Could not update user context" });
+      }
     } else {
       // User not found
       res.status(404).json({ err: "User not found" });

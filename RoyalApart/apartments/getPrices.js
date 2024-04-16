@@ -8,6 +8,7 @@ async function getPrices(chatId) {
       `http://localhost:3000/users/${chatId}`
     );
     const userData = userResponse.data;
+    const context = userData.context;
     console.log("---------------------------------------------------");
     console.log("----------------------------------------------");
     console.log("-------------------------------------------------");
@@ -43,7 +44,7 @@ async function getPrices(chatId) {
     console.log("---------------------------------------------------");
     console.log(pricesData);
 
-    return pricesData;
+    return { context, pricesData };
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;

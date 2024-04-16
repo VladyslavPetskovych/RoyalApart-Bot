@@ -34,19 +34,29 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
   let roomPriceoriginal = room.price;
 
   const roomPrices = await getPrices(chatId);
-  const prices = roomPrices[room.globalId];
+  const context = roomPrices.context; // Get the context from the roomPrices object
+  const prices = roomPrices.pricesData[room.globalId];
   let roomPrice;
-  
-  if (prices && prices[0] > 10000) {
-    roomPrice = "договірна. Лише довготривала оренда";
-  } else if (prices) {
-    roomPrice = prices.join(' грн, ') + ' грн';
+
+  if (context !== "a") {
+    if (prices && prices[0] > 10000) {
+      roomPrice = "договірна. Лише довготривала оренда";
+    } else if (prices) {
+      roomPrice = prices.join(" грн, ") + " грн";
+    } else {
+      roomPrice = "Ціна недоступна";
+    }
   } else {
-    roomPrice = "Ціна недоступна";
+    if (roomPriceoriginal > 10000) {
+      roomPrice = "Ціна договірна. Лише довготривала оренда";
+    } else {
+      roomPrice = roomPriceoriginal;
+    }
   }
-  
-  console.log(prices);
-  
+
+  console.log("Prices:", roomPrice);
+  console.log("Context:", context); // Log the context
+
   try {
     const replyMarkup = updatedRoomOptions
       ? updatedRoomOptions.reply_markup
@@ -56,7 +66,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
       chatId,
       `../server/imgs/${imageUrl}`,
       {
-        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice || roomPriceoriginal}\n\n${roomDescription}`,
+        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice}\n\n${roomDescription}`,
         reply_markup: replyMarkup,
       }
     );
@@ -132,6 +142,12 @@ bot.on("message", async (msg) => {
   msgId = msg.message_id + 1;
   if (text === "/apartments" || text === "Show Apartments") {
     await fetchRoomData();
+    let context = "a";
+
+    await axios.post(`http://localhost:3000/users/updateContext/${chatId}`, {
+      context,
+    });
+
     //console.log("/apartments clicked" + currentRoom);
     const apiUrlUpdate = `http://localhost:3000/users`;
     const userDataId = {
