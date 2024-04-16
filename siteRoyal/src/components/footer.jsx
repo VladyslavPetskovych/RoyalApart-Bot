@@ -1,24 +1,23 @@
 /* eslint-disable react/prop-types */
-
 import Container from "./Container";
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
-  const navigation = ["Послуги", "Можливості", "Ціни", "Компанія", "Блог"];
-  const legal = ["Умови", "Приватність", "Легальність"];
+  const { t } = useTranslation(); 
+  const navigation = [t('services'), t('opportunities'), t('prices'), t('company'), t('blog')];
+  const legal = [t('terms'), t('privacy'), t('legality')];
   return (
     <div className="relative bg-back text-black">
       <Container>
         <div className="grid max-w-screen-xl grid-cols-1 gap-10 pt-10 mx-auto mt-5 border-t border-gray-100 dark:border-trueGray-700 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <div> </div>
-
             <div className="max-w-md mt-4 text-black dark:text-gray-400">
-              Контактна інформація
+              {t('contact_information')}
             </div>
-            <div>м. Львів, вулиця Весела 5</div>
-            <div>+38(067)677-73-30</div>
-            <div>royal.apartments@ukr.net</div>
-
+            <div>{t('address')}: м. Львів, вулиця Весела 5</div>
+            <div>{t('phone')}: +38(067)677-73-30</div>
+            <div>{t('email')}: royal.apartments@ukr.net</div>
             <div className="mt-5">
               <a
                 href="https://vercel.com/?utm_source=web3templates&utm_campaign=oss"
@@ -28,7 +27,6 @@ export default function Footer() {
               ></a>
             </div>
           </div>
-
           <div>
             <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
               {navigation.map((item, index) => (
@@ -56,7 +54,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="">
-            <div>Підпишись на нас:</div>
+            {t('subscribe_us')}:
             <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
               <a
                 href="https://twitter.com/web3templates"
@@ -87,8 +85,7 @@ export default function Footer() {
         </div>
 
         <div className="my-10 text-sm text-center text-gray-600 dark:text-gray-400">
-          Copyright © {new Date().getFullYear()}. Зроблено з ♥ Royal Apart IT
-          department
+          {t('copyright')} {new Date().getFullYear()}. {t('made_with_love')} Royal Apart IT {t('department')}
         </div>
       </Container>
     </div>

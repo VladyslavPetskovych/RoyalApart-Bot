@@ -35,10 +35,10 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
   return (
     <div className="w-[100%] md:w-[75%]">
       <div className="flex flex-col md:flex-row font-oswald items-center my-10">
-        <p className="text-white text-2xl mx-5">Обери апартаменти для себе.</p>
+        <p className="text-white text-2xl ">Обери апартаменти для себе.</p>
         <SearchBar setSearchQuery={setSearchQuery} />
       </div>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap  items-center justify-center">
         {filteredRooms.length > 0 ? (
           filteredRooms.map((room) => <SingleRoom key={room.wubid} room={room} />)
         ) : (

@@ -19,7 +19,7 @@ function PickCategory({ setSelectedCategory }) {
   }, [selectedCategories, setSelectedCategory]);
 
   return (
-    <div className="bg-white h-44 mx-5 my-5 w-[300px] items-center justify-center text-black flex flex-col font-popins text-3xl">
+    <div className="bg-white h-48 mx-5 my-5 w-[300px] items-center justify-center text-black flex flex-col font-popins text-3xl">
       <button
         onClick={() => handleCategoryClick("family")}
         className={`border-2 rounded-full py-2 px-4 my-1 ${

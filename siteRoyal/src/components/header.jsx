@@ -1,6 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
-
+import LanguageSelector from "./LanguageSelector";
+import { useTranslation } from 'react-i18next';
 function Header() {
+  const { t } = useTranslation(); 
   const location = useLocation();
   const isActiveRoute = (path) => {
     return location.pathname === path || `${location.pathname}/` === path;
@@ -39,7 +41,7 @@ function Header() {
                   } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0  lg:dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700`}
                   aria-current={isActiveRoute("/") ? "page" : undefined}
                 >
-                  Головна
+                  {t('home')}
                 </Link>
               </li>
               <li>
@@ -51,7 +53,7 @@ function Header() {
                       : "text-gray-400 bg-mainC hover:bg-gray-50"
                   } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0  lg:dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700`}
                 >
-                  Апартаменти
+                  {t('apartments_header')}
                 </Link>
               </li>
               <li>
@@ -63,7 +65,7 @@ function Header() {
                       : "text-gray-400 bg-mainC hover:bg-gray-50"
                   } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0  lg:dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700`}
                 >
-                  Забронювати
+                    {t('book')}
                 </Link>
               </li>
               <li>
@@ -75,7 +77,7 @@ function Header() {
                       : "text-gray-400 bg-mainC hover:bg-gray-50"
                   } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0  lg:dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700`}
                 >
-                  Правила
+                    {t('rules')}
                 </Link>
               </li>
               <li>
@@ -87,9 +89,10 @@ function Header() {
                       : "text-gray-400 bg-mainC hover:bg-gray-50"
                   } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0  lg:dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700`}
                 >
-                  Контакт 🎧
+                    {t('contact')}
                 </Link>
               </li>
+              <li><LanguageSelector/></li>
             </ul>
           </div>
         </div>

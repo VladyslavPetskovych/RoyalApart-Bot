@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 import "./sliderCategories.css";
 import Slider from "react-slick";
 
@@ -28,8 +29,10 @@ const Article = ({ data }) => {
 };
 
 const News = ({ data }) => {
+  const { t } = useTranslation(); // Use the useTranslation hook
+
   if (!data || data.length === 0) {
-    return <p>No data available</p>;
+    return <p>{t('no_data_available')}</p>; // Translate "No data available"
   }
   const settings = {
     dots: false,
@@ -72,20 +75,22 @@ const News = ({ data }) => {
         </div>
       ))
     ) : (
-      <p>Loading...</p>
+      <p>{t('loading')}</p> // Translate "Loading..."
     );
 
   return (
     <div className="news">
       <Slider {...settings}>{newsTemplate}</Slider>
       <strong className={"news__count " + (data.length > 0 ? "" : "none")}>
-        Усього квартир: {data.length}
+        {t('total_apartments')}{data.length}
       </strong>
     </div>
   );
 };
 
 function SliderCategories() {
+  const { t } = useTranslation(); // Use the useTranslation hook
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -110,8 +115,8 @@ function SliderCategories() {
 
   return (
     <div className="">
-      <h2 className="text-3xl font-oswald">Апартаменти</h2>
-      {loading ? <p>Loading...</p> : <News data={data.data} />}
+      <h2 className="text-3xl font-oswald">{t('apartments')}</h2>
+      {loading ? <p>{t('loading')}</p> : <News data={data.data} />}
     </div>
   );
 }
