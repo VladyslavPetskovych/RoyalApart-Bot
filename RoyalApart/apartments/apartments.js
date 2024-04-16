@@ -31,7 +31,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
   const roomGuests = room.guests;
   const roomFloor = room.floor;
   const numroom = room.numrooms;
-  //let roomPrice = room.price;
+  let roomPriceoriginal = room.price;
 
   const roomPrices = await getPrices(chatId);
   const prices = roomPrices[room.globalId];
@@ -56,7 +56,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
       chatId,
       `../server/imgs/${imageUrl}`,
       {
-        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice}\n\n${roomDescription}`,
+        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice || roomPriceoriginal}\n\n${roomDescription}`,
         reply_markup: replyMarkup,
       }
     );
