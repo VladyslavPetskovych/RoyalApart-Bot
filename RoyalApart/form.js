@@ -64,6 +64,7 @@ const resetUserState = (chatId) => {
 const askForName = async (chatId) => {
   bot.sendMessage(chatId, `\nНапишіть Ваше ім'я: \t...✍️`);
   const message = await waitForUserInput(chatId);
+  console.log("!!!!!@##@#!@!#@!#@!");
   console.log(message.text);
   console.log(message);
   console.log("!!!!!@##@#!@!#@!#@!");
@@ -73,7 +74,7 @@ const askForName = async (chatId) => {
       name: message.text,
     });
 
-    console.log("Response:", response.data);
+   // console.log("Response:", response.data);
   } catch (error) {
     console.error("Error:", error.message);
   }
@@ -92,7 +93,7 @@ const askForPhone = async (chatId) => {
       phone: parseInt(message.text),
     });
 
-    console.log("Response:", response.data);
+    //console.log("Response:", response.data);
   } catch (error) {
     console.error("Error:", error.message);
   }
@@ -149,25 +150,26 @@ const form = async (receivedChatId) => {
   const roomMessage =
     Userinf.currentroom.price > 10000
       ? `Ви обрали квартиру ${Userinf.currentroom.name} - Договірна ціна`
-      : `Ви обрали квартиру ${Userinf.currentroom.name} за ціною: ${Userinf.currentroom.price}`;
+      : `Ви обрали квартиру ${Userinf.currentroom.name} за ціною: ${Userinf.currentroom.price}грн`;
 
   bot.sendMessage(
     receivedChatId,
-    `${roomMessage}\n\n\n\tВаші дані: \nім'я: ${userName}\nномер телефону: ${userPhone}`,
+    `${roomMessage}\n\n\n\tВаші дані: \nім'я: ${userName}\nномер телефону: ${userPhone} \nКоментар: ${Userinf.coment || "-"}`,
     formButtons
   );
 };
 
 const askForComment = async (chatId) => {
+  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
   bot.sendMessage(chatId, `Будь ласка, залиште ваш коментар: \t...\t✍️`);
   const message = await waitForUserInput(chatId);
   try {
-    const response = await axios.post("http://localhost:3000/users", {
+     await axios.post("http://localhost:3000/users", {
       chatId: chatId,
       coment: message.text,
     });
 
-    console.log("Response:", response.data);
+    //console.log("Response:", response.data);
   } catch (error) {
     console.error("Error:", error.message);
   }
@@ -179,7 +181,7 @@ const askForComment = async (chatId) => {
   const roomMessage =
     Userinf.currentroom.price > 10000
       ? `Ви обрали квартиру ${Userinf.currentroom.name} - Договірна ціна`
-      : `Ви обрали квартиру ${Userinf.currentroom.name} за ціною: ${Userinf.currentroom.price}`;
+      : `Ви обрали квартиру ${Userinf.currentroom.name} за ціною: ${Userinf.currentroom.price}грн`;
 
   bot.sendMessage(
     chatId ,
@@ -188,7 +190,7 @@ const askForComment = async (chatId) => {
   );
   return message.text;
 };
-
+console.log()
 bot.on("callback_query", async (query) => {
   const callbackData = query.data;
 
@@ -200,8 +202,9 @@ bot.on("callback_query", async (query) => {
   }
 
   if (callbackData === "change form") {
-    await resetUserState(query.message.chat.id);
+   await resetUserState(query.message.chat.id);
     await form(query.message.chat.id);
+     askForComment(query.message.chat.id);
   }
   if (callbackData === "coment form") {
     askForComment(query.message.chat.id);
