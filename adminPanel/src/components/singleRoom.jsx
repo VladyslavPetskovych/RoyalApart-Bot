@@ -117,7 +117,7 @@ function SingleRoom({ room, onDelete }) {
   };
 
   return (
-    <div className="bg-gray-300 h-[600px] w-[320px] m-2 p-1 rounded-lg text-lg  ">
+    <div className="bg-gray-300 h-[520px] w-[290px]  m-2 p-1 rounded-lg text-lg  ">
       <div className="w-full flex justify-between  bg-blue-500">
         <button className="" onClick={deleteRoom}>
           <img
@@ -136,12 +136,12 @@ function SingleRoom({ room, onDelete }) {
       </div>
 
       <img
-        className="object-cover h-56 w-64"
+        className="object-cover h-48 w-full"
         src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgs/${room.imgurl[0]}`}
         alt=""
       />
 
-      <div className="">
+      <div className="text-sm">
         <p className="font-semibold">{formData.name}</p>
         <p>Ціна: {formData.price} грн</p>
         <p>Кількість кімнат: {formData.numrooms}</p>
@@ -168,7 +168,7 @@ function SingleRoom({ room, onDelete }) {
                 Вийти 🗙
               </button>
             </div>
-            <div className="p-6 flex flex-row  w-[100%]  text-lg font-bold ">
+            <div className="p-6 flex flex-row  w-[100%]  text-sm font-bold ">
               <div className="mr-20 w-1/2">
                 <div className="flex justify-between m-2">
                   <label>Назва квартири:</label>
@@ -200,20 +200,20 @@ function SingleRoom({ room, onDelete }) {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="flex justify-between m-2">
+                <div className="flex  m-2">
                   <label>Кількість кімнат: </label>
                   <input
-                    className="bg-slate-200 "
+                    className="bg-slate-200 ml-5"
                     type="number"
                     name="numrooms"
                     value={editedRoomData.numrooms || ""}
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className="flex justify-between m-2 bg-slate-200">
+                <div className="flex  m-2 ">
                   <label>Категорія: </label>
                   <select
-                    className="bg-slate-200 "
+                    className="bg-slate-200  ml-6"
                     type="text"
                     name="category"
                     value={editedRoomData.category || ""}
