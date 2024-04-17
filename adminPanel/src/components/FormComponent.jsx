@@ -154,7 +154,7 @@ export default function FormComponent() {
            знайти ID
           </button>
           <Wubook isOpen={isModalOpen} onClose={handleCloseModal}>
-            <div className="text-2xl">Hello, World!</div>
+            <div className="text-xl">Hello, World!</div>
           </Wubook>
         </div>
         <div className="bg-slate-300">

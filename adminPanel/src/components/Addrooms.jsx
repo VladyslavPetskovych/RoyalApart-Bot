@@ -15,7 +15,7 @@ const AddRoom = () => {
   };
 
   return (
-    <div className="bg-gray-200 m-2 p-1 h-[700px] w-96 rounded-lg flex justify-center items-center">
+    <div className="bg-gray-200 m-2 p-1 h-[600px] w-[320px] rounded-lg flex justify-center items-center">
       <button className="text-9xl font-semibold" onClick={openModal}>
         ➕
       </button>

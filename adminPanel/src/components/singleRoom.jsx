@@ -81,11 +81,15 @@ function SingleRoom({ room, onDelete }) {
     formData.append("file", fileData);
 
     axios
-      .put(`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/${room._id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .put(
+        `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/${room._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((response) => {
         console.log("Data successfully sent to the backend:", response.data);
         alert("Зміни внесено!!!");
@@ -98,9 +102,13 @@ function SingleRoom({ room, onDelete }) {
   const deleteRoom = async () => {
     try {
       if (confirm("Ви впевнені що хочете видалити цю квартиру??")) {
-        axios.delete(`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/${room._id}`).then(() => {
-          onDelete(room._id);
-        });
+        axios
+          .delete(
+            `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts/${room._id}`
+          )
+          .then(() => {
+            onDelete(room._id);
+          });
       }
     } catch (error) {
       console.error("Error deleting room:", error);
@@ -109,7 +117,7 @@ function SingleRoom({ room, onDelete }) {
   };
 
   return (
-    <div className="bg-gray-300 h-[700px] m-2 p-1 rounded-lg text-lg  max-w-96 ">
+    <div className="bg-gray-300 h-[600px] w-[320px] m-2 p-1 rounded-lg text-lg  ">
       <div className="w-full flex justify-between  bg-blue-500">
         <button className="" onClick={deleteRoom}>
           <img
@@ -128,7 +136,7 @@ function SingleRoom({ room, onDelete }) {
       </div>
 
       <img
-        className="object-cover h-96 w-96"
+        className="object-cover h-56 w-64"
         src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgs/${room.imgurl[0]}`}
         alt=""
       />
@@ -151,127 +159,131 @@ function SingleRoom({ room, onDelete }) {
           ></div>
           <div className="bg-white rounded-lg text-xl z-50 flex flex-col h-screen md:h-[95%] w-[95%]">
             <div className="flex p-6 flex-row rounded-lg justify-between bg-slate-400">
-              <h2 className="text-xl font-bold">Змінити дані про квартиру</h2>
+              <h2 className="text-lg font-bold">Змінити дані про квартиру</h2>
 
               <button
-                className="bg-red-500 border h-12 w-40    hover:text-gray-700 focus:outline-none"
+                className="bg-red-500 border h-10 w-40    hover:text-gray-700 focus:outline-none"
                 onClick={closeModal}
               >
                 Вийти 🗙
               </button>
             </div>
-            <div className="p-6 flex flex-col xl:w-[35%] lg:w-[70%] w-[95%] md:w-[85%] text-xl font-bold ">
-              <div className="flex justify-between m-2">
-                <label>Назва квартири:</label>
-                <input
-                  className="bg-slate-200 "
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                />
-              </div>
+            <div className="p-6 flex flex-row  w-[100%]  text-lg font-bold ">
+              <div className="mr-20 w-1/2">
+                <div className="flex justify-between m-2">
+                  <label>Назва квартири:</label>
+                  <input
+                    className="bg-slate-200 "
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
+                </div>
 
-              <div className="flex justify-between m-2 bg-slate-200">
-                <label>Ціна: </label>
-                <input
-                  className="bg-slate-200 "
-                  type="number"
-                  name="price"
-                  value={editedRoomData.price || ""}
-                  onChange={handleInputChange}
-                />
+                <div className="flex justify-between m-2 bg-slate-200">
+                  <label>Ціна: </label>
+                  <input
+                    className="bg-slate-200 "
+                    type="number"
+                    name="price"
+                    value={editedRoomData.price || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between m-2">
+                  <label>Опис: </label>
+                  <textarea
+                    className="bg-slate-200  w-[800px] h-[150px]"
+                    name="description"
+                    value={editedRoomData.description || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between m-2">
+                  <label>Кількість кімнат: </label>
+                  <input
+                    className="bg-slate-200 "
+                    type="number"
+                    name="numrooms"
+                    value={editedRoomData.numrooms || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between m-2 bg-slate-200">
+                  <label>Категорія: </label>
+                  <select
+                    className="bg-slate-200 "
+                    type="text"
+                    name="category"
+                    value={editedRoomData.category || ""}
+                    onChange={handleInputChange}
+                  >
+                    <option value="romantic">romantic</option>
+                    <option value="family">family</option>
+                    <option value="business">business</option>
+                  </select>
+                  <input />
+                </div>
               </div>
-              <div className="flex justify-between m-2">
-                <label>Опис: </label>
-                <textarea
-                  className="bg-slate-200  w-[800px] h-[150px]"
-                  name="description"
-                  value={editedRoomData.description || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex justify-between m-2">
-                <label>Кількість кімнат: </label>
-                <input
-                  className="bg-slate-200 "
-                  type="number"
-                  name="numrooms"
-                  value={editedRoomData.numrooms || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex justify-between m-2 bg-slate-200">
-                <label>Категорія: </label>
-                <select
-                  className="bg-slate-200 "
-                  type="text"
-                  name="category"
-                  value={editedRoomData.category || ""}
-                  onChange={handleInputChange}
-                >
-                  <option value="romantic">romantic</option>
-                  <option value="family">family</option>
-                  <option value="business">business</option>
-                </select>
-                <input />
-              </div>
-              <div className="flex justify-between m-2">
-                <label>WUBOOK ID: </label>
-                <input
-                  className="bg-slate-200 "
-                  type="number"
-                  name="wubid"
-                  value={editedRoomData.wubid || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex justify-between m-2">
-                <label>Поверх: </label>
-                <input
-                  className="bg-slate-200 "
-                  type="number"
-                  name="floor"
-                  value={editedRoomData.floor || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex justify-between m-2">
-                <label>Кількість ліжок: </label>
-                <input
-                  className="bg-slate-200 "
-                  type="number"
-                  name="beds"
-                  value={editedRoomData.beds || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex justify-between m-2">
-                <label>Кількість гостей: </label>
-                <input
-                  className="bg-slate-200 "
-                  type="number"
-                  name="guests"
-                  value={editedRoomData.guests || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="flex justify-between m-2">
-                <label>Площа м2: </label>
-                <input
-                  className="bg-slate-200 "
-                  type="number"
-                  name="surface"
-                  value={editedRoomData.surface || ""}
-                  onChange={handleInputChange}
-                />
+              <div>
+                <div className="flex justify-between m-2">
+                  <label>WUBOOK ID: </label>
+                  <input
+                    className="bg-slate-200 "
+                    type="number"
+                    name="wubid"
+                    value={editedRoomData.wubid || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between m-2">
+                  <label>Поверх: </label>
+                  <input
+                    className="bg-slate-200 "
+                    type="number"
+                    name="floor"
+                    value={editedRoomData.floor || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between m-2">
+                  <label>Кількість ліжок: </label>
+                  <input
+                    className="bg-slate-200 "
+                    type="number"
+                    name="beds"
+                    value={editedRoomData.beds || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between m-2">
+                  <label>Кількість гостей: </label>
+                  <input
+                    className="bg-slate-200 "
+                    type="number"
+                    name="guests"
+                    value={editedRoomData.guests || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex justify-between m-2">
+                  <label>Площа м2: </label>
+                  <input
+                    className="bg-slate-200 "
+                    type="number"
+                    name="surface"
+                    value={editedRoomData.surface || ""}
+                    onChange={handleInputChange}
+                  />
+                </div>
               </div>
             </div>
             <div className="flex  m-2">
               <label>Завантажити фото: </label>
               {editedRoomData.imgurl[0] && (
                 <img
-                  src={`http://localhost:3000/imgs/${editedRoomData.imgurl[0]}`}
+                  src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgs/${editedRoomData.imgurl[0]}`}
                   alt=""
                   className="w-32 h-32 object-cover"
                 />

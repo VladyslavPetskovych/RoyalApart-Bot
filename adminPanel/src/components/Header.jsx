@@ -33,7 +33,7 @@ function Header({ onLoginSuccess, isLoggedIn }) {
 
   return (
     <nav className="sticky top-0 z-50 bg-black">
-      <div className="flex justify-between items-center p-4">
+      <div className="flex justify-between items-center p-3">
         <form onSubmit={handleSubmit} className="flex items-center">
           <input
             type="text"
@@ -41,7 +41,7 @@ function Header({ onLoginSuccess, isLoggedIn }) {
             placeholder="Login"
             value={credentials.login}
             onChange={handleChange}
-            className=" h-12 px-2 mr-2 text-lg font-bold  outline-none"
+            className=" h-10 px-2 mr-2 text-lg font-bold  outline-none"
           />
           <input
             type="password"
@@ -49,11 +49,11 @@ function Header({ onLoginSuccess, isLoggedIn }) {
             placeholder="Password"
             value={credentials.password}
             onChange={handleChange}
-            className=" h-12 px-2 mr-2 text-lg font-bold  outline-none"
+            className=" h-10 px-2 mr-2 text-lg font-bold  outline-none"
           />
           <button
             type="submit"
-            className=" h-12 px-4 text-lg font-bold text-zinc-50 bg-red-600 hover:bg-sky-700"
+            className=" h-10 px-4 text-lg font-bold text-zinc-50 bg-red-600 hover:bg-sky-700"
           >
             Login
           </button>
