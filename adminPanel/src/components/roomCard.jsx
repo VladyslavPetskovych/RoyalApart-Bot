@@ -16,7 +16,7 @@ function RoomCard() {
   }
   function updtPrices() {
     if (!cooldown) {
-      axios.get("http://localhost:3000/getprices/setPrice");
+      axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices/setPrice");
       // Show an alert
       alert("Ціни Оновлені!");
 
@@ -32,14 +32,14 @@ function RoomCard() {
     }
   }
   const updateRooms = () => {
-    axios.get("http://localhost:3000/aparts").then((response) => {
+    axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts").then((response) => {
       setRooms(response.data.data);
     });
   };
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/aparts");
+        const response = await axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts");
         setRooms(response.data.data);
       } catch (error) {
         console.error("Error fetching rooms:", error);

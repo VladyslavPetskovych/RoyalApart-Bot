@@ -11,7 +11,7 @@ app.use("/tempImg", express.static("tempImg"));
 app.get("/getData", async function (req, res) {
   try {
     // Make a request to Server A to fetch data including the image as a Base64 string
-    const response = await axios.post("http://localhost:3000/advert/sendData");
+    const response = await axios.post("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/advert/sendData");
 
     // Convert the Base64 string back to binary image data
     const imageData = Buffer.from(response.data.imgData, "base64");
@@ -27,7 +27,7 @@ app.get("/getData", async function (req, res) {
     // });
 
     const chatIdsResponse = await axios.get(
-      "http://localhost:3000/getAllUsers/AllUsers"
+      "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getAllUsers/AllUsers"
     );
     const chatIds = chatIdsResponse.data.userIds;
     console.log(chatIds.data);

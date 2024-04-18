@@ -15,7 +15,7 @@ function Header({ onLoginSuccess, isLoggedIn }) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/auth/login",
         credentials
       );
 
