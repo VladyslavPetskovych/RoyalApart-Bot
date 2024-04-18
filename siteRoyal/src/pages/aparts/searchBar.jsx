@@ -1,15 +1,15 @@
 import React from "react";
 
 function SearchBar({ setSearchQuery }) {
-  const handleSearchChange = event => {
+  const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
   return (
-    <div>
-      <div className="pt-2 relative  md:w-[490px] text-gray-600">
+    <div className="w-[100%]">
+      <div className="pt-2 relative    text-gray-600">
         <input
-          className="border-2 border-gray-300  bg-white h-12 md:px-10 md:pr-32  text-xl focus:outline-none"
+          className="border-2 border-gray-300  bg-white h-12 md:px-10 md:pr-24  text-xl focus:outline-none"
           type="search"
           name="search"
           placeholder="Пошук квартир"

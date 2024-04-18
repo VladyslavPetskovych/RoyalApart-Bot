@@ -11,7 +11,7 @@ function MainPageContent() {
     >
       <div className="flex h-full font-serif">
         <div className="text-textW">
-          <div className=" w-screen  flex  flex-col text-2xl  md:text-5xl ">
+          <div className=" w-screen  flex  flex-col text-xl  md:text-4xl ">
             <div className="flex flex-col justify-center items-center ">
               <h2 className="mb-4 mt-32 md:mt-64 z-5 drop-shadow-lg shadow-blue-500">
                 {t('apartment_rental')}
@@ -21,11 +21,11 @@ function MainPageContent() {
               </h6>
             </div>
 
-            <h2 className="   m-5 text-2xl md:text-5xl ">{t('select_apartments')}</h2>
+            <h2 className="   m-5 text-2xl md:text-3xl ">{t('select_apartments')}</h2>
             <div className=" flex flex-row items-center justify-center">
               <div>
                 <button className=" inline-flex items-center justify-center p-0 mb-2 me-2 overflow-hidden  shadow-lg shadow-orange-500/50 hover:p-[3px] text-gray-900 rounded-lg  hover:text-black ">
-                  <span className="text-xl md:text-3xl px-6 py-4  text-textW  bg-gradient-to-r to-shit from-shit2 rounded-md  ">
+                  <span className="text-xl md:text-2xl px-6 py-4  text-textW  bg-gradient-to-r to-shit from-shit2 rounded-md  ">
                     {t('book_now')}
                   </span>
                 </button>

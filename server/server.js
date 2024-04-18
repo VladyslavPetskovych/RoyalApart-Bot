@@ -9,6 +9,7 @@ app.use(cors());
 
 app.use("/imgs", express.static("imgs"));
 app.use("/imgsRoyal", express.static("imgsRoyal"));
+app.use("/advertImgs", express.static("advertImgs"));
 app.get("/", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   res.json({ text: " 33 квартири на сьогодні" });
@@ -21,6 +22,8 @@ const pricesRouter = require("./routes/getprices");
 const emailRouter = require("./routes/email");
 const authRouter = require("./routes/auth");
 const siteRouter = require("./routes/siteRoyal");
+const advertRouter = require("./routes/advert");
+const allchatIdRouter = require("./routes/getAllUsers");
 
 app.use("/aparts", apartRouter);
 app.use("/users", userRouter);
@@ -29,8 +32,9 @@ app.use("/getprices", pricesRouter);
 app.use("/email", emailRouter);
 app.use("/auth", authRouter);
 app.use("/siteRoyal", siteRouter);
+app.use("/advert", advertRouter);
+app.use("/getAllUsers", allchatIdRouter);
 
-// Schedule the job to run every hour
 cron.schedule("0 * * * *", async () => {
   try {
     // Make the HTTP request to update prices

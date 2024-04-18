@@ -19,27 +19,28 @@ function PickCategory({ setSelectedCategory }) {
   }, [selectedCategories, setSelectedCategory]);
 
   return (
-    <div className="bg-white h-48 mx-5 my-5 w-[300px] items-center justify-center text-black flex flex-col font-popins text-3xl">
+    <div className=" bg-shit2 m-1 h-48 w-[160px]   lg:my-0  items-center justify-center text-white flex flex-col font-popins text-sm  md:text-[16px] lg:mb-10">
+      <p className="-ml-16 my-5">Категорії:</p>
       <button
         onClick={() => handleCategoryClick("family")}
-        className={`border-2 rounded-full py-2 px-4 my-1 ${
-          selectedCategories.includes("family") ? "bg-blue-500 text-white" : "bg-white"
+        className={` rounded-full py-2 px-4 my-1 ${
+          selectedCategories.includes("family") ? "border-2 rounded-full text-white" : "bg-shit2"
         }`}
       >
         Сімейні
       </button>
       <button
         onClick={() => handleCategoryClick("romantic")}
-        className={`border-2 rounded-full py-2 px-4 my-1 ${
-          selectedCategories.includes("romantic") ? "bg-blue-500 text-white" : "bg-white"
+        className={` rounded-full py-2 px-4 my-1 ${
+          selectedCategories.includes("romantic") ? "border-2 rounded-full text-white" : "bg-shit2"
         }`}
       >
         Романтичні
       </button>
       <button
         onClick={() => handleCategoryClick("business")}
-        className={`border-2 rounded-full py-2 px-4 my-1 ${
-          selectedCategories.includes("business") ? "bg-blue-500 text-white" : "bg-white"
+        className={` rounded-full py-2 px-4 my-1 ${
+          selectedCategories.includes("business") ? "border-2 rounded-full text-white" : "bg-shit2"
         }`}
       >
         Бізнес

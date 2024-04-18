@@ -4,15 +4,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddRoom from "./Addrooms";
 import SingleRoom from "./singleRoom";
-
+import AdvertModule from './advertModule'
 // RoomCard component
 function RoomCard() {
   const [rooms, setRooms] = useState([]);
   const [cooldown, setCooldown] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  function sendAdvert() {
+    setIsModalOpen(true);
+  }
   function updtPrices() {
     if (!cooldown) {
-      axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices/setPrice");
+      axios.get("http://localhost:3000/getprices/setPrice");
       // Show an alert
       alert("Ціни Оновлені!");
 
@@ -28,14 +32,14 @@ function RoomCard() {
     }
   }
   const updateRooms = () => {
-    axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts").then((response) => {
+    axios.get("http://localhost:3000/aparts").then((response) => {
       setRooms(response.data.data);
     });
   };
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts");
+        const response = await axios.get("http://localhost:3000/aparts");
         setRooms(response.data.data);
       } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -55,6 +59,13 @@ function RoomCard() {
       >
         Оновити ціни
       </button>
+      <button
+        onClick={sendAdvert}
+        className="bg-orange-600 h-12 px-4 ml-4 text-lg font-bold text-zinc-50 hover:bg-sky-700"
+      >
+        надіслати рекламку
+      </button>
+      <AdvertModule isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}  />
       <div className="flex flex-wrap ">
         <AddRoom />
         {Array.isArray(rooms) && rooms.length > 0 ? (

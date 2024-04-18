@@ -9,7 +9,7 @@ function Header() {
   };
   return (
     <header className="absolute z-50 right-0 left-0 font-serif">
-      <nav className="  border-gray-200 px-4 lg:px-6 py-2.5  text-2xl  ">
+      <nav className="  border-gray-200 px-4 lg:px-6 py-2.5  text-xl  ">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <img
             src="https://royal-apart.com/wp-content/uploads/2022/02/Дизайн-без-названия-41-300x300-1.png"

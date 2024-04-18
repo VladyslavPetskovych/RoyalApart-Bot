@@ -97,7 +97,7 @@ function SliderCategories() {
 
   useEffect(() => {
     axios
-      .get(API_URL)
+      .get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts")
       .then((response) => {
         setData(response.data);
         setLoading(false);

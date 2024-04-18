@@ -33,7 +33,7 @@ function Slider({ room }) {
     <div className="relative overflow-hidden">
       {preloadedImages.length > 0 && (
         <img
-          className="object-cover h-[400px] w-96 flex flex-row transition-opacity duration-500"
+          className="object-cover h-[300px] md:h-[400px] w-96 flex flex-row transition-opacity duration-500"
           src={preloadedImages[currentIndex].src}
           alt=""
         />

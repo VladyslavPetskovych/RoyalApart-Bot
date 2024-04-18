@@ -7,18 +7,18 @@ export default function Footer() {
   const navigation = [t('services'), t('opportunities'), t('prices'), t('company'), t('blog')];
   const legal = [t('terms'), t('privacy'), t('legality')];
   return (
-    <div className="relative bg-back text-black">
-      <Container>
+    <div className="relative bg-back text-black text-sm">
+      <Container> 
         <div className="grid max-w-screen-xl grid-cols-1 gap-10 pt-10 mx-auto mt-5 border-t border-gray-100 dark:border-trueGray-700 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <div> </div>
-            <div className="max-w-md mt-4 text-black dark:text-gray-400">
+            <div className="max-w-md mt-2 text-black dark:text-gray-400">
               {t('contact_information')}
             </div>
             <div>{t('address')}: м. Львів, вулиця Весела 5</div>
             <div>{t('phone')}: +38(067)677-73-30</div>
             <div>{t('email')}: royal.apartments@ukr.net</div>
-            <div className="mt-5">
+            <div className="">
               <a
                 href="https://vercel.com/?utm_source=web3templates&utm_campaign=oss"
                 target="_blank"
