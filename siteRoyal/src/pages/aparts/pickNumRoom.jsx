@@ -12,12 +12,13 @@ function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
   };
 
   return (
-    <div className=" bg-shit2 m-1  h-48 w-[160px]   lg:my-0  items-center justify-center text-white flex flex-col font-popins text-sm  md:text-[16px] lg:mb-10">
-      <p className="-ml-16 my-5">Кімнати:</p>
+    <div className="  m-1  h-42 w-[160px]   lg:my-0  items-center justify-start text-shit2 flex flex-col font-popins text-sm text-[14px] md:text-[16px] lg:mb-10">
+      <p className="-ml-16 my-2  text-[17px] md:text-[19px] underline ">Кімнати:</p>
+      <div className="flex items-start justify-start flex-col">
       <button
         onClick={() => handleNumRoomClick(1)}
         className={`  py-2 px-2 my-1 m-1 ${
-          selectedNumRooms.includes(1) ? "border-2 rounded-full text-white" : "bg-shit2"
+          selectedNumRooms.includes(1) ? "  text-shit2  shadow-lg rounded-full shadow-orange-500/90" : ""
         }`}
       >
         1 кімнатні
@@ -25,7 +26,7 @@ function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
       <button
         onClick={() => handleNumRoomClick(2)}
         className={`  py-2 px-2 my-1 ${
-          selectedNumRooms.includes(2) ? "border-2 rounded-full text-white" : "bg-shit2"
+          selectedNumRooms.includes(2) ? "  text-shit2  shadow-lg rounded-full shadow-orange-500/90" : ""
         }`}
       >
          2 кімнатні
@@ -33,11 +34,13 @@ function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
       <button
         onClick={() => handleNumRoomClick(3)}
         className={` py-2 px-2 my-1 ${
-          selectedNumRooms.includes(3) ? "border-2 rounded-full text-white" : "bg-shit2"
+          selectedNumRooms.includes(3) ? " text-shit2  shadow-lg rounded-full shadow-orange-500/90" : ""
         }`}
       >
         3 кімнатні
       </button>
+      </div>
+      
     </div>
   );
 }

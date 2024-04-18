@@ -14,7 +14,7 @@ function aparts() {
             selectedCategory={selectedCategory}
             selectedNumRoom={selectedNumRooms}
           />
-          <div className="flex flex-row  m-5  md:flex-row lg:flex-col font-oswald font-bold items-center justify-center lg:justify-start">
+          <div className="flex flex-row  m-1  md:flex-row lg:flex-col font-oswald font-bold items-center justify-center lg:justify-start">
             <PickNumRoom
               selectedNumRooms={selectedNumRooms}
               setSelectedNumRooms={setSelectedNumRooms}

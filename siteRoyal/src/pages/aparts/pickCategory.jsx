@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 function PickCategory({ setSelectedCategory }) {
   const [selectedCategories, setSelectedCategoriesLocal] = useState([]);
@@ -19,32 +19,41 @@ function PickCategory({ setSelectedCategory }) {
   }, [selectedCategories, setSelectedCategory]);
 
   return (
-    <div className=" bg-shit2 m-1 h-48 w-[160px]   lg:my-0  items-center justify-center text-white flex flex-col font-popins text-sm  md:text-[16px] lg:mb-10">
-      <p className="-ml-16 my-5">Категорії:</p>
-      <button
-        onClick={() => handleCategoryClick("family")}
-        className={` rounded-full py-2 px-4 my-1 ${
-          selectedCategories.includes("family") ? "border-2 rounded-full text-white" : "bg-shit2"
-        }`}
-      >
-        Сімейні
-      </button>
-      <button
-        onClick={() => handleCategoryClick("romantic")}
-        className={` rounded-full py-2 px-4 my-1 ${
-          selectedCategories.includes("romantic") ? "border-2 rounded-full text-white" : "bg-shit2"
-        }`}
-      >
-        Романтичні
-      </button>
-      <button
-        onClick={() => handleCategoryClick("business")}
-        className={` rounded-full py-2 px-4 my-1 ${
-          selectedCategories.includes("business") ? "border-2 rounded-full text-white" : "bg-shit2"
-        }`}
-      >
-        Бізнес
-      </button>
+    <div className=" m-1 h-42 w-[160px]   lg:my-0  items-center justify-start text-shit2 flex flex-col font-popins text-sm  text-[14px] md:text-[16px] lg:mb-10">
+      <p className="-ml-16 my-2 text-[17px] md:text-[19px] underline">Категорії:</p>
+      <div className="flex items-start justify-start flex-col">
+        <button
+          onClick={() => handleCategoryClick("family")}
+          className={` py-2 px-2 my-1 ${
+            selectedCategories.includes("family")
+              ? "  text-shit2 shadow-lg  rounded-full shadow-orange-500/90"
+              : ""
+          }`}
+        >
+          Сімейні
+        </button>
+        <button
+          onClick={() => handleCategoryClick("romantic")}
+          className={`py-2 px-2 my-1 ${
+            selectedCategories.includes("romantic")
+              ? "text-shit2 shadow-lg    rounded-full shadow-orange-500/90"
+              : ""
+          }`}
+        >
+          Романтичні
+        </button>
+
+        <button
+          onClick={() => handleCategoryClick("business")}
+          className={`  py-2 px-2 my-1 ${
+            selectedCategories.includes("business")
+              ? "  text-shit2 shadow-lg  rounded-full shadow-orange-500/90"
+              : ""
+          }`}
+        >
+          Бізнес
+        </button>
+      </div>
     </div>
   );
 }

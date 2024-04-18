@@ -3,7 +3,7 @@ import Slider from "./sliderRoom";
 
 function SingleRoom({ room }) {
   return (
-    <div className="bg-slate-100 h-[630px] w-[340px] md:h-[400px] md:w-[640px] mb-4 mx-2  text-lg flex md:flex-row flex-col ">
+    <div className="border-2 border-orange-50 hover:shadow-lg hover:shadow-orange-300/30 m-3 h-[630px] w-[340px] md:h-[340px] md:w-[540px] mb-4 mx-2  text-lg flex md:flex-row flex-col ">
       <Slider room={room} />
 
       <div className="max-w-[254px] w-full h-[50%]">
@@ -15,8 +15,8 @@ function SingleRoom({ room }) {
         <p>Кількість гостей: {room.guests}</p>
         <p>Площа: {room.surface} м2</p>
         <p>Кількість ліжок: {room.beds}</p>
-        <div className="w-[100%] mt-24">
-          <button className="bg-amber-500 w-full">Забронювати</button>
+        <div className="w-[100%] mt-16">
+          <button className=" h-10 bg-gradient-to-br from-amber-600 to-amber-400 rounded-md w-[70%] hover:shadow-lg shadow-md shadow-orange-500/90  hover:shadow-orange-500/90">Забронювати</button>
         </div>
       </div>
     </div>
