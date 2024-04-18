@@ -8,7 +8,7 @@ const cors = require("cors");
 app.use(cors());
 app.use("/tempImg", express.static("tempImg"));
 
-app.get("/s2", async function (req, res) {
+app.get("/getData", async function (req, res) {
   try {
     // Make a request to Server A to fetch data including the image as a Base64 string
     const response = await axios.post("http://localhost:3000/advert/sendData");
@@ -54,4 +54,8 @@ app.get("/s2", async function (req, res) {
   }
 });
 
-app.listen(3001);
+app.listen(3001, () => {
+    console.log('Express server running on port 3001');
+    console.log('Express server running on port 3001');
+    console.log('Express server running on port 3001');
+  });
