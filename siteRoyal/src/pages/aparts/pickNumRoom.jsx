@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
+import { useTranslation } from "react-i18next";
 function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
+  const { t } = useTranslation();
   const handleNumRoomClick = (numRoom) => {
     if (selectedNumRooms.includes(numRoom)) {
       setSelectedNumRooms((prevSelectedNumRooms) =>
@@ -13,7 +14,7 @@ function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
 
   return (
     <div className="  m-1  h-42 w-[160px]   lg:my-0 font-oswald items-center justify-start text-shit2 flex flex-col  text-sm text-[14px] md:text-[16px] lg:mb-10">
-      <p className="-ml-16 my-2  text-[17px] md:text-[19px] underline ">Кімнати:</p>
+      <p className="-ml-16 my-2  text-[17px] md:text-[19px] underline ">{t("rooms")}</p>
       <div className="flex items-start justify-start flex-col">
       <button
         onClick={() => handleNumRoomClick(1)}
@@ -21,7 +22,7 @@ function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
           selectedNumRooms.includes(1) ? "  text-shit2  shadow-lg rounded-full shadow-orange-500/90" : ""
         }`}
       >
-       • 1 кімнатні
+       •  {t("one_room")}
       </button>
       <button
         onClick={() => handleNumRoomClick(2)}
@@ -29,7 +30,7 @@ function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
           selectedNumRooms.includes(2) ? "  text-shit2  shadow-lg rounded-full shadow-orange-500/90" : ""
         }`}
       >
-        • 2 кімнатні
+        • {t("two_rooms")}
       </button>
       <button
         onClick={() => handleNumRoomClick(3)}
@@ -37,7 +38,7 @@ function PickNumRoom({ selectedNumRooms, setSelectedNumRooms }) {
           selectedNumRooms.includes(3) ? " text-shit2  shadow-lg rounded-full shadow-orange-500/90" : ""
         }`}
       >
-       • 3 кімнатні
+       • {t("three_rooms")}
       </button>
       </div>
       

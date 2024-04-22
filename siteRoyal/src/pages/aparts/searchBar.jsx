@@ -1,6 +1,7 @@
 import React from "react";
-
+import { useTranslation } from "react-i18next";
 function SearchBar({ setSearchQuery }) {
+  const { t } = useTranslation();
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -12,7 +13,7 @@ function SearchBar({ setSearchQuery }) {
           className="border-2 border-gray-300 w-[400px] md:w-auto bg-white h-10 md:px-10 md:pr-12  text-base focus:outline-none"
           type="search"
           name="search"
-          placeholder="Пошук квартир"
+          placeholder={t("searchbar")}
           onChange={handleSearchChange}
         />
         <button

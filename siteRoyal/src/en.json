@@ -33,6 +33,25 @@
     "apartments_header": "Apartments",
     "book": "Book",
     "rules": "Rules",
-    "contact": "Contact 🎧"
+    "contact": "Contact 🎧",
+    "close": "close",
+    "full_inf_room": "Full information about the apartment",
+    "categories": "Categories:",
+    "family": "Family",
+    "romantic": "Romantic",
+    "business": "Business",
+    "rooms": "Rooms:",
+    "one_room": "1-room",
+    "two_rooms": "2-room",
+    "three_rooms": "3-room",
+    "searchbar": "Search apartments",
+    "price": "Price",
+    "currency": "UAH",
+    "num_rooms": "Number of rooms",
+    "floor": "Floor",
+    "guests": "Number of guests",
+    "area": "Area",
+    "beds": "Number of beds",
+    "book_now2": "Book now"
   }
   

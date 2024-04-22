@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-
+import { useTranslation } from "react-i18next";
 function PickCategory({ setSelectedCategory }) {
+  const {t} = useTranslation();
   const [selectedCategories, setSelectedCategoriesLocal] = useState([]);
 
   const handleCategoryClick = (category) => {
@@ -20,7 +21,7 @@ function PickCategory({ setSelectedCategory }) {
 
   return (
     <div className=" m-1 h-42 w-[160px]   lg:my-0 font-oswald items-center justify-start text-shit2 flex flex-col  text-sm  text-[14px] md:text-[16px] lg:mb-10">
-      <p className="-ml-16 my-2 text-[17px] md:text-[19px] underline">Категорії:</p>
+      <p className="-ml-16 my-2 text-[17px] md:text-[19px] underline">{t("categories")}</p>
       <div className="flex items-start justify-start flex-col">
         <button
           onClick={() => handleCategoryClick("family")}
@@ -30,7 +31,7 @@ function PickCategory({ setSelectedCategory }) {
               : ""
           }`}
         >
-          • Сімейні
+          • {t("family")}
         </button>
         <button
           onClick={() => handleCategoryClick("romantic")}
@@ -40,7 +41,7 @@ function PickCategory({ setSelectedCategory }) {
               : ""
           }`}
         >
-          • Романтичні
+          • {t("romantic")}
         </button>
 
         <button
@@ -51,7 +52,7 @@ function PickCategory({ setSelectedCategory }) {
               : ""
           }`}
         >
-          • Бізнес
+          • {t("business")}
         </button>
       </div>
     </div>

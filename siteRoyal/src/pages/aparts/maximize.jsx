@@ -2,7 +2,12 @@
 import React from "react";
 import Slider from "./sliderRoom";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { slugify } from "transliteration";
+
+
 const Maximizee = ({ isOpen, onClose, room }) => {
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     // Add or remove class to body based on modal state
     if (isOpen) {
@@ -16,6 +21,7 @@ const Maximizee = ({ isOpen, onClose, room }) => {
       document.body.style.overflowY = "auto";
     };
   }, [isOpen]);
+  const isEnglish = i18n.language === "en";
   return (
     <>
       {isOpen && (
@@ -23,10 +29,13 @@ const Maximizee = ({ isOpen, onClose, room }) => {
           <div className="bg-back p-1 rounded-lg shadow-lg w-[95%] h-auto  mr-0 text-xs md:text-sm font-roboto">
             <div className="flex flex-row justify-between mb-5">
               <p></p>
-              <p className="text-sm md:text-xl">Повна інформація про квартиру {room.name}</p>
-              
+              <p className="text-sm md:text-xl">
+                {t("full_inf_room")}{" "}
+                {isEnglish ? slugify(room.name).charAt(0).toUpperCase() + slugify(room.name).slice(1) : room.name}
+              </p>
+
               <button onClick={onClose} className="bg-red-300">
-                Закрити
+                {t("close")}
               </button>
             </div>
             <div className="flex flex-col md:flex-row">
@@ -36,7 +45,6 @@ const Maximizee = ({ isOpen, onClose, room }) => {
 
               <div className="flex flex-col  text-left font-roboto m-3">
                 <div className="flex items-center justify-center flex-col">
-              
                   <p className=" w-full md:max-w-[300px]">{room.description}</p>
                 </div>
               </div>
