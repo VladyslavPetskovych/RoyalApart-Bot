@@ -19,7 +19,7 @@ function PickCategory({ setSelectedCategory }) {
   }, [selectedCategories, setSelectedCategory]);
 
   return (
-    <div className=" m-1 h-42 w-[160px]   lg:my-0  items-center justify-start text-shit2 flex flex-col font-popins text-sm  text-[14px] md:text-[16px] lg:mb-10">
+    <div className=" m-1 h-42 w-[160px]   lg:my-0 font-oswald items-center justify-start text-shit2 flex flex-col  text-sm  text-[14px] md:text-[16px] lg:mb-10">
       <p className="-ml-16 my-2 text-[17px] md:text-[19px] underline">Категорії:</p>
       <div className="flex items-start justify-start flex-col">
         <button
@@ -30,7 +30,7 @@ function PickCategory({ setSelectedCategory }) {
               : ""
           }`}
         >
-          Сімейні
+          • Сімейні
         </button>
         <button
           onClick={() => handleCategoryClick("romantic")}
@@ -40,7 +40,7 @@ function PickCategory({ setSelectedCategory }) {
               : ""
           }`}
         >
-          Романтичні
+          • Романтичні
         </button>
 
         <button
@@ -51,7 +51,7 @@ function PickCategory({ setSelectedCategory }) {
               : ""
           }`}
         >
-          Бізнес
+          • Бізнес
         </button>
       </div>
     </div>

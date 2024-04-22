@@ -20,6 +20,7 @@ export default {
         josefin: ["Josefin Sans", "sans-serif"],
         popins: ["Poppins", "sans-serif"],
         oswald: ["Oswald", "sans-serif"],
+        roboto: ["Roboto Slab", "sans-serif"],
       },
     },
   },

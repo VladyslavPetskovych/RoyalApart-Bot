@@ -1,10 +1,19 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-
-function Slider({ room }) {
+import maximize from "../../assets/aparts/maximize.png";
+import Maximizee from "./maximize";
+function Slider({ room, isMaximize }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [preloadedImages, setPreloadedImages] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleMaximizeClick = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   useEffect(() => {
     const preloadImages = () => {
       const images = room.imgurl.map((img) => {
@@ -30,22 +39,37 @@ function Slider({ room }) {
   };
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden ">
+      {!isMaximize && (
+        <img
+          src={maximize}
+          alt="Maximize"
+          onClick={handleMaximizeClick}
+          className={`h-5 w-5 absolute top-0 right-0 m-1.5 cursor-pointer hover:h-[21px] hover:w-[21px] ${
+            isModalOpen ? "border border-gray-500" : ""
+          }`}
+        />
+      )}
+      <Maximizee isOpen={isModalOpen} onClose={handleCloseModal} room={room} />
       {preloadedImages.length > 0 && (
         <img
-          className="object-cover h-[300px] md:h-[400px] w-96 flex flex-row transition-opacity duration-500"
+          className={`object-cover ${
+            isMaximize
+              ? "h-[300px] md:h-[550px] w-full"
+              : "h-[300px] md:h-[400px]"
+          } w-96 flex flex-row transition-opacity `}
           src={preloadedImages[currentIndex].src}
           alt=""
         />
       )}
       <button
-        className="absolute top-1/2 transform -translate-y-1/2 left-0 text-6xl bg-slate-600 h-40 opacity-20 hover:opacity-70"
+        className="absolute top-1/2 transform -translate-y-1/2 left-0 text-6xl bg-shit h-32 opacity-50 bg-opacity-0 hover:bg-opacity-40"
         onClick={goToPrevious}
       >
         &lt;
       </button>
       <button
-        className="absolute top-1/2 transform -translate-y-1/2 right-0 text-6xl bg-slate-600 h-40 opacity-20 hover:opacity-70"
+        className="absolute top-1/2 transform -translate-y-1/2 right-0 text-6xl bg-shit h-32 opacity-50 bg-opacity-0 hover:bg-opacity-40"
         onClick={goToNext}
       >
         &gt;
