@@ -45,8 +45,9 @@ function Wubook() {
   }
 
   return (
-    <div className="bg-mainC flex justify-center">
-      <div className="w-full h-full mt-12">
+    <div className="bg-shit2 flex justify-center">
+      <div className="w-full h-full mt-20">
+        <p className="text-2xl font-roboto my-10">Бронюй квартиру швидко і зручно</p>
         <div id="the_place_where_iframe_will_be_installed" ></div>
       </div>
     </div>
