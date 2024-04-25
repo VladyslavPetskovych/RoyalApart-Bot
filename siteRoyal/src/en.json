@@ -52,6 +52,13 @@
     "guests": "Number of guests",
     "area": "Area",
     "beds": "Number of beds",
-    "book_now2": "Book now"
+    "book_now2": "Book now",
+    "First": "First",
+    "Previous": "Previous",
+    "Page": "Page",
+    "of": "of",
+    "Next": "Next",
+    "Last": "Last",
+    "No rooms found.": "No rooms found."
   }
   

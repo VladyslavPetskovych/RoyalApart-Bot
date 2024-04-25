@@ -37,13 +37,18 @@ app.use("/getAllUsers", allchatIdRouter);
 
 cron.schedule("0 * * * *", async () => {
   try {
-    // Make the HTTP request to update prices
+
+    await axios.get(
+      "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices"
+    );
+    console.log("First request: Prices updated successfully.");
+
     await axios.get(
       "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices/setPrice"
     );
-    console.log("Prices updated successfully.");
+    console.log("Second request: Successfully fetched data.");
   } catch (error) {
-    console.error("Error updating prices:", error);
+    console.error("Error:", error);
   }
 });
 

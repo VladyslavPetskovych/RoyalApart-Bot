@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
 import maximize from "../../assets/aparts/maximize.png";
 import Maximizee from "./maximize";
+
 function Slider({ room, isMaximize }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [preloadedImages, setPreloadedImages] = useState([]);
@@ -14,6 +14,7 @@ function Slider({ room, isMaximize }) {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     const preloadImages = () => {
       const images = room.imgurl.map((img) => {
@@ -26,20 +27,22 @@ function Slider({ room, isMaximize }) {
     preloadImages();
   }, [room]);
 
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? room.imgurl.length - 1 : prevIndex - 1
-    );
-  };
-
   const goToNext = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === room.imgurl.length - 1 ? 0 : prevIndex + 1
     );
   };
+  
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? room.imgurl.length - 1 : prevIndex - 1
+    );
+  };
+  
 
   return (
-    <div className="relative overflow-hidden ">
+    <div className={`relative overflow-hidden ${isMaximize ? '' : ' w-[340px] md:w-[410px]'}`}>
+      <Maximizee isOpen={isModalOpen} onClose={handleCloseModal} room={room} />
       {!isMaximize && (
         <img
           src={maximize}
@@ -48,19 +51,31 @@ function Slider({ room, isMaximize }) {
           className={`h-5 w-5 absolute top-0 right-0 m-1.5 cursor-pointer hover:h-[21px] hover:w-[21px] ${
             isModalOpen ? "border border-gray-500" : ""
           }`}
+          style={{ zIndex: 10 }} 
         />
       )}
-      <Maximizee isOpen={isModalOpen} onClose={handleCloseModal} room={room} />
+
       {preloadedImages.length > 0 && (
-        <img
-          className={`object-cover ${
-            isMaximize
-              ? "h-[300px] md:h-[550px] w-full"
-              : "h-[300px] md:h-[400px]"
-          } w-96 flex flex-row transition-opacity `}
-          src={preloadedImages[currentIndex].src}
-          alt=""
-        />
+        <div 
+          className="w-full flex transition-transform duration-1000 ease-in-out"
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+            position: 'relative', // Ensure the parent container has relative positioning
+          }}
+        >
+          {preloadedImages.map((image, index) => (
+            <img
+              key={index}
+              className={`object-cover ${
+                isMaximize
+                  ? "h-[300px] md:h-[450px] w-full"
+                  : "h-[300px] md:h-[340px] w-full"
+              }  flex-none`}
+              src={image.src}
+              alt=""
+            />
+          ))}
+        </div>
       )}
       <button
         className="absolute top-1/2 transform -translate-y-1/2 left-0 text-6xl bg-shit h-32 opacity-50 bg-opacity-0 hover:bg-opacity-40"

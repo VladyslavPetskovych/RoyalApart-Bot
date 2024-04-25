@@ -18,7 +18,7 @@ const loadLocaleData = async () => {
 loadLocaleData().then((resources) => {
   i18n.use(initReactI18next).init({
     resources,
-    lng: "en", // Default language
+    lng: "uk", // Default language
     interpolation: {
       escapeValue: false,
     },

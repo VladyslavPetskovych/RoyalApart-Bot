@@ -18,16 +18,15 @@ const Maximizee = ({ isOpen, onClose, room }) => {
           setTranslatedDescription(translatedText);
         } catch (error) {
           console.error("Error translating description:", error);
-          setTranslatedDescription(room.description); // Fallback to original description
+          setTranslatedDescription(room.description); 
         }
       } else {
-        setTranslatedDescription(room.description); // Use original description if language is Ukrainian
+        setTranslatedDescription(room.description); 
       }
     };
 
     translateDescription();
 
-    // Cleanup function to reset description on component unmount
     return () => {
       setTranslatedDescription("");
     };
@@ -46,8 +45,8 @@ const Maximizee = ({ isOpen, onClose, room }) => {
                 {t("full_inf_room")}{" "}
                 {isEnglish ? slugify(room.name).charAt(0).toUpperCase() + slugify(room.name).slice(1) : room.name}
               </p>
-              <button onClick={onClose} className="bg-red-300">
-                {t("close")}
+              <button onClick={onClose} className="p-1 m-1 md:text-xl bg-red-400">
+              ✖️
               </button>
             </div>
             <div className="flex flex-col md:flex-row">

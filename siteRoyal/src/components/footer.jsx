@@ -1,23 +1,28 @@
 /* eslint-disable react/prop-types */
 import Container from "./Container";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
-  const { t } = useTranslation(); 
-  const navigation = [t('services'), t('opportunities'), t('prices'), t('company'), t('blog')];
-  const legal = [t('terms'), t('privacy'), t('legality')];
+  const { t } = useTranslation();
+  const navigation = [
+    t("services"),
+    t("opportunities"),
+    t("prices"),
+    t("company"),
+    t("blog"),
+  ];
+  const legal = [t("terms"), t("privacy"), t("legality")];
   return (
-    <div className="relative bg-back text-black text-sm">
-      <Container> 
-        <div className="grid max-w-screen-xl grid-cols-1 gap-10 pt-10 mx-auto mt-5 border-t border-gray-100 dark:border-trueGray-700 lg:grid-cols-5">
-          <div className="lg:col-span-2">
-            <div> </div>
-            <div className="max-w-md mt-2 text-black dark:text-gray-400">
-              {t('contact_information')}
+    <div className="relative bg-back text-black text-sm font-roboto">
+      <Container>
+        <div className="grid max-w-screen-xl grid-cols-1  pt-1 mx-auto mt-5  lg:grid-cols-4">
+          <div className="">
+            <div className=" mt-2 text-black text-base  ">
+              {t("contact_information")}:
             </div>
-            <div>{t('address')}: м. Львів, вулиця Весела 5</div>
-            <div>{t('phone')}: +38(067)677-73-30</div>
-            <div>{t('email')}: royal.apartments@ukr.net</div>
+            <div>{t("address")}: м. Львів, вулиця Весела 5</div>
+            <div>{t("phone")}: +38(067)677-73-30</div>
+            <div>{t("email")}: royal.apartments@ukr.net</div>
             <div className="">
               <a
                 href="https://vercel.com/?utm_source=web3templates&utm_campaign=oss"
@@ -28,12 +33,12 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
+            <div className="flex flex-wrap w-full mt-2 -ml-3 lg:ml-0">
               {navigation.map((item, index) => (
                 <a
                   key={index}
                   href="/"
-                  className="w-full px-4 py-2 text-gray-900 rounded-md  hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700"
+                  className="w-full px-4 py-2 text-gray-900 rounded-md  hover:text-amber-500 focus:text-amber-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700"
                 >
                   {item}
                 </a>
@@ -41,51 +46,37 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <div className="flex flex-wrap w-full -mt-2 -ml-3 lg:ml-0">
+            <div className="flex flex-wrap w-full mt-2 -ml-3 lg:ml-0">
               {legal.map((item, index) => (
                 <a
                   key={index}
                   href="/"
-                  className="w-full px-4 py-2 text-black rounded-md  hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700"
+                  className="w-full px-4 py-2 text-black rounded-md  hover:text-amber-500 focus:text-amber-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-trueGray-700"
                 >
                   {item}
                 </a>
               ))}
             </div>
           </div>
-          <div className="">
-            {t('subscribe_us')}:
-            <div className="flex mt-5 space-x-5 text-gray-400 dark:text-gray-500">
+          <div className="flex flex-col items-center justify-center lg:-mt-28"> 
+            <div className="flex mt-5 items-center justify-center text-black ">
+              <p className="text-base m-1">{t("subscribe_us")}</p>
               <a
-                href="https://twitter.com/web3templates"
+                href="https://www.instagram.com/royal.apart/"
                 target="_blank"
                 rel="noopener"
               >
-                <span className="sr-only">Twitter</span>
-                <Twitter />
-              </a>
-              <a
-                href="https://facebook.com/web3templates"
-                target="_blank"
-                rel="noopener"
-              >
-                <span className="sr-only">Facebook</span>
-                <Facebook />
-              </a>
-              <a
-                href="https://instagram.com/web3templates"
-                target="_blank"
-                rel="noopener"
-              >
-                <span className="sr-only">Instagram</span>
+                 <span className="animate-ping absolute inline-flex h-3.5 w-3.5 rounded-full bg-amber-500 opacity-75"></span>
+                <span className="sr-only ">Instagram</span>
                 <Instagram />
               </a>
             </div>
           </div>
         </div>
 
-        <div className="my-10 text-sm text-center text-gray-600 dark:text-gray-400">
-          {t('copyright')} {new Date().getFullYear()}. {t('made_with_love')} Royal Apart IT {t('department')}
+        <div className="my-1 text-sm text-center text-gray-600 dark:text-gray-400">
+          {t("copyright")} {new Date().getFullYear()}. {t("made_with_love")}{" "}
+          Royal Apart IT {t("department")}
         </div>
       </Container>
     </div>

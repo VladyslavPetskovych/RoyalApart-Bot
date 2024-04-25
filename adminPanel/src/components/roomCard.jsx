@@ -14,9 +14,10 @@ function RoomCard() {
   function sendAdvert() {
     setIsModalOpen(true);
   }
-  function updtPrices() {
+  async function  updtPrices() {
     if (!cooldown) {
-      axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices/setPrice");
+      await axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices");
+      await axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices/setPrice");
       // Show an alert
       alert("Ціни Оновлені!");
 
