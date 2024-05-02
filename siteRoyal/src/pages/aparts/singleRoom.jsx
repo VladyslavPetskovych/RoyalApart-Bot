@@ -50,6 +50,11 @@ function SingleRoom({ room }) {
               <p>{room.beds} </p>
             </div>
           </div>
+          <Link to={`/room/${room.wubid}`}>
+            <p className="text-blue-900 hover:underline cursor-pointer  font-roboto font-semibold text-left">
+              детальніше...
+            </p>
+          </Link>
         </div>
 
         <div className="w-[100%] md:mt-10 font-roboto font-semibold text-lg">

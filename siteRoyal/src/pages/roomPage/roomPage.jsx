@@ -9,8 +9,14 @@ import user from "../../assets/roomPage/user.png";
 import floor from "../../assets/roomPage/stairs.png";
 import SliderCategories from "../../components/mainpage/home/sliderCategories";
 import Googlemap from "./googlemap";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+
 
 function RoomPage() {
+  const { t } = useTranslation();
+
   const location = useLocation();
   const [wubidL, setWubidL] = useState(
     parseInt(location.pathname.split("/room/")[1])
@@ -41,7 +47,7 @@ function RoomPage() {
   }, []);
 
   return (
-    <div className="bg-shit2 ">
+    <div className="bg-shit2 relative">
       <div className="h-24 "></div>
       <div>
         <div className="bg-back text-black">
@@ -55,6 +61,13 @@ function RoomPage() {
                 </p>
                 <div className="w-screen px-3">
                   <Slider room={currentRoom} isMaximize={true} />
+                </div>
+                <div className="text-left">
+                  <p className=" p-5 text-3xl  font-bold font-oswald">
+                    {currentRoom.name}
+                  </p>
+                  <p className="px-5">Опис:</p>
+                  <p className="px-5">{currentRoom.description}</p>
                 </div>
                 <div className="bg-white text-sm md:text-base flex flex-row p-5 justify-around mt-5">
                   <div className="flex flex-col m-1">
@@ -96,26 +109,66 @@ function RoomPage() {
                     <p> {currentRoom.beds} ліжок</p>
                   </div>
                 </div>
-                <div className="p-5 text-left">
-                  <p className="text-2xl  font-bold font-oswald">
-                    {currentRoom.name}
-                  </p>
-                  <p className="">Опис:</p>
-                  <p>{currentRoom.description}</p>
+                <div className=" text-left">
+                  <div className="bg-white p-2 mt-10">
+                    <p className="p-8 text-2xl font-bold ">У квартирі є:</p>
+                    <p className=" px-8 pt-4 text-xl font-bold ">
+                      Додаткові зручності для вашого відпочинку
+                    </p>
+                    <div className="flex flex-wrap justify-center  p-2 md:p-5  border m-1 md:m-4 text-left bg-white">
+                      {[
+                        "WiFi",
+                        "Електрочайник",
+                        "Мікрохвильова піч",
+                        "Плазмовий телевізор",
+                        "Посуд",
+                        "Душ",
+                        "Індивідуальне опалення",
+                        "Праска",
+                        "Фен",
+                        "Цілодобово холодна/гаряча вода",
+                        "Обідній стіл",
+                        "Постільна білизна",
+                        "Пральна машина",
+                        "Рушники",
+                        "Холодильник",
+                        "Шафа-купе",
+                      ].map((amenity, index) => (
+                        <div
+                          key={index}
+                          className="w-1/2 md:w-1/3 xl:w-1/4 p-2 flex flex-row"
+                        >
+                          <p className="text-xl text-amber-400 font-bold px-1">
+                            {" ✓ "}
+                          </p>
+                          <p className="text-base "> {amenity}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="mx-auto">
+              <div className="mx-auto py-5">
+                <p className=" pb-5  text-xl font-bold ">Адреса</p>
                 <Googlemap currentRoom={currentRoom} />
               </div>
             </div>
           )}
-
+          <div className="text-left text-lg font-roboto p-5">
+            <p>Royal apart комплексно подбає про ваше комфортне проживання.</p>
+            <p>До зустрічі у Львові: +38 (067)677-73-30.</p>
+          </div>
           <div>
             <div className="text-white h-[330px] px-8  lg:h-[500px] mx-auto  bg-shit2">
               <SliderCategories />
             </div>
           </div>
         </div>
+      </div>
+      <div className="fixed bottom-5 right-0 opacity-70 hover:opacity-100 md:right-5   w-48 ">
+        <button className=" h-10 bg-gradient-to-br from-amber-600 to-amber-400 rounded-md w-[70%] hover:shadow-lg shadow-md shadow-orange-500/90  hover:shadow-orange-500/90">
+          <Link to="/book">{t("book_now2")}</Link>
+        </button>
       </div>
     </div>
   );
