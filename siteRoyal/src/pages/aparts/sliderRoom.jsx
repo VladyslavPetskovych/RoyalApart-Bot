@@ -68,7 +68,7 @@ function Slider({ room, isMaximize }) {
               key={index}
               className={`object-cover ${
                 isMaximize
-                  ? "h-[300px] md:h-[450px] w-full"
+                  ? "h-[300px] md:h-[550px] w-full"
                   : "h-[300px] md:h-[340px] w-full"
               }  flex-none`}
               src={image.src}

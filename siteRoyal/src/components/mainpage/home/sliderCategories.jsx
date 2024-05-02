@@ -3,6 +3,7 @@ import axios from "axios";
 import { useTranslation } from 'react-i18next'; // Import useTranslation hook
 import "./sliderCategories.css";
 import Slider from "react-slick";
+import { Link } from 'react-router-dom';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -23,7 +24,7 @@ const Article = ({ data }) => {
         <h3>{name}</h3>
         <h5>{category}</h5>
       </figcaption>
-      <a href="#"></a>
+      <Link to="/aparts"></Link> 
     </figure>
   );
 };

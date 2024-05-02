@@ -12,12 +12,14 @@ function SingleRoom({ room }) {
 
       <div className="w-full  md:w-[300px] h-[50%] flex flex-col justify-between items-center p-3">
         <div>
-          <p className="font-semibold text-xl font-roboto">
-            {isEnglish
-              ? slugify(room.name).charAt(0).toUpperCase() +
-                slugify(room.name).slice(1)
-              : room.name}
-          </p>
+          <Link to={`/room/${room.wubid}`}>
+            <p className="font-semibold text-xl font-roboto">
+              {isEnglish
+                ? slugify(room.name).charAt(0).toUpperCase() +
+                  slugify(room.name).slice(1)
+                : room.name}
+            </p>
+          </Link>
           <div className="flex flex-col justify-start text-left font-roboto text-base">
             <div className="flex flex-row  items-center mt-5">
               <p className="mr-1 font-semibold">{t("price")}: </p>

@@ -34,7 +34,7 @@ const LanguageSelector = () => {
         />
       </button>
       {isOpen && (
-        <ul className="absolute right-0 z-10 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
+        <ul className="absolute right-0 z-10 mt-1 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none">
           {languages.map((language, index) => (
             <li
               key={index}
@@ -42,7 +42,7 @@ const LanguageSelector = () => {
               className="cursor-pointer select-none text-gray-900 hover:bg-gray-100 py-2 px-4"
             >
               <img
-                className="w-8 h-6 mr-2"
+                className="w-8 h-6 ml-8 "
                 src={language.flag}
                 alt="Language flag"
               />

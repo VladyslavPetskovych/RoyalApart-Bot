@@ -3,6 +3,8 @@ import axios from "axios";
 import SingleRoom from "./singleRoom";
 import SearchBar from "./searchBar";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import RoomPage from "../roomPage/roomPage";
 
 function RoomCard({ selectedNumRoom, selectedCategory }) {
   const [allRooms, setAllRooms] = useState([]);
