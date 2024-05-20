@@ -18,6 +18,21 @@ function Header() {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText("+38(067)677-73-30")
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000); // Hide message after 2 seconds
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
+  };
+
   return (
     <header className="absolute z-50 right-0 left-0 font-serif">
       <nav className="border-gray-200 px-4 lg:px-6 py-2.5 text-xl">
@@ -118,9 +133,19 @@ function Header() {
                   {t("rules")}
                 </Link>
               </li>
-              <li>
-                <p className="bg-mainC pt-5 font-sans text-base">
+              <li className="relative">
+                <p
+                  className="bg-mainC pt-5 font-sans text-base cursor-pointer"
+                  onClick={handleCopy}
+                >
                   📞 +38(067)677-73-30
+                </p>
+                <p
+                  className={`text-slate-500 absolute -mt-12 bg-mainC font-sans text-sm pt-1 transition-opacity duration-500 ease-in-out ${
+                    copied ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  Number copied to clipboard!
                 </p>
               </li>
               <li>
@@ -185,21 +210,27 @@ function Header() {
                   {t("rules")}
                 </Link>
               </li>
-              <li>
-                <p className="text-gray-400 font-sans text-base pt-0.2">
+              <li className="relative">
+                <p
+                  className="text-gray-400 font-sans text-base pt-0.2 cursor-pointer"
+                  onClick={handleCopy}
+                >
                   +38(067)677-73-30
+                </p>
+                <p
+                  className={`text-slate-500 absolute font-sans text-sm pt-1 transition-opacity duration-500 ease-in-out ${
+                    copied ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  Number copied to clipboard!
                 </p>
               </li>
               <li>
                 <LanguageSelector />
               </li>
-          
             </ul>
-            
           </div>
-       
         </div>
-       
       </nav>
     </header>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "./components/Header";
-import RoomCard from "./components/roomCard";
+import Header from "./components/mainpage/Header";
+import RoomCard from "./components/mainpage/roomCard";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

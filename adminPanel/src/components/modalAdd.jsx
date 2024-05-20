@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import FormComponent from "./FormComponent";
+import AddNewRoom from "./addNewRoom";
 // Modal.js
 const Modal = ({ isOpen, onClose, children }) => {
   const overlayStyle = isOpen ? "fixed inset-0 overflow-y-auto" : "hidden";
@@ -26,7 +26,7 @@ const Modal = ({ isOpen, onClose, children }) => {
                 </button>
               </div>
 
-              <FormComponent />
+              <AddNewRoom />
             </div>
             <div className="mt-4">{children}</div>
           </div>

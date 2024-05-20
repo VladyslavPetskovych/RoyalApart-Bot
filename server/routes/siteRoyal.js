@@ -83,40 +83,42 @@ async function createRoomFoldersAndCopyImages(rooms) {
   }
   
 
-async function copyData() {
-  try {
-    const rooms = await Room.find().lean();
-
-    const roomsWithoutIds = rooms.map((room) => {
-      const { _id, ...rest } = room;
-      return rest;
-    });
-    const db = connection.useDb("apartments");
-
-    const newCollection = db.collection("copy_aparts");
-
-    for (const room of roomsWithoutIds) {
-      const existingRoom = await newCollection.findOne({ name: room.name });
-      if (!existingRoom) {
-        await newCollection.insertOne(room);
-        console.log(`Room '${room.name}' copied successfully!`);
-      } else {
-        console.log(
-          `Room '${room.name}' already exists in the new collection. Skipping...`
-        );
+  async function copyData() {
+    try {
+      const rooms = await Room.find().lean();
+  
+      const roomsWithoutIds = rooms.map((room) => {
+        const { _id, ...rest } = room;
+        return rest;
+      });
+      const db = connection.useDb("apartments");
+      const newCollection = db.collection("copy_aparts");
+  
+      for (const room of roomsWithoutIds) {
+        const existingRoom = await newCollection.findOne({ name: room.name });
+        if (!existingRoom) {
+          await newCollection.insertOne(room);
+          console.log(`Room '${room.name}' copied successfully!`);
+        } else {
+          await newCollection.updateOne(
+            { name: room.name },
+            { $set: room }
+          );
+          console.log(`Room '${room.name}' updated successfully!`);
+        }
       }
+  
+      await createRoomFoldersAndCopyImages(roomsWithoutIds);
+      await updateImgUrlsInCopyAparts();
+      console.log("Data copied successfully!");
+  
+      return "Data copied successfully!";
+    } catch (error) {
+      console.error("Error copying data:", error);
+      throw error;
     }
-
-    await createRoomFoldersAndCopyImages(roomsWithoutIds);
-    await updateImgUrlsInCopyAparts();
-    console.log("Data copied successfully!");
-
-    return "Data copied successfully!";
-  } catch (error) {
-    console.error("Error copying data:", error);
-    throw error;
   }
-}
+  
 
 
 router.get("/copy-db", async (req, res) => {
@@ -153,5 +155,10 @@ router.get("/copied-rooms", async (req, res) => {
     });
   }
 });
+
+
+
+
+
 
 module.exports = router;

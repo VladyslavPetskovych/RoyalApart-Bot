@@ -9,26 +9,33 @@ const Maximizee = ({ isOpen, onClose, room }) => {
 
   useEffect(() => {
     const translateDescription = async () => {
-      if (i18n.language !== "uk") {
-        // Translate room description if the language is not Ukrainian
+      if (i18n.language !== "uk" && room.description) {
+        // Only attempt translation if the description is not empty and language is not Ukrainian
         try {
-          const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=en&dt=t&q=${encodeURIComponent(room.description)}`);
+          const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=${i18n.language}&dt=t&q=${encodeURIComponent(room.description)}`);
           const data = await response.json();
-          const translatedText = data[0][0][0];
-          setTranslatedDescription(translatedText);
+          // Check if there's any translation data and handle multiple translation segments
+          if (data[0]) {
+            const translatedText = data[0].map(segment => segment[0]).join(" ");
+            setTranslatedDescription(translatedText);
+          }
         } catch (error) {
           console.error("Error translating description:", error);
-          setTranslatedDescription(room.description); 
+          setTranslatedDescription(room.description);  // Fallback to the original description on error
         }
       } else {
-        setTranslatedDescription(room.description); 
+        setTranslatedDescription(room.description);  // Set original description if language is Ukrainian
       }
     };
 
-    translateDescription();
+    if (isOpen) {  // Only translate if the modal/dialog is open
+      translateDescription();
+    }
 
     return () => {
-      setTranslatedDescription("");
+      if (!isOpen) {
+        setTranslatedDescription("");  // Clear translation when the modal/dialog is closed
+      }
     };
   }, [isOpen, i18n.language, room.description]);
 

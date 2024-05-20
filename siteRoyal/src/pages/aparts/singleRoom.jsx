@@ -23,9 +23,7 @@ function SingleRoom({ room }) {
           <div className="flex flex-col justify-start text-left font-roboto text-base">
             <div className="flex flex-row  items-center mt-5">
               <p className="mr-1 font-semibold">{t("price")}: </p>
-              <p>
-                {room.price} {t("currency")}
-              </p>
+              {room.price > 10000 ? t("negotiable") : `${room.price} ${t("currency")}`}
             </div>
             <div className="flex flex-row  items-center">
               <p className="mr-1 font-semibold">{t("num_rooms")}: </p>
@@ -51,8 +49,8 @@ function SingleRoom({ room }) {
             </div>
           </div>
           <Link to={`/room/${room.wubid}`}>
-            <p className="text-blue-900 hover:underline cursor-pointer  font-roboto font-semibold text-left">
-              детальніше...
+            <p className="text-blue-900 hover:underline cursor-pointer text-base  font-roboto font-semibold text-left">
+              {t('more inf')}
             </p>
           </Link>
         </div>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import edit from "../assets/4226577.png";
-import del from "../assets/del.png";
+import edit from "../../assets/4226577.png";
+import del from "../../assets/del.png";
 import axios from "axios";
 
 function SingleRoom({ room, onDelete }) {
@@ -23,6 +23,7 @@ function SingleRoom({ room, onDelete }) {
   const [formData, setFormData] = useState({
     name: room.name,
     price: room.price,
+    description: room.description,
     numrooms: room.numrooms,
     floor: room.floor,
     guests: room.guests,
@@ -72,6 +73,7 @@ function SingleRoom({ room, onDelete }) {
     const formData = new FormData();
     formData.append("name", editedRoomData.name);
     formData.append("price", editedRoomData.price);
+    formData.append("description", editedRoomData.description);
     formData.append("numrooms", editedRoomData.numrooms);
     formData.append("floor", editedRoomData.floor);
     formData.append("guests", editedRoomData.guests);
@@ -112,7 +114,6 @@ function SingleRoom({ room, onDelete }) {
       }
     } catch (error) {
       console.error("Error deleting room:", error);
-      // Handle error (display error message, retry logic, etc.)
     }
   };
 

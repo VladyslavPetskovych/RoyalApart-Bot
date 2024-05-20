@@ -59,6 +59,34 @@
     "of": "of",
     "Next": "Next",
     "Last": "Last",
-    "No rooms found.": "No rooms found."
+    "No rooms found.": "No rooms found.",
+    "description2":"Description: ",
+    "roomss":"Rooms",
+    "guestss":"Guests",
+    "bedss":"Beds",
+    "in room": "Apartments have:",
+    "additional": "Additional amenities for your vacation ",
+    "amenities": {
+      "wifi": "WiFi",
+      "kettle": "Electric Kettle",
+      "microwave": "Microwave Oven",
+      "tv": "Plasma TV",
+      "dishes": "Dishes",
+      "shower": "Shower",
+      "heating": "Individual Heating",
+      "iron": "Iron",
+      "hair_dryer": "Hair Dryer",
+      "water": "24/7 Cold/Hot Water",
+      "dining_table": "Dining Table",
+      "bed_linen": "Bed Linen",
+      "washing_machine": "Washing Machine",
+      "towels": "Towels",
+      "fridge": "Refrigerator",
+      "wardrobe": "Wardrobe"
+    },
+    "royal_care": "Royal Apart will comprehensively ensure your comfortable stay.",
+    "see_you": "See you in Lviv:",
+    "more inf":  "More information...",
+    "negotiable": "Negotiable"
   }
   
