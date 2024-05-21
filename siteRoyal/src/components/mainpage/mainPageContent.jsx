@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
+
 function MainPageContent() {
   const { t } = useTranslation();
 
@@ -26,7 +27,7 @@ function MainPageContent() {
             </h2>
             <div className=" flex flex-row items-center justify-center">
               <div>
-                <button className=" inline-flex items-center justify-center p-0 mb-2 me-2 overflow-hidden  shadow-lg shadow-orange-500/50 hover:p-[3px] text-gray-900 rounded-lg  hover:text-black ">
+                <button className=" inline-flex items-center justify-center p-0 mb-2 me-2 overflow-hidden  shadow-lg shadow-orange-500/50 hover:p-[1px] text-gray-900 rounded-lg  hover:text-black ">
                   <span className="text-xl md:text-2xl px-6 py-4  text-textW  bg-gradient-to-r to-shit from-shit2 rounded-md  ">
                     <Link to="/book">{t("book_now")}</Link>
                   </span>

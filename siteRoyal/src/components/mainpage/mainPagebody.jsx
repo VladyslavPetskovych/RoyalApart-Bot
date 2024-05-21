@@ -3,156 +3,73 @@ import fon from "../../assets/hero_imgs/fon.jpg";
 import fon2 from "../../assets/hero_imgs/fon2.png";
 import fon3 from "../../assets/hero_imgs/fon3.png";
 import fon4 from "../../assets/hero_imgs/fon4.jpg";
-//import fon4 from "../../assets/hero_imgs/";
-import tele from "../../assets/telegram.png";
-import curs from "../../assets/cursor.332x512.png";
-import crown from "../../assets/crown.png";
+import Telegram from "./telegram";
 import MainPageContent from "./mainPageContent";
 import Courosel from "./courosel";
 import { useTranslation } from "react-i18next";
 import SliderCategories from "./home/sliderCategories";
+import WhyRoyal from "./whyRoyal";
 import "../../../src/hideScrollbar.css";
 import MySVG from "../../assets/svgg.svg";
-
 import "./mainPagebody.css";
 
-function mainPagebody() {
+function MainPageBody() {
   const { t } = useTranslation();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
-  const slides = [
-    {
-      image: fon,
-    },
-    {
-      image: fon2,
-    },
-    {
-      image: fon3,
-    },
-    {
-      image: fon4,
-    },
-  ];
+  const slides = [fon, fon2, fon3, fon4];
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      const nextSlide =
-        currentSlide + 1 === slides.length ? 0 : currentSlide + 1;
-      setCurrentSlide(nextSlide);
-    }, 2000);
+    // Preload images
+    const preloadImages = async () => {
+      const promises = slides.map((src) => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+        });
+      });
+      await Promise.all(promises);
+      setImagesLoaded(true);
+    };
 
-    return () => clearInterval(timer);
-  }, [currentSlide, slides.length]);
+    preloadImages();
+  }, [slides]);
 
-  const updateSlide = (newSlide) => {
-    clearInterval(timer);
-    const nextSlide = newSlide + 1 === slides.length ? 0 : newSlide + 1;
-    setCurrentSlide(nextSlide);
-
-    useEffect(() => {
+  useEffect(() => {
+    if (imagesLoaded) {
       const timer = setInterval(() => {
-        const nextSlide =
-          currentSlide + 1 === slides.length ? 0 : currentSlide + 1;
-        setCurrentSlide(nextSlide);
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
       }, 2000);
-
       return () => clearInterval(timer);
-    }, [currentSlide, slides.length]);
-  };
+    }
+  }, [imagesLoaded, slides.length]);
 
   return (
     <>
-      <div className="h-[700px] md:h-[1000px] ">
+      <div className="h-[700px] md:h-[1000px]">
         <div
-          className="text-textW relative h-full overflow-hidden bg-cover bg-no-repeat  text-center"
+          className="text-textW relative h-full overflow-hidden bg-cover bg-center bg-no-repeat text-center"
           style={{
-            backgroundImage: `url(${slides[currentSlide].image})`,
+            backgroundImage: `url(${slides[currentSlide]})`,
             transition: "background-image 0.5s ease",
           }}
         >
           <MainPageContent />
         </div>
       </div>
-      <div className="h-[180px] w-full bg-black flex items-center">
-        <img
-          src={tele}
-          alt=""
-          className="h-16  md:h-24 lg:h-32 w-auto  basis-1/2 md:basis-1/3 object-contain"
-        />
-        <div className="flex items-center justify-center">
-          <span className="text-xl md:text-[24px] text-textW font-serif leading-none">
-            {t("use_unique_bot")}{" "}
-            <a
-              href="https://t.me/RoyalApartBot"
-              className="text-blue-500 underline"
-            >
-              {t("booking_on_telegram")}
-            </a>
-          </span>
-        </div>
-
-        <img
-          src={curs}
-          alt=""
-          className=" h-4 md:h-8 w-auto object-contain float ml-[-3px] "
-        />
-      </div>
-      <div className=" left-0 top-0 w-full h-6 ">
-        <div className="bg-gradient-to-b from-black to-back w-full h-full transition-all duration-500"></div>
-      </div>
-
-      <div className="bg-back h-[600px] flex w-full lg:h-[420px] flex-col lg:flex-row ">
-        <div className=" flex flex-col items-center justify-center">
-          <p className="font-oswald sm:text-2xl text-black mt-8 lg:text-4xl w-[80%] flex items-center justify-center text-center">
-            {t("apartment_description")}
-          </p>
-        </div>
-        <div className="  md:mr-16 lg:mr-32 w-full flex  items-center justify-center">
-          <Courosel />
-        </div>
-      </div>
-
-      <div className=" left-0 top-0 w-full h-6 ">
-        <div className="bg-gradient-to-t from-black to-back w-full h-full transition-all duration-500"></div>
-      </div>
-
-      <div className="bg-black text-white py-2 ">
-        <div className="container mx-auto flex flex-col items-center justify-center  text-center my-32">
-          <img src={crown} alt="" className="h-16 w-16 object-contain" />
-          <h1 className=" text-3xl md:text-4xl lg:text-6xl font-oswald mb-16">
-            {t("why_royal_apart")}
-          </h1>
-          <p className="text-gray-300 mb-16 text-xl md:text-3xl w-[55%]  font-oswald">
-            {t("best_apartments")}
-          </p>
-          <div className="flex items-center justify-center">
-            <div className="text-center mr-8">
-              <h3 className="text-3xl md:text-5xl font-serif mb-4">7500</h3>
-              <p className="text-gray-300">{t("happy_guests")}</p>
-            </div>
-            <div className="text-center mr-8">
-              <h3 className="text-3xl md:text-5xl font-serif mb-4">
-                11 {t("years")}
-              </h3>
-              <p className="text-gray-300">{t("real_estate_market")}</p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-3xl md:text-5xl font-serif mb-4">24</h3>
-              <p className="text-gray-300">{t("support")}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="w-[94vw] h-[330px] px-8  lg:h-[500px] ">
+      <Telegram />
+      <Courosel />
+      <WhyRoyal />
+      <div className="w-[94vw] h-[330px] px-8 lg:h-[500px]">
         <SliderCategories />
       </div>
-
-      <div className=" left-0 top-0 w-full h-6 ">
+      <div className="left-0 top-0 w-full h-6 -mt-1">
         <div className="bg-gradient-to-b from-black to-back w-full h-full transition-all duration-500"></div>
       </div>
     </>
   );
 }
 
-export default mainPagebody;
+export default MainPageBody;
