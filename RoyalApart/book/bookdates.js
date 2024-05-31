@@ -23,9 +23,9 @@ function getMonth(month) {
   if (typeof month !== "number" || month < 1 || month > 12) {
     throw new Error("Invalid month. Please provide a number between 1 and 12.");
   }
-  if (month === 6) {
-    return 30;
-  }
+  // if (month === 6) {
+  //   return 30;
+  // }
   const lastDayOfMonth = new Date(new Date().getFullYear(), month, 0).getDate();
   return lastDayOfMonth;
 }
