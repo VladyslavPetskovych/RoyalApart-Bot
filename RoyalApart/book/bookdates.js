@@ -72,9 +72,17 @@ function updateMessage(chatId, messageId, monthName) {
   log(
     `Updating message for chatId: ${chatId}, month: ${UserDatas[chatId].currentMonth}`
   );
-  
-  const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth);
 
+  const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth);
+  console.log(currentMonth )
+  console.log(currentMonth )
+  console.log(currentMonth )
+  console.log(currentMonth )
+  console.log(currentMonth )
+
+  console.log(currentMonth )
+  console.log(currentMonth )
+  console.log(currentMonth )
   bot.editMessageText(
     `виберіть дату ${
       UserDatas[chatId].mode === "Check in" ? "заїзду" : "виїзду"
