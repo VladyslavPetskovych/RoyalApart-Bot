@@ -84,6 +84,10 @@ function handleDaySelection(chatId, selectedDay) {
   selectedDate.setFullYear(new Date().getFullYear());
   selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
   selectedDate.setDate(selectedDay);
+console.log(selectedDate)
+console.log(selectedDate)
+console.log(selectedDate)
+console.log(selectedDate)
 
   if (UserDatas[chatId].mode === "Check in") {
     UserDatas[chatId].checkInDate =
