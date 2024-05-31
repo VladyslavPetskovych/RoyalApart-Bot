@@ -61,6 +61,7 @@ bot.on("callback_query", async (msg) => {
 
   if (data === "send dates") {
     console.log("send dates");
+    console.log(UserDatas[chatId])
     let chkin = UserDatas[chatId].checkInDate;
     let chkout = UserDatas[chatId].checkOutDate;
     console.log("---------send dates--------------");
