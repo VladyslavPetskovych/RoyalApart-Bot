@@ -15,7 +15,7 @@ function initializeUserData(chatId) {
   };
 }
 
-const UserDatas = {}; // Changed to an object to store data per chatId
+const UserDatas = new Map(); // Changed to a Map to store data per chatId
 
 function getMonth(month) {
   if (typeof month !== "number" || month < 1 || month > 12) {
@@ -62,13 +62,15 @@ function generateDaysLayout(month) {
 
 function updateMessage(chatId, messageId, monthName) {
   log(
-    `Updating message for chatId: ${chatId}, month: ${UserDatas[chatId].currentMonth}`
+    `Updating message for chatId: ${chatId}, month: ${
+      UserDatas.get(chatId).currentMonth
+    }`
   );
-  const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth);
+  const inlineKeyboard = generateDaysLayout(UserDatas.get(chatId).currentMonth);
 
   bot.editMessageText(
     `виберіть дату ${
-      UserDatas[chatId].mode === "Check in" ? "заїзду" : "виїзду"
+      UserDatas.get(chatId).mode === "Check in" ? "заїзду" : "виїзду"
     } на ${monthName}:`,
     {
       chat_id: chatId,
@@ -81,19 +83,19 @@ function updateMessage(chatId, messageId, monthName) {
 function handleDaySelection(chatId, selectedDay) {
   log(`Handling day selection for chatId: ${chatId}, day: ${selectedDay}`);
   const selectedDate = new Date();
-  selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
+  selectedDate.setMonth(UserDatas.get(chatId).currentMonth - 1);
   selectedDate.setDate(selectedDay);
 
-  if (UserDatas[chatId].mode === "Check in") {
-    UserDatas[chatId].checkInDate =
+  if (UserDatas.get(chatId).mode === "Check in") {
+    UserDatas.get(chatId).checkInDate =
       "✅ " + selectedDate.toLocaleDateString("uk-UA");
-  } else if (UserDatas[chatId].mode === "Check out") {
-    UserDatas[chatId].checkOutDate =
+  } else if (UserDatas.get(chatId).mode === "Check out") {
+    UserDatas.get(chatId).checkOutDate =
       "✅ " + selectedDate.toLocaleDateString("uk-UA");
   }
 
   const displayedDateString = `${padZero(selectedDate.getDate())}.${padZero(
-    UserDatas[chatId].currentMonth
+    UserDatas.get(chatId).currentMonth
   )}.${selectedDate.getFullYear()}`;
 
   bot.sendMessage(chatId, `Ви обрали дату: ${displayedDateString}.`);
@@ -105,15 +107,15 @@ function padZero(num) {
 
 function handleDateSelection(chatId, mode) {
   log(`Handling date selection for chatId: ${chatId}, mode: ${mode}`);
-  if (!UserDatas[chatId]) {
-    UserDatas[chatId] = initializeUserData(chatId);
+  if (!UserDatas.has(chatId)) {
+    UserDatas.set(chatId, initializeUserData(chatId));
   }
 
-  UserDatas[chatId].mode = mode;
+  UserDatas.get(chatId).mode = mode;
 
   const monthName = new Date(
     new Date().getFullYear(),
-    UserDatas[chatId].currentMonth - 1,
+    UserDatas.get(chatId).currentMonth - 1,
     1
   ).toLocaleString("uk-UA", { month: "long" });
 
@@ -121,7 +123,7 @@ function handleDateSelection(chatId, mode) {
   bot.sendMessage(
     chatId,
     `виберіть дату ${check} на ${monthName} :`,
-    qOptionsDates(UserDatas[chatId].currentMonth, new Date().getDate())
+    qOptionsDates(UserDatas.get(chatId).currentMonth, new Date().getDate())
   );
 }
 
@@ -139,41 +141,41 @@ bot.on("callback_query", async (msg) => {
   const messageId = msg.message.message_id;
 
   // Initialize user data if not already done
-  if (!UserDatas[chatId]) {
-    UserDatas[chatId] = initializeUserData(chatId);
+  if (!UserDatas.has(chatId)) {
+    UserDatas.set(chatId, initializeUserData(chatId));
   }
-  console.log(UserDatas[chatId]);
+  console.log(UserDatas.get(chatId));
   if (data === "next" || data === "prev") {
     if (data === "next") {
-      UserDatas[chatId].currentMonth =
-        (UserDatas[chatId].currentMonth % 12) + 1;
+      UserDatas.get(chatId).currentMonth =
+        (UserDatas.get(chatId).currentMonth % 12) + 1;
     } else if (data === "prev") {
-      UserDatas[chatId].currentMonth =
-        ((UserDatas[chatId].currentMonth + 10) % 12) + 1;
+      UserDatas.get(chatId).currentMonth =
+        ((UserDatas.get(chatId).currentMonth + 10) % 12) + 1;
     }
 
-    log(`Current month after change: ${UserDatas[chatId].currentMonth}`);
+    log(`Current month after change: ${UserDatas.get(chatId).currentMonth}`);
 
     const monthName = new Date(
       new Date().getFullYear(),
-      UserDatas[chatId].currentMonth - 1,
+      UserDatas.get(chatId).currentMonth - 1,
       1
     ).toLocaleString("uk-UA", { month: "long" });
-    console.log(UserDatas[chatId]);
+    console.log(UserDatas.get(chatId));
     updateMessage(chatId, messageId, monthName);
   } else if (parseInt(data) > 0 && parseInt(data) < 32) {
-    console.log(UserDatas[chatId]);
+    console.log(UserDatas.get(chatId));
     const selectedDay = parseInt(data);
     handleDaySelection(chatId, selectedDay);
   }
 });
 
 function getCheckInDate(chatId) {
-  return UserDatas[chatId]?.checkInDate || "❌";
+  return UserDatas.get(chatId)?.checkInDate || "❌";
 }
 
 function getCheckOutDate(chatId) {
-  return UserDatas[chatId]?.checkOutDate || "❌";
+  return UserDatas.get(chatId)?.checkOutDate || "❌";
 }
 
 module.exports = {
