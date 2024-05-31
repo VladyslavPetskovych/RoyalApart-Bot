@@ -62,8 +62,8 @@ bot.on("callback_query", async (msg) => {
   if (data === "send dates") {
     console.log("send dates");
 
-    let chkin = UserDatas[chatId].checkInDate;
-    let chkout = UserDatas[chatId].checkOutDate;
+    let chkin = UserDatas.get(chatId)?.checkInDate;
+    let chkout = UserDatas.get(chatId)?.checkOutDate;
     console.log("---------send dates--------------");
     console.log(chkout);
     if (!chkin || !chkout) {
@@ -122,8 +122,8 @@ bot.on("callback_query", async (msg) => {
     userState[chatId] = data;
     handleDateSelection(chatId, userState[chatId]);
   } else if (data === "back") {
-    let chkin = UserDatas[chatId].checkInDate;
-    let chkout = UserDatas[chatId].checkOutDate;
+    let chkin = UserDatas.get(chatId)?.checkInDate;
+    let chkout = UserDatas.get(chatId)?.checkOutDate;
     console.log("---------back button--------------");
     console.log(chkout);
     sendBookingInstructions(chatId, chkin, chkout);
