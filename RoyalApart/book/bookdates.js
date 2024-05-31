@@ -98,7 +98,7 @@ function handleDaySelection(chatId, selectedDay) {
   log(`Handling day selection for chatId: ${chatId}, day: ${selectedDay}`);
   const selectedDate = new Date();
   selectedDate.setFullYear(new Date().getFullYear());
-  selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
+  selectedDate.setMonth(UserDatas[chatId].currentMonth);
   selectedDate.setDate(selectedDay);
   console.log(selectedDate);
   console.log(selectedDate);
@@ -113,7 +113,7 @@ function handleDaySelection(chatId, selectedDay) {
       "✅ " + selectedDate.toLocaleDateString("uk-UA");
   }
   console.log(UserDatas[chatId].currentMonth);
-  console.log("ffffffgdgdfddddddddddddddddddd")
+  console.log("ffffffgdgdfddddddddddddddddddd");
   const displayedDateString = `${padZero(selectedDate.getDate())}.${padZero(
     UserDatas[chatId].currentMonth
   )}.${selectedDate.getFullYear()}`;
