@@ -81,14 +81,9 @@ function updateMessage(chatId, messageId, monthName) {
 function handleDaySelection(chatId, selectedDay) {
   log(`Handling day selection for chatId: ${chatId}, day: ${selectedDay}`);
   const selectedDate = new Date();
-  console.log(selectedDate);
+  selectedDate.setFullYear(new Date().getFullYear());
   selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
-  console.log(selectedDate);
   selectedDate.setDate(selectedDay);
-  console.log(selectedDate);
-  console.log(selectedDate);
-  console.log(selectedDate);
-  console.log(selectedDate);
 
   if (UserDatas[chatId].mode === "Check in") {
     UserDatas[chatId].checkInDate =
@@ -148,7 +143,7 @@ bot.on("callback_query", async (msg) => {
   if (!UserDatas[chatId]) {
     UserDatas[chatId] = initializeUserData(chatId);
   }
-  console.log(UserDatas[chatId]);
+
   if (data === "next" || data === "prev") {
     if (data === "next") {
       UserDatas[chatId].currentMonth =
@@ -165,10 +160,9 @@ bot.on("callback_query", async (msg) => {
       UserDatas[chatId].currentMonth - 1,
       1
     ).toLocaleString("uk-UA", { month: "long" });
-    console.log(UserDatas[chatId]);
+
     updateMessage(chatId, messageId, monthName);
   } else if (parseInt(data) > 0 && parseInt(data) < 32) {
-    console.log(UserDatas[chatId]);
     const selectedDay = parseInt(data);
     handleDaySelection(chatId, selectedDay);
   }
