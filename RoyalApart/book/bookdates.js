@@ -112,7 +112,8 @@ function handleDaySelection(chatId, selectedDay) {
     UserDatas[chatId].checkOutDate =
       "✅ " + selectedDate.toLocaleDateString("uk-UA");
   }
-
+  console.log(UserDatas[chatId].currentMonth);
+  console.log("ffffffgdgdfddddddddddddddddddd")
   const displayedDateString = `${padZero(selectedDate.getDate())}.${padZero(
     UserDatas[chatId].currentMonth
   )}.${selectedDate.getFullYear()}`;
