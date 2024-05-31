@@ -31,19 +31,19 @@ function generateDaysLayout(month) {
   let keyboard = [];
   let day = 1;
   const maxDays = getMonth(month);
-console.log(maxDays)
-console.log(maxDays)
-console.log(maxDays)
+  console.log(maxDays);
+  console.log(maxDays);
+  console.log(maxDays);
 
-console.log(maxDays)
-console.log(maxDays)
+  console.log(maxDays);
+  console.log(maxDays);
   const d = new Date();
   if (d.getMonth() + 1 === month) {
     day = d.getDate();
   }
-  console.log(d )
-  console.log(d )
-  console.log(d )
+  console.log(d);
+  console.log(d);
+  console.log(d);
 
   for (day; day <= maxDays; day++) {
     buttonRow.push({ text: day.toString(), callback_data: day.toString() });
@@ -74,15 +74,14 @@ function updateMessage(chatId, messageId, monthName) {
   );
 
   const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth);
-  console.log(currentMonth )
-  console.log(currentMonth )
-  console.log(currentMonth )
-  console.log(currentMonth )
-  console.log(currentMonth )
-
-  console.log(currentMonth )
-  console.log(currentMonth )
-  console.log(currentMonth )
+  console.log(UserDatas[chatId].currentMonth);
+  console.log(UserDatas[chatId].currentMonth);
+  console.log(UserDatas[chatId].currentMonth);
+  console.log(UserDatas[chatId].currentMonth);
+  console.log(UserDatas[chatId].currentMonth);
+  console.log(UserDatas[chatId].currentMonth);
+  console.log(UserDatas[chatId].currentMonth);
+  console.log(UserDatas[chatId].currentMonth);
   bot.editMessageText(
     `виберіть дату ${
       UserDatas[chatId].mode === "Check in" ? "заїзду" : "виїзду"
@@ -101,10 +100,10 @@ function handleDaySelection(chatId, selectedDay) {
   selectedDate.setFullYear(new Date().getFullYear());
   selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
   selectedDate.setDate(selectedDay);
-console.log(selectedDate)
-console.log(selectedDate)
-console.log(selectedDate)
-console.log(selectedDate)
+  console.log(selectedDate);
+  console.log(selectedDate);
+  console.log(selectedDate);
+  console.log(selectedDate);
 
   if (UserDatas[chatId].mode === "Check in") {
     UserDatas[chatId].checkInDate =
