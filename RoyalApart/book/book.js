@@ -131,6 +131,9 @@ bot.on("callback_query", async (msg) => {
     let chkin = UserDatas[chatId].checkInDate;
     let chkout = UserDatas[chatId].checkOutDate;
     log(`Returning to booking instructions for chatId: ${chatId}`);
+    console.log("chek in and check out")
+    console.log("checkin",chkin)
+    console.log("checkout",chkout)
     sendBookingInstructions(chatId, chkin, chkout);
   } else if (data === "back_to_menu") {
     log(`Returning to main menu for chatId: ${chatId}`);
