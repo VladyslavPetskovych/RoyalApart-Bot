@@ -1,30 +1,20 @@
 const bot = require("../bot");
 
-let currentMonth = new Date().getMonth() + 1;
-let checkInDate;
-let checkOutDate;
 function initializeUserData(chatId) {
   return {
     checkInDate: "❌",
     checkOutDate: "❌",
-    currentMonth: new Date().getMonth() +1,
+    currentMonth: new Date().getMonth() + 1,
     mode: "",
     chatId: chatId,
   };
 }
-const UserDatas = {
-  checkInDate: null,
-  checkOutDate: null,
-  currentMonth: new Date().getMonth() + 1,
-  mode: "",
-};
+
+const UserDatas = {}; // Changed to an object to store data per chatId
 
 function getMonth(month) {
   if (typeof month !== "number" || month < 1 || month > 12) {
     throw new Error("Invalid month. Please provide a number between 1 and 12.");
-  }
-  if (month === 6) {
-    return 30;
   }
   const lastDayOfMonth = new Date(new Date().getFullYear(), month, 0).getDate();
   return lastDayOfMonth;
@@ -33,17 +23,14 @@ function getMonth(month) {
 function generateDaysLayout(month) {
   let buttonRow = [];
   let keyboard = [];
-
   let day = 1;
-
   const maxDays = getMonth(month);
-  console.log(maxDays);
 
   const d = new Date();
-  console.log(month);
   if (d.getMonth() + 1 === month) {
     day = d.getDate();
   }
+
   for (day; day <= maxDays; day++) {
     buttonRow.push({ text: day.toString(), callback_data: day.toString() });
     if (day % 7 === 0) {
@@ -51,9 +38,11 @@ function generateDaysLayout(month) {
       buttonRow = [];
     }
   }
+
   if (buttonRow.length > 0) {
     keyboard.push([...buttonRow]);
   }
+
   keyboard.push(
     [
       { text: "<<", callback_data: "prev" },
@@ -61,17 +50,23 @@ function generateDaysLayout(month) {
     ],
     [{ text: "Далі", callback_data: "back" }]
   );
+
   return keyboard;
 }
 
 function updateMessage(chatId, messageId, monthName) {
-  const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth, new Date().getDate());
+  const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth);
 
-  bot.editMessageText(`виберіть дату ${UserDatas[chatId].mode === "Check in" ? "заїзду" : "виїзду"} на ${monthName}:`, {
-    chat_id: chatId,
-    message_id: messageId,
-    reply_markup: { inline_keyboard: inlineKeyboard },
-  });
+  bot.editMessageText(
+    `виберіть дату ${
+      UserDatas[chatId].mode === "Check in" ? "заїзду" : "виїзду"
+    } на ${monthName}:`,
+    {
+      chat_id: chatId,
+      message_id: messageId,
+      reply_markup: { inline_keyboard: inlineKeyboard },
+    }
+  );
 }
 
 function handleDaySelection(chatId, selectedDay) {
@@ -80,32 +75,22 @@ function handleDaySelection(chatId, selectedDay) {
   selectedDate.setDate(selectedDay);
 
   if (UserDatas[chatId].mode === "Check in") {
-    UserDatas[chatId].checkInDate = "✅ " + selectedDate.toLocaleDateString("uk-UA");
+    UserDatas[chatId].checkInDate =
+      "✅ " + selectedDate.toLocaleDateString("uk-UA");
   } else if (UserDatas[chatId].mode === "Check out") {
-    UserDatas[chatId].checkOutDate = "✅ " + selectedDate.toLocaleDateString("uk-UA");
+    UserDatas[chatId].checkOutDate =
+      "✅ " + selectedDate.toLocaleDateString("uk-UA");
   }
 
   const displayedDateString = `${padZero(selectedDate.getDate())}.${padZero(
     UserDatas[chatId].currentMonth
   )}.${selectedDate.getFullYear()}`;
 
-  console.log(selectedDate);
-  bot.sendMessage(
-    chatId,
-    `Ви обрали дату: ${displayedDateString}. `
-  );
+  bot.sendMessage(chatId, `Ви обрали дату: ${displayedDateString}.`);
 }
 
 function padZero(num) {
   return num < 10 ? `0${num}` : num;
-}
-
-function getCheckInDate() {
-  return checkInDate;
-}
-
-function getCheckOutDate() {
-  return checkOutDate;
 }
 
 function handleDateSelection(chatId, mode) {
@@ -115,8 +100,11 @@ function handleDateSelection(chatId, mode) {
 
   UserDatas[chatId].mode = mode;
 
-  const monthName = new Date(new Date().getFullYear(), UserDatas[chatId].currentMonth - 1, 1)
-    .toLocaleString("uk-UA", { month: "long" });
+  const monthName = new Date(
+    new Date().getFullYear(),
+    UserDatas[chatId].currentMonth - 1,
+    1
+  ).toLocaleString("uk-UA", { month: "long" });
 
   let check = mode === "Check in" ? "заїзду" : "виїзду";
   bot.sendMessage(
@@ -158,7 +146,7 @@ bot.on("callback_query", async (msg) => {
     ).toLocaleString("uk-UA", { month: "long" });
 
     updateMessage(chatId, messageId, monthName);
-  } else if (data > 0 && data < 32) {
+  } else if (parseInt(data) > 0 && parseInt(data) < 32) {
     const selectedDay = parseInt(data);
     handleDaySelection(chatId, selectedDay);
   }
