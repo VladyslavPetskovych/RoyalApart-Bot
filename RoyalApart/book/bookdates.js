@@ -152,6 +152,14 @@ bot.on("callback_query", async (msg) => {
   }
 });
 
+function getCheckInDate(chatId) {
+  return UserDatas[chatId]?.checkInDate || "❌";
+}
+
+function getCheckOutDate(chatId) {
+  return UserDatas[chatId]?.checkOutDate || "❌";
+}
+
 module.exports = {
   handleDateSelection,
   getCheckInDate,
