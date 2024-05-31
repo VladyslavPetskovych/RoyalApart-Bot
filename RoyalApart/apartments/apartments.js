@@ -67,7 +67,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
       chatId,
       `../server/imgs/${imageUrl}`,
       {
-        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ці на: ${roomPrice}\n\n${roomDescription} \n\n\nДетальніше https://www.royalapart.online/room/${wubidroom}`,
+        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice}\n\n${roomDescription} \n\n\nДетальніше на сайті https://www.royalapart.online/room/${wubidroom}`,
         reply_markup: replyMarkup,
       }
     );
