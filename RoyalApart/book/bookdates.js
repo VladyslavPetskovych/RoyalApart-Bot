@@ -1,6 +1,11 @@
 const bot = require("../bot");
 
+function log(message) {
+  console.log(new Date().toISOString(), message);
+}
+
 function initializeUserData(chatId) {
+  log(`Initializing user data for chatId: ${chatId}`);
   return {
     checkInDate: "❌",
     checkOutDate: "❌",
@@ -21,6 +26,7 @@ function getMonth(month) {
 }
 
 function generateDaysLayout(month) {
+  log(`Generating days layout for month: ${month}`);
   let buttonRow = [];
   let keyboard = [];
   let day = 1;
@@ -55,6 +61,9 @@ function generateDaysLayout(month) {
 }
 
 function updateMessage(chatId, messageId, monthName) {
+  log(
+    `Updating message for chatId: ${chatId}, month: ${UserDatas[chatId].currentMonth}`
+  );
   const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth);
 
   bot.editMessageText(
@@ -70,6 +79,7 @@ function updateMessage(chatId, messageId, monthName) {
 }
 
 function handleDaySelection(chatId, selectedDay) {
+  log(`Handling day selection for chatId: ${chatId}, day: ${selectedDay}`);
   const selectedDate = new Date();
   selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
   selectedDate.setDate(selectedDay);
@@ -94,6 +104,7 @@ function padZero(num) {
 }
 
 function handleDateSelection(chatId, mode) {
+  log(`Handling date selection for chatId: ${chatId}, mode: ${mode}`);
   if (!UserDatas[chatId]) {
     UserDatas[chatId] = initializeUserData(chatId);
   }
@@ -138,6 +149,8 @@ bot.on("callback_query", async (msg) => {
     } else if (data === "prev" && UserDatas[chatId].currentMonth > 1) {
       UserDatas[chatId].currentMonth--;
     }
+
+    log(`Current month after change: ${UserDatas[chatId].currentMonth}`);
 
     const monthName = new Date(
       new Date().getFullYear(),
