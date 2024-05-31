@@ -12,10 +12,6 @@ const {
 } = require("./bookdates");
 const start = require("../genaral");
 
-function log(message) {
-  console.log(new Date().toISOString(), message);
-}
-
 const qOptions = {
   reply_markup: JSON.stringify({
     inline_keyboard: [
@@ -36,7 +32,8 @@ function sendBookingInstructions(
   checkInText = "❌",
   checkOutText = "❌"
 ) {
-  log(`Sending booking instructions to chatId: ${chatId}, checkInText: ${checkInText}, checkOutText: ${checkOutText}`);
+  console.log("---------sendBookingInstructions--------------")
+  console.log(checkOutText)
   bot.sendMessage(
     chatId,
     `Як забронювати?\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \nМенеджер зв'яжеться з Вами і розкаже подальші кроки\n\n Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText} - дата виїзду.`,
@@ -47,10 +44,8 @@ function sendBookingInstructions(
 bot.on("message", async (msg) => {
   const text = msg.text;
   const chatId = msg.chat.id;
-  log(`Received message: ${text} from chatId: ${chatId}`);
   if (text === "/book") {
     let context = "b";
-    log(`Setting context to 'b' for chatId: ${chatId}`);
     await axios.post(`http://localhost:3000/users/updateContext/${chatId}`, {
       context,
     });
@@ -62,15 +57,15 @@ bot.on("callback_query", async (msg) => {
   const data = msg.data;
   const chatId = msg.message.chat.id;
   const msgId = msg.message.id;
-  log(`Callback query data: ${data} for chatId: ${chatId}`);
   await bot.answerCallbackQuery({ callback_query_id: msg.id, cache_time: 1 });
 
   if (data === "send dates") {
-    log(`Processing 'send dates' for chatId: ${chatId}`);
+    console.log("send dates");
     let chkin = UserDatas[chatId].checkInDate;
     let chkout = UserDatas[chatId].checkOutDate;
+    console.log("---------send dates--------------")
+    console.log(chkout)
     if (!chkin || !chkout) {
-      log(`Error: Missing check-in or check-out date for chatId: ${chatId}`);
       await bot.sendMessage(
         chatId,
         "❌ПОМИЛКА! ОБЕРІТЬ ПРАВИЛЬНІ ДАТИ ПРОЖИВАННЯ!⚠️"
@@ -80,10 +75,13 @@ bot.on("callback_query", async (msg) => {
 
     let chkinString = chkin.replace("✅ ", "");
     let chkoutString = chkout.replace("✅ ", "");
+    console.log("---------✅--------------")
+    console.log(chkoutString)
+
     let chkinDate = moment(chkinString, "DD.MM.YYYY").toDate();
     let chkoutDate = moment(chkoutString, "DD.MM.YYYY").toDate();
-
-    log(`Check-in date: ${chkinString}, Check-out date: ${chkoutString}`);
+    console.log("---------moment--------------")
+    console.log(chkoutDate)
 
     if (chkinDate < chkoutDate) {
       const apiUrl = "http://localhost:3000/freeRooms";
@@ -95,27 +93,27 @@ bot.on("callback_query", async (msg) => {
         // You don't need to provide rtid as it will be fetched from the database on the server side
       };
 
-      log(`Fetching available rooms for dates: ${chkinDate2} to ${chkoutDate2}`);
       axios
         .post(apiUrl, postData)
         .then((response) => {
+          // console.log('Response:', response.data);
           const availableRoomsCount = response.data.data.length;
           let rooms = response.data.data;
           bot.sendMessage(
             chatId,
             `Усі квартири. Доступно ${availableRoomsCount} кімнат.`
           );
-          log(`Available rooms: ${JSON.stringify(rooms)}`);
+          console.log("!!!!!!!!!!!!!!!!!sdffdsfdsfdsfdsf");
+          console.log(rooms);
           checkFilter(chatId, msgId, rooms);
           //showApartments(chatId, rooms);
         })
         .catch((error) => {
-          log(`Error fetching available rooms: ${error.message}`);
+          console.error("Error:", error.message);
         });
       const data = { chatId: chatId, chkin: chkinString, chkout: chkoutString };
       await axios.post("http://localhost:3000/users", data);
     } else {
-      log(`Error: Check-in date is after check-out date for chatId: ${chatId}`);
       await bot.sendMessage(
         chatId,
         "❌ПОМИЛКА! ОБЕРІТЬ ПРАВИЛЬНІ ДАТИ ПРОЖИВАННЯ!⚠️"
@@ -124,21 +122,15 @@ bot.on("callback_query", async (msg) => {
     }
   }
   if (data === "Check in" || data === "Check out") {
-    log(`Handling date selection for chatId: ${chatId} with mode: ${data}`);
     userState[chatId] = data;
     handleDateSelection(chatId, userState[chatId]);
-    const checkOutDate = getCheckOutDate(chatId); // Assuming getCheckOutDate is a function that retrieves the check-out date
-    log(`!!!!!!!!!!!!!!!!!!  ${checkOutDate}`);
   } else if (data === "back") {
     let chkin = UserDatas[chatId].checkInDate;
     let chkout = UserDatas[chatId].checkOutDate;
-    log(`Returning to booking instructions for chatId: ${chatId}`);
-    console.log("chek in and check out")
-    console.log("checkin",chkin)
-    console.log("checkout",chkout)
+    console.log("---------back button--------------")
+    console.log(chkout)
     sendBookingInstructions(chatId, chkin, chkout);
   } else if (data === "back_to_menu") {
-    log(`Returning to main menu for chatId: ${chatId}`);
     start(chatId);
   }
 });
