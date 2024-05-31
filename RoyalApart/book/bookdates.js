@@ -144,10 +144,10 @@ bot.on("callback_query", async (msg) => {
   }
 
   if (data === "next" || data === "prev") {
-    if (data === "next" && UserDatas[chatId].currentMonth < 12) {
-      UserDatas[chatId].currentMonth++;
-    } else if (data === "prev" && UserDatas[chatId].currentMonth > 1) {
-      UserDatas[chatId].currentMonth--;
+    if (data === "next") {
+      UserDatas[chatId].currentMonth = (UserDatas[chatId].currentMonth % 12) + 1;
+    } else if (data === "prev") {
+      UserDatas[chatId].currentMonth = (UserDatas[chatId].currentMonth + 10) % 12 + 1;
     }
 
     log(`Current month after change: ${UserDatas[chatId].currentMonth}`);
@@ -164,6 +164,7 @@ bot.on("callback_query", async (msg) => {
     handleDaySelection(chatId, selectedDay);
   }
 });
+
 
 function getCheckInDate(chatId) {
   return UserDatas[chatId]?.checkInDate || "❌";

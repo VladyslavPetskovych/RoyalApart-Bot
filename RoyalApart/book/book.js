@@ -8,7 +8,7 @@ const {
   handleDateSelection,
   getCheckInDate,
   getCheckOutDate,
-  UserDatas, // Import UserDatas from bookdates module
+  UserDatas,
 } = require("./bookdates");
 const start = require("../genaral");
 
@@ -32,8 +32,8 @@ function sendBookingInstructions(
   checkInText = "❌",
   checkOutText = "❌"
 ) {
-  console.log("---------sendBookingInstructions--------------")
-  console.log(checkOutText)
+  console.log("---------sendBookingInstructions--------------");
+  console.log(checkOutText);
   bot.sendMessage(
     chatId,
     `Як забронювати?\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \nМенеджер зв'яжеться з Вами і розкаже подальші кроки\n\n Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText} - дата виїзду.`,
@@ -63,8 +63,8 @@ bot.on("callback_query", async (msg) => {
     console.log("send dates");
     let chkin = UserDatas[chatId].checkInDate;
     let chkout = UserDatas[chatId].checkOutDate;
-    console.log("---------send dates--------------")
-    console.log(chkout)
+    console.log("---------send dates--------------");
+    console.log(chkout);
     if (!chkin || !chkout) {
       await bot.sendMessage(
         chatId,
@@ -75,13 +75,13 @@ bot.on("callback_query", async (msg) => {
 
     let chkinString = chkin.replace("✅ ", "");
     let chkoutString = chkout.replace("✅ ", "");
-    console.log("---------✅--------------")
-    console.log(chkoutString)
+    console.log("---------✅--------------");
+    console.log(chkoutString);
 
     let chkinDate = moment(chkinString, "DD.MM.YYYY").toDate();
     let chkoutDate = moment(chkoutString, "DD.MM.YYYY").toDate();
-    console.log("---------moment--------------")
-    console.log(chkoutDate)
+    console.log("---------moment--------------");
+    console.log(chkoutDate);
 
     if (chkinDate < chkoutDate) {
       const apiUrl = "http://localhost:3000/freeRooms";
@@ -90,23 +90,19 @@ bot.on("callback_query", async (msg) => {
       const postData = {
         dfrom: chkinDate2,
         dto: chkoutDate2,
-        // You don't need to provide rtid as it will be fetched from the database on the server side
       };
 
       axios
         .post(apiUrl, postData)
         .then((response) => {
-          // console.log('Response:', response.data);
           const availableRoomsCount = response.data.data.length;
           let rooms = response.data.data;
           bot.sendMessage(
             chatId,
             `Усі квартири. Доступно ${availableRoomsCount} кімнат.`
           );
-          console.log("!!!!!!!!!!!!!!!!!sdffdsfdsfdsfdsf");
-          console.log(rooms);
+          console.log("Available rooms:", rooms);
           checkFilter(chatId, msgId, rooms);
-          //showApartments(chatId, rooms);
         })
         .catch((error) => {
           console.error("Error:", error.message);
@@ -127,8 +123,8 @@ bot.on("callback_query", async (msg) => {
   } else if (data === "back") {
     let chkin = UserDatas[chatId].checkInDate;
     let chkout = UserDatas[chatId].checkOutDate;
-    console.log("---------back button--------------")
-    console.log(chkout)
+    console.log("---------back button--------------");
+    console.log(chkout);
     sendBookingInstructions(chatId, chkin, chkout);
   } else if (data === "back_to_menu") {
     start(chatId);
