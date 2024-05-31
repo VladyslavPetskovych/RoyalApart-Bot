@@ -8,7 +8,7 @@ const {
   handleDateSelection,
   getCheckInDate,
   getCheckOutDate,
-  UserDatas, // Import UserDatas from bookdates module
+  UserDatas,
 } = require("./bookdates");
 const start = require("../genaral");
 
@@ -36,7 +36,9 @@ function sendBookingInstructions(
   checkInText = "❌",
   checkOutText = "❌"
 ) {
-  log(`Sending booking instructions to chatId: ${chatId}, checkInText: ${checkInText}, checkOutText: ${checkOutText}`);
+  log(
+    `Sending booking instructions to chatId: ${chatId}, checkInText: ${checkInText}, checkOutText: ${checkOutText}`
+  );
   bot.sendMessage(
     chatId,
     `Як забронювати?\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \nМенеджер зв'яжеться з Вами і розкаже подальші кроки\n\n Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText} - дата виїзду.`,
@@ -92,10 +94,11 @@ bot.on("callback_query", async (msg) => {
       const postData = {
         dfrom: chkinDate2,
         dto: chkoutDate2,
-        // You don't need to provide rtid as it will be fetched from the database on the server side
       };
 
-      log(`Fetching available rooms for dates: ${chkinDate2} to ${chkoutDate2}`);
+      log(
+        `Fetching available rooms for dates: ${chkinDate2} to ${chkoutDate2}`
+      );
       axios
         .post(apiUrl, postData)
         .then((response) => {
@@ -107,7 +110,6 @@ bot.on("callback_query", async (msg) => {
           );
           log(`Available rooms: ${JSON.stringify(rooms)}`);
           checkFilter(chatId, msgId, rooms);
-          //showApartments(chatId, rooms);
         })
         .catch((error) => {
           log(`Error fetching available rooms: ${error.message}`);
@@ -127,13 +129,14 @@ bot.on("callback_query", async (msg) => {
     log(`Handling date selection for chatId: ${chatId} with mode: ${data}`);
     userState[chatId] = data;
     handleDateSelection(chatId, userState[chatId]);
+    if (data === "Check out") {
+      const checkOutDate = getCheckOutDate(chatId); // Assuming getCheckOutDate is a function that retrieves the check-out date
+      log(`Check-out date for chatId ${chatId}: ${checkOutDate}`);
+    }
   } else if (data === "back") {
     let chkin = UserDatas[chatId].checkInDate;
     let chkout = UserDatas[chatId].checkOutDate;
     log(`Returning to booking instructions for chatId: ${chatId}`);
-    console.log("chek in and check out")
-    console.log("checkin",chkin)
-    console.log("checkout",chkout)
     sendBookingInstructions(chatId, chkin, chkout);
   } else if (data === "back_to_menu") {
     log(`Returning to main menu for chatId: ${chatId}`);
