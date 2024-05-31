@@ -120,8 +120,6 @@ bot.on("callback_query", async (msg) => {
   }
   if (data === "Check in" || data === "Check out") {
     userState[chatId] = data;
-    console.log(UserDatas[chatId])
-    console.log(UserDatas[chatId])
     handleDateSelection(chatId, userState[chatId]);
   } else if (data === "back") {
     let chkin = UserDatas[chatId].checkInDate;

@@ -142,12 +142,14 @@ bot.on("callback_query", async (msg) => {
   if (!UserDatas[chatId]) {
     UserDatas[chatId] = initializeUserData(chatId);
   }
-
+  console.log(UserDatas[chatId]);
   if (data === "next" || data === "prev") {
     if (data === "next") {
-      UserDatas[chatId].currentMonth = (UserDatas[chatId].currentMonth % 12) + 1;
+      UserDatas[chatId].currentMonth =
+        (UserDatas[chatId].currentMonth % 12) + 1;
     } else if (data === "prev") {
-      UserDatas[chatId].currentMonth = (UserDatas[chatId].currentMonth + 10) % 12 + 1;
+      UserDatas[chatId].currentMonth =
+        ((UserDatas[chatId].currentMonth + 10) % 12) + 1;
     }
 
     log(`Current month after change: ${UserDatas[chatId].currentMonth}`);
@@ -157,14 +159,14 @@ bot.on("callback_query", async (msg) => {
       UserDatas[chatId].currentMonth - 1,
       1
     ).toLocaleString("uk-UA", { month: "long" });
-
+    console.log(UserDatas[chatId]);
     updateMessage(chatId, messageId, monthName);
   } else if (parseInt(data) > 0 && parseInt(data) < 32) {
+    console.log(UserDatas[chatId]);
     const selectedDay = parseInt(data);
     handleDaySelection(chatId, selectedDay);
   }
 });
-
 
 function getCheckInDate(chatId) {
   return UserDatas[chatId]?.checkInDate || "❌";
