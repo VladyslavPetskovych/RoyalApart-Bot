@@ -98,8 +98,9 @@ function handleDaySelection(chatId, selectedDay) {
   log(`Handling day selection for chatId: ${chatId}, day: ${selectedDay}`);
   const selectedDate = new Date();
   selectedDate.setFullYear(new Date().getFullYear());
-  selectedDate.setMonth(UserDatas[chatId].currentMonth);
+  selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
   selectedDate.setDate(selectedDay);
+  console.log(selectedDay, UserDatas[chatId].currentMonth - 1);
   console.log(selectedDate);
   console.log(selectedDate);
   console.log(selectedDate);
