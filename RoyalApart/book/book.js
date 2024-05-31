@@ -36,7 +36,7 @@ function sendBookingInstructions(
   checkInText = "❌",
   checkOutText = "❌"
 ) {
-  log(`Sending booking instructions to chatId: ${chatId}`);
+  log(`Sending booking instructions to chatId: ${chatId}, checkInText: ${checkInText}, checkOutText: ${checkOutText}`);
   bot.sendMessage(
     chatId,
     `Як забронювати?\n1. Оберіть дати\n2. Вкажіть апартеманти \n3. Заповніть форму \nМенеджер зв'яжеться з Вами і розкаже подальші кроки\n\n Вкажіть дати бронювання: \n${checkInText} - дата заїзду. \n${checkOutText} - дата виїзду.`,
@@ -82,6 +82,8 @@ bot.on("callback_query", async (msg) => {
     let chkoutString = chkout.replace("✅ ", "");
     let chkinDate = moment(chkinString, "DD.MM.YYYY").toDate();
     let chkoutDate = moment(chkoutString, "DD.MM.YYYY").toDate();
+
+    log(`Check-in date: ${chkinString}, Check-out date: ${chkoutString}`);
 
     if (chkinDate < chkoutDate) {
       const apiUrl = "http://localhost:3000/freeRooms";
