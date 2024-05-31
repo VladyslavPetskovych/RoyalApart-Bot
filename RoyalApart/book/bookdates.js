@@ -81,8 +81,14 @@ function updateMessage(chatId, messageId, monthName) {
 function handleDaySelection(chatId, selectedDay) {
   log(`Handling day selection for chatId: ${chatId}, day: ${selectedDay}`);
   const selectedDate = new Date();
+  console.log(selectedDate);
   selectedDate.setMonth(UserDatas[chatId].currentMonth - 1);
+  console.log(selectedDate);
   selectedDate.setDate(selectedDay);
+  console.log(selectedDate);
+  console.log(selectedDate);
+  console.log(selectedDate);
+  console.log(selectedDate);
 
   if (UserDatas[chatId].mode === "Check in") {
     UserDatas[chatId].checkInDate =
@@ -149,7 +155,7 @@ bot.on("callback_query", async (msg) => {
         (UserDatas[chatId].currentMonth % 12) + 1;
     } else if (data === "prev") {
       UserDatas[chatId].currentMonth =
-        (UserDatas[chatId].currentMonth + 10) % 12 + 1;
+        ((UserDatas[chatId].currentMonth + 10) % 12) + 1;
     }
 
     log(`Current month after change: ${UserDatas[chatId].currentMonth}`);
