@@ -31,11 +31,19 @@ function generateDaysLayout(month) {
   let keyboard = [];
   let day = 1;
   const maxDays = getMonth(month);
+console.log(maxDays)
+console.log(maxDays)
+console.log(maxDays)
 
+console.log(maxDays)
+console.log(maxDays)
   const d = new Date();
   if (d.getMonth() + 1 === month) {
     day = d.getDate();
   }
+  console.log(d )
+  console.log(d )
+  console.log(d )
 
   for (day; day <= maxDays; day++) {
     buttonRow.push({ text: day.toString(), callback_data: day.toString() });
@@ -64,6 +72,7 @@ function updateMessage(chatId, messageId, monthName) {
   log(
     `Updating message for chatId: ${chatId}, month: ${UserDatas[chatId].currentMonth}`
   );
+  
   const inlineKeyboard = generateDaysLayout(UserDatas[chatId].currentMonth);
 
   bot.editMessageText(
