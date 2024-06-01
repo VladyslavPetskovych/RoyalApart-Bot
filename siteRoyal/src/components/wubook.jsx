@@ -13,23 +13,34 @@ function Wubook() {
       src: "https://wubook.net/neb/bk?f=&n=1&ep=95d630b4&iframe_session=-1",
       scrolling: "no",
       width: "100%",
-      height: "1000px",
+      height: "1500px",
       marginheight: "0",
       marginwidth: "0",
       frameborder: "0",
       horizontalscrolling: "no",
       verticalscrolling: "no",
-      allow: "autoplay; fullscreen; accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share",
-      allowfullscreen: ""
+      allow:
+        "autoplay; fullscreen; accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share",
+      allowfullscreen: "",
     };
 
-    const targetElement = document.querySelector("#the_place_where_iframe_will_be_installed");
+    const targetElement = document.querySelector(
+      "#the_place_where_iframe_will_be_installed"
+    );
     const iframe = createIframe(iframeConfig);
 
     targetElement.appendChild(iframe);
 
+    // Add event listener to adjust iframe height based on content
+    window.addEventListener("message", (event) => {
+      if (event.data && event.data.type === "setHeight" && event.data.height) {
+        iframe.style.height = `${event.data.height}px`;
+      }
+    });
+
     return () => {
       targetElement.removeChild(iframe);
+      window.removeEventListener("message", adjustIframeHeight);
     };
   }, []);
 
@@ -47,8 +58,10 @@ function Wubook() {
   return (
     <div className="bg-shit2 flex justify-center">
       <div className="w-full h-full mt-20">
-        <p className="text-2xl font-roboto my-10">Бронюй квартиру швидко і зручно</p>
-        <div id="the_place_where_iframe_will_be_installed" ></div>
+        <p className="text-2xl font-roboto my-10">
+          Бронюй квартиру швидко і зручно
+        </p>
+        <div id="the_place_where_iframe_will_be_installed"></div>
       </div>
     </div>
   );
