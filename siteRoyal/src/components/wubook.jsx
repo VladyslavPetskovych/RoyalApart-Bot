@@ -11,9 +11,9 @@ function Wubook() {
     const iframeConfig = {
       id: "nebi_11310131",
       src: "https://wubook.net/neb/bk?f=&n=1&ep=95d630b4&iframe_session=-1",
-      scrolling: "no",
+      scrolling: "yes",
       width: "100%",
-      height: "1500px",
+      height: "1000px",
       marginheight: "0",
       marginwidth: "0",
       frameborder: "0",
@@ -31,16 +31,8 @@ function Wubook() {
 
     targetElement.appendChild(iframe);
 
-    // Add event listener to adjust iframe height based on content
-    window.addEventListener("message", (event) => {
-      if (event.data && event.data.type === "setHeight" && event.data.height) {
-        iframe.style.height = `${event.data.height}px`;
-      }
-    });
-
     return () => {
       targetElement.removeChild(iframe);
-      window.removeEventListener("message", adjustIframeHeight);
     };
   }, []);
 
