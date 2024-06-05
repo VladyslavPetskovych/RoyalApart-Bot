@@ -20,8 +20,8 @@ function Header({ onLoginSuccess, isLoggedIn }) {
       );
 
       if (response.status === 200) {
-        localStorage.setItem("token", response.data.token); // Store token in local storage
-        onLoginSuccess(); // Trigger login success callback
+        localStorage.setItem("token", response.data.token); 
+        onLoginSuccess(); 
       } else {
         setError("Invalid credentials");
       }
@@ -32,16 +32,16 @@ function Header({ onLoginSuccess, isLoggedIn }) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-black">
+    <nav className="sticky top-0 z-50 bg-black ">
       <div className="flex justify-between items-center p-3">
-        <form onSubmit={handleSubmit} className="flex items-center">
+        <form onSubmit={handleSubmit} className="flex items-center flex-col md:flex-row">
           <input
             type="text"
             name="login"
             placeholder="Login"
             value={credentials.login}
             onChange={handleChange}
-            className=" h-10 px-2 mr-2 text-lg font-bold  outline-none"
+            className=" h-10 px-2 mr-2 text-lg font-bold  outline-none my-1"
           />
           <input
             type="password"
@@ -49,7 +49,7 @@ function Header({ onLoginSuccess, isLoggedIn }) {
             placeholder="Password"
             value={credentials.password}
             onChange={handleChange}
-            className=" h-10 px-2 mr-2 text-lg font-bold  outline-none"
+            className=" h-10 px-2 mr-2 text-lg font-bold  outline-none my-1"
           />
           <button
             type="submit"

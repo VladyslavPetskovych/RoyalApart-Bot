@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import AddNewRoom from "./addNewRoom";
-// Modal.js
+
 const Modal = ({ isOpen, onClose, children }) => {
   const overlayStyle = isOpen ? "fixed inset-0 overflow-y-auto" : "hidden";
   const modalStyle = isOpen ? "fixed inset-0 bg-black opacity-75" : "hidden";
@@ -15,11 +15,11 @@ const Modal = ({ isOpen, onClose, children }) => {
         <div className="flex items-center justify-center min-h-screen mt-5">
           <div className={modalStyle}></div>
           <div className={contentStyle}>
-            <div className="flex flex-col h-96 ">
-              <div className="flex flex-row h-16 items-center  justify-between">
-                <p>Додати нову квартиру</p>
+            <div className="flex flex-col h-96 m-2">
+              <div className="flex flex-row h-16 items-center mt-32 justify-between">
+                <p className="text-2xl font-bold">Додати нову квартиру</p>
                 <button
-                  className="bg-red-500 border h-12 w-40 text-lg  m-10 hover:text-gray-700 focus:outline-none"
+                  className="bg-red-500  border h-12 w-40 text-lg  m-10 hover:text-gray-700 focus:outline-none"
                   onClick={onClose}
                 >
                   Вийти 🗙

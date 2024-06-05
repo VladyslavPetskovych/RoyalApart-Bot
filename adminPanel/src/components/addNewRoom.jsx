@@ -71,10 +71,10 @@ export default function FormComponent() {
     }
   };
   return (
-    <form className="flex flex-row" onSubmit={handleSubmit}>
-      <div className=" flex flex-col w-[60%] bg-slate-400 p-3">
+    <form className="flex flex-row p-1 mt-2" onSubmit={handleSubmit}>
+      <div className=" flex flex-col w-[60%] h-full bg-slate-400 p-3">
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2  text-sm font-medium w-[130px] text-gray-900 mr-3">
             Адреса
           </label>
           <input
@@ -85,7 +85,7 @@ export default function FormComponent() {
           />
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             Опис
           </label>
           <textarea
@@ -96,13 +96,13 @@ export default function FormComponent() {
           ></textarea>
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             Кількість кімнат
           </label>
           <input type="number" onChange={(e) => setRoomcount(e.target.value)} />
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             Категорія
           </label>
           <select
@@ -116,37 +116,37 @@ export default function FormComponent() {
           </select>
         </div>
         <div className="flex flex-row mt-2 ">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             Ціна
           </label>
           <input type="number" onChange={(e) => setPrice(e.target.value)} />
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             Поверх
           </label>
           <input type="number" onChange={(e) => setFloor(e.target.value)} />
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             Кількість ліжок
           </label>
           <input type="number" onChange={(e) => setBeds(e.target.value)} />
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             Кількість гостей
           </label>
           <input type="number" onChange={(e) => setGuests(e.target.value)} />
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             площа
           </label>
           <input type="number" onChange={(e) => setSquare(e.target.value)} />
         </div>
         <div className="flex flex-row mt-2">
-          <label className="block mb-2 text-sm font-medium w-[150px] text-gray-900 mr-3">
+          <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
             wuBook id
           </label>
           <input type="number" onChange={(e) => setWubid(e.target.value)} />
