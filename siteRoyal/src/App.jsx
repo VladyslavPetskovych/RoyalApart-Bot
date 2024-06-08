@@ -1,5 +1,5 @@
 import Header from "./components/header";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes  } from "react-router-dom";
 import Footer from "./components/footer";
 import Wubook from "./components/wubook";
 import Book from "./pages/book/book";
@@ -15,7 +15,6 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPagebody />} />
         <Route path="/aparts" element={<Aparts />} />
-        <Route path="/book" element={<Book />}></Route>
         <Route path="/rules" element={<Rules />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/room/:roomId" element={<RoomPage />} />

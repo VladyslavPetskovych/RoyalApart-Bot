@@ -98,16 +98,18 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/book"
+                <a
+                  href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`block py-2 pr-4 pl-3 ${
                     isActiveRoute("/book")
                       ? "text-white bg-mainC"
                       : "text-gray-400 hover:bg-gray-50"
                   } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0`}
                 >
-                  {t("book")}
-                </Link>
+                  {t("book_now2")}
+                </a>
               </li>
               <li>
                 <Link
@@ -190,8 +192,10 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/book"
+                <a
+                  href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`block py-2 pr-4 pl-3 ${
                     isActiveRoute("/book")
                       ? "text-white bg-mainC"
@@ -199,8 +203,8 @@ function Header() {
                   } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0`}
                   onClick={closeMobileMenu}
                 >
-                  {t("book")}
-                </Link>
+                  {t("book_now2")}
+                </a>
               </li>
               <li>
                 <Link
