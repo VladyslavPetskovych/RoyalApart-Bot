@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Wubook from "./wubook";
+import Popup from "./popup";
 
 export default function FormComponent() {
   const [image, setImage] = useState("");
@@ -71,18 +72,25 @@ export default function FormComponent() {
     }
   };
   return (
-    <form className="flex flex-row p-1 mt-2" onSubmit={handleSubmit}>
-      <div className=" flex flex-col w-[60%] h-full bg-slate-400 p-3">
+    <form className="flex flex-col md:flex-row p-1 mt-2" onSubmit={handleSubmit}>
+      <div className=" flex flex-col md:w-[60%] w-[90%] h-full bg-slate-400  p-3">
         <div className="flex flex-row mt-2">
           <label className="block mb-2  text-sm font-medium w-[130px] text-gray-900 mr-3">
             Адреса
           </label>
+
           <input
             type="text"
             value={address}
             required
             onChange={(e) => setAdress(e.target.value)}
           />
+     
+            <Popup
+           
+              content="Адреса не має містити ці символи: / \  Найкраще записувати квартиру ось так Ковжуна 2 _ 6"
+            />
+         
         </div>
         <div className="flex flex-row mt-2">
           <label className="block mb-2 text-sm font-medium w-[130px] text-gray-900 mr-3">
@@ -151,25 +159,14 @@ export default function FormComponent() {
           </label>
           <input type="number" onChange={(e) => setWubid(e.target.value)} />
           <button className="bg-red-500 m-2" onClick={handleOpenModal}>
-           знайти ID
+            знайти ID
           </button>
           <Wubook isOpen={isModalOpen} onClose={handleCloseModal}>
             <div className="text-xl">Hello, World!</div>
           </Wubook>
         </div>
-        <div className="bg-slate-300">
-          <p>Вписані дані</p>
-          <p>{address}</p>
-          <p>{body}</p>
-          <p>{category}</p>
-          <p>{roomcount}</p>
-          <p>{price}</p>
-          <p>{beds}</p>
-          <p>{guests}</p>
-          <p>{square}</p>
-        </div>
       </div>
-      <div className="bg-slate-600 w-[30%] flex-row text-white p-3">
+      <div className="bg-slate-600 w-[90%] md:w-[30%] flex-row text-white p-3">
         <h3 className="mb-5">
           Назвіть файл англійською - наприклад (leontov5.jpg)
         </h3>
@@ -186,7 +183,7 @@ export default function FormComponent() {
         </div>
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 text-2xl font-medium rounded-lg  px-5 py-2.5 me-2 mb-20 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         >
           Записати Квартиру!
         </button>

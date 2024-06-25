@@ -22,6 +22,7 @@ const roomOptions = {
   }),
 };
 
+
 const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
   const imageUrl = room.imgurl[0];
   const roomName = room.name;
@@ -38,8 +39,11 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
   const context = roomPrices.context; // Get the context from the roomPrices object
   const prices = roomPrices.pricesData[room.globalId];
   let roomPrice;
+  let roomPriceString = "";
 
-  if (context !== "a") {
+  if (context === 'a') {
+    roomPriceString = ""; // Hide price if context is "a"
+  } else {
     if (prices && prices[0] > 10000) {
       roomPrice = "договірна. Лише довготривала оренда";
     } else if (prices) {
@@ -47,12 +51,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
     } else {
       roomPrice = "Ціна недоступна";
     }
-  } else {
-    if (roomPriceoriginal > 10000) {
-      roomPrice = "Ціна договірна. Лише довготривала оренда";
-    } else {
-      roomPrice = roomPriceoriginal;
-    }
+    roomPriceString = `💸 Ціна: ${roomPrice}`;
   }
 
   console.log("Prices:", roomPrice);
@@ -67,7 +66,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
       chatId,
       `../server/imgs/${imageUrl}`,
       {
-        caption: ` Адреса: ${roomName}\n\nКількість кімнат:  ${numroom}\n\nПлоща ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n💸 Ціна: ${roomPrice}\n\n${roomDescription} \n\n\n [Детальніше на сайті](https://www.royalapart.online/room/${wubidroom}) `,
+        caption: `Адреса: ${roomName}\n\nКількість кімнат: ${numroom}\n\nПлоща: ${roomSurface}m²\nКількість ліжок: ${roomBeds}\nКількість гостей: ${roomGuests}\nПоверх: ${roomFloor}\n${roomPriceString}\n\n${roomDescription}\n\n\n[Детальніше на сайті](https://www.royalapart.online/room/${wubidroom})`,
         reply_markup: replyMarkup,
         parse_mode: "Markdown",
         disable_web_page_preview: true,
@@ -97,6 +96,7 @@ const sendRoomDetails = async (chatId, room, updatedRoomOptions = null) => {
     return null;
   }
 };
+
 
 const fetchRoomData = async () => {
   const apiUrl = "http://localhost:3000/aparts";
