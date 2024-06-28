@@ -12,6 +12,7 @@ import WhyRoyal from "./whyRoyal";
 import "../../../src/hideScrollbar.css";
 import MySVG from "../../assets/svgg.svg";
 import "./mainPagebody.css";
+import SEO from "../SEO";
 
 function MainPageBody() {
   const { t } = useTranslation();
@@ -48,6 +49,7 @@ function MainPageBody() {
 
   return (
     <>
+      <SEO />
       <div className="h-[700px] md:h-[1000px]">
         <div
           className="text-textW relative h-full overflow-hidden bg-cover bg-center bg-no-repeat text-center"

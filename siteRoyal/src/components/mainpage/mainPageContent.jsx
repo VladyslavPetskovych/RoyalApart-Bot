@@ -24,7 +24,8 @@ function MainPageContent() {
                 {t("apartment_rental")}
               </h2>
               <h6 className="text-xl w-[90%] md:w-[50%] ">
-                {t("innovative_telegram_bot")}
+                {/* {t("innovative_telegram_bot")} */}
+                З Royal Apart Ви можете легко знайти свою ідеальну квартиру за допомогою нашого інноваційного бота Telegram, який забезпечує швидку оренду прямо у вас під рукою.
               </h6>
             </div>
 
