@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
+import logo from '../assets/logo/Color logo - no background.png'
 
 function Header() {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ function Header() {
         <div className="flex flex-wrap justify-between lg:justify-center items-center mx-auto max-w-screen-xl">
           <Link to="/" className="flex items-center">
             <img
-              src="https://royal-apart.com/wp-content/uploads/2022/02/Дизайн-без-названия-41-300x300-1.png"
+              src={logo}
               className="mr-3 h-[60px] sm:h-[60px]"
               alt="Logo"
             />
