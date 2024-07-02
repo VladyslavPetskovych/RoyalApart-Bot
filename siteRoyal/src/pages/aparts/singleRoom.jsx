@@ -21,10 +21,7 @@ function SingleRoom({ room }) {
             </p>
           </Link>
           <div className="flex flex-col justify-start text-left font-roboto text-base">
-            <div className="flex flex-row  items-center mt-5">
-              <p className="mr-1 font-semibold">{t("price")}: </p>
-              {room.price > 10000 ? t("negotiable") : `${room.price} ${t("currency")}`}
-            </div>
+          
             <div className="flex flex-row  items-center">
               <p className="mr-1 font-semibold">{t("num_rooms")}: </p>
               <p>{room.numrooms} </p>
