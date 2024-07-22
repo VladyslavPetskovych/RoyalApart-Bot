@@ -32,9 +32,9 @@ function AddSale() {
 
   return (
     <div>
-      <div className="bg-yellow-400 mx-5 w-16 h-16">
+      <div className="bg-yellow-600 hover:bg-yellow-500 mx-5 p-2 w-16 h-16">
         <button onClick={toggleModal}>
-          <img src={sale} alt="Sale" />
+          <img src={sale} alt="Sale"  />
         </button>
       </div>
 

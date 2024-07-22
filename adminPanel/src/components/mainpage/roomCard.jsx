@@ -6,7 +6,7 @@ import AddRoom from "../Addrooms";
 import SingleRoom from "./singleRoom";
 import AdvertModule from "../advertModule";
 import SiteCopyDB from "./siteCopyDB";
-import AddSale from "./sale/saleList";
+import AddSale from "./sale/addSale";
 
 function RoomCard() {
   const [rooms, setRooms] = useState([]);
@@ -67,13 +67,13 @@ function RoomCard() {
       <div className="flex flex-col md:flex-row">
         <button
           onClick={updtPrices}
-          className="bg-green-600 h-10 w-[240px] m-1 px-4 ml-4 text-lg font-semibold text-zinc-50 hover:bg-sky-700"
+          className="bg-blue-600 h-10 w-[240px] m-1 px-4 ml-4 text-lg font-semibold text-zinc-50 hover:bg-sky-700"
         >
           Оновити ціни
         </button>
         <button
           onClick={sendAdvert}
-          className="bg-orange-600 h-10 w-[240px] m-1 px-4 ml-4 text-lg font-semibold text-zinc-50 hover:bg-sky-700"
+          className="bg-sky-600 h-10 w-[240px] m-1 px-4 ml-4 text-lg font-semibold text-zinc-50 hover:bg-sky-700"
         >
           надіслати рекламку
         </button>
