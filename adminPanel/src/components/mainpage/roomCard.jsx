@@ -6,7 +6,8 @@ import AddRoom from "../Addrooms";
 import SingleRoom from "./singleRoom";
 import AdvertModule from "../advertModule";
 import SiteCopyDB from "./siteCopyDB";
-// RoomCard component
+import AddSale from "./sale/saleList";
+
 function RoomCard() {
   const [rooms, setRooms] = useState([]);
   const [cooldown, setCooldown] = useState(false);
@@ -66,17 +67,18 @@ function RoomCard() {
       <div className="flex flex-col md:flex-row">
         <button
           onClick={updtPrices}
-          className="bg-green-600 h-12 w-[290px] m-1 px-4 ml-4 text-lg font-bold text-zinc-50 hover:bg-sky-700"
+          className="bg-green-600 h-10 w-[240px] m-1 px-4 ml-4 text-lg font-semibold text-zinc-50 hover:bg-sky-700"
         >
           Оновити ціни
         </button>
         <button
           onClick={sendAdvert}
-          className="bg-orange-600 h-12 w-[290px] m-1 px-4 ml-4 text-lg font-bold text-zinc-50 hover:bg-sky-700"
+          className="bg-orange-600 h-10 w-[240px] m-1 px-4 ml-4 text-lg font-semibold text-zinc-50 hover:bg-sky-700"
         >
           надіслати рекламку
         </button>
         <SiteCopyDB />
+        <AddSale/>
         <div className="flex flex-col p-2 text-white">
         <p className="">Контакти розробника TG @stepbaka.</p>
         <p> +380983405578</p>

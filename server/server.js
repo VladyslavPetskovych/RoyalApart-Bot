@@ -24,6 +24,7 @@ const authRouter = require("./routes/auth");
 const siteRouter = require("./routes/siteRoyal");
 const advertRouter = require("./routes/advert");
 const allchatIdRouter = require("./routes/getAllUsers");
+const salesRouter = require("./routes/sales")
 
 app.use("/aparts", apartRouter);
 app.use("/users", userRouter);
@@ -34,10 +35,13 @@ app.use("/auth", authRouter);
 app.use("/siteRoyal", siteRouter);
 app.use("/advert", advertRouter);
 app.use("/getAllUsers", allchatIdRouter);
+app.use("/sales", salesRouter)
 
 cron.schedule("0 * * * *", async () => {
   try {
 
+    const response = await axios.delete("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/sales/delete-expired");
+    console.log(response.data);
     await axios.get(
       "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices"
     );
