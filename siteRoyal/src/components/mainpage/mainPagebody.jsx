@@ -13,6 +13,7 @@ import "../../../src/hideScrollbar.css";
 import MySVG from "../../assets/svgg.svg";
 import "./mainPagebody.css";
 import SEO from "../SEO";
+import Sale from "./home/saleButton";
 
 function MainPageBody() {
   const { t } = useTranslation();
@@ -61,6 +62,7 @@ function MainPageBody() {
           <MainPageContent />
         </div>
       </div>
+      <Sale/>
       <Telegram />
       <Courosel />
       <WhyRoyal />
