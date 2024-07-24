@@ -60,7 +60,7 @@ function SaleModal({ toggleModal }) {
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
       onClick={handleOverlayClick}
     >
-      <div className="relative bg-white mt-16 text-black font-roboto text-lg rounded-lg p-5 w-[85%] md:w-[75%] h-[78%] lg:w-2/3 lg:h-[84%] overflow-auto">
+      <div className="relative bg-white mt-16 text-black font-roboto text-lg rounded-lg p-5 w-[85%] md:w-[75%]  lg:w-2/3 lg:h-[84%] overflow-auto">
         <button
           onClick={toggleModal}
           className="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white px-4 py-2 rounded"
