@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { slugify } from "transliteration";
 
-
 function RoomPage() {
   const { t, i18n } = useTranslation();
 
@@ -26,11 +25,23 @@ function RoomPage() {
   const [translatedDescription, setTranslatedDescription] = useState("");
 
   const amenities = [
-    "wifi", "kettle", "microwave", "tv", "dishes", "shower",
-    "heating", "iron", "hair_dryer", "water", "dining_table",
-    "bed_linen", "washing_machine", "towels", "fridge", "wardrobe"
+    "wifi",
+    "kettle",
+    "microwave",
+    "tv",
+    "dishes",
+    "shower",
+    "heating",
+    "iron",
+    "hair_dryer",
+    "water",
+    "dining_table",
+    "bed_linen",
+    "washing_machine",
+    "towels",
+    "fridge",
+    "wardrobe",
   ];
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,9 +69,13 @@ function RoomPage() {
     const translateDescription = async () => {
       if (i18n.language !== "uk" && currentRoom && currentRoom.description) {
         try {
-          const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=${i18n.language}&dt=t&q=${encodeURIComponent(currentRoom.description)}`);
+          const response = await fetch(
+            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=${
+              i18n.language
+            }&dt=t&q=${encodeURIComponent(currentRoom.description)}`
+          );
           const data = await response.json();
-          const translatedText = data[0].map(segment => segment[0]).join(" ");  // Join all segments together
+          const translatedText = data[0].map((segment) => segment[0]).join(" "); // Join all segments together
           setTranslatedDescription(translatedText);
         } catch (error) {
           console.error("Error translating description:", error);
@@ -70,20 +85,17 @@ function RoomPage() {
         setTranslatedDescription(currentRoom ? currentRoom.description : "");
       }
     };
-    
 
     translateDescription();
   }, [i18n.language, currentRoom]);
-  
+
   const getRoomName = (name) => {
-    
-    const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
-  
-    if (i18n.language === 'en') {
-   
+    const capitalizeFirstLetter = (string) =>
+      string.charAt(0).toUpperCase() + string.slice(1);
+
+    if (i18n.language === "en") {
       return capitalizeFirstLetter(slugify(name));
     } else {
-
       return capitalizeFirstLetter(name);
     }
   };
@@ -98,17 +110,17 @@ function RoomPage() {
             <div>
               <div className="font-roboto">
                 <p className="text-2xl font-bold font-oswald p-6">
-                Royal Apart {getRoomName(currentRoom.name)}
+                  Royal Apart {getRoomName(currentRoom.name)}
                 </p>
                 <div className="w-screen px-3">
                   <Slider room={currentRoom} isMaximize={true} />
                 </div>
                 <div className="text-left">
                   <p className=" p-5 text-3xl  font-bold font-oswald">
-                  {getRoomName(currentRoom.name)}
+                    {getRoomName(currentRoom.name)}
                   </p>
-                  <p className="px-5">{t('description2')}</p>
-                   <p className="p-2">{translatedDescription}</p>
+                  <p className="px-5">{t("description2")}</p>
+                  <p className="p-2">{translatedDescription}</p>
                 </div>
                 <div className="bg-white text-sm md:text-base flex flex-row p-5 justify-around mt-5">
                   <div className="flex flex-col m-1">
@@ -126,43 +138,62 @@ function RoomPage() {
                       className="w-5 h-5 md:w-7 md:h-7 flex justify-center items-center mx-auto"
                       src={rooms}
                     />
-                    <p> {currentRoom.numrooms} {t("roomss")}</p>
+                    <p>
+                      {" "}
+                      {currentRoom.numrooms} {t("roomss")}
+                    </p>
                   </div>
                   <div className="flex flex-col m-1">
                     <img
                       className="w-5 h-5 md:w-7 md:h-7 flex justify-center items-center mx-auto"
                       src={user}
                     />
-                    <p> {currentRoom.guests} {t("guestss")}</p>
+                    <p>
+                      {" "}
+                      {currentRoom.guests} {t("guestss")}
+                    </p>
                   </div>
                   <div className="flex flex-col m-1">
                     <img
                       className="w-5 h-5 md:w-7 md:h-7 flex justify-center items-center mx-auto"
                       src={floor}
                     />
-                    <p> {currentRoom.floor} {t('floor')}</p>
+                    <p>
+                      {" "}
+                      {currentRoom.floor} {t("floor")}
+                    </p>
                   </div>
                   <div className="flex flex-col m-1">
                     <img
                       className="w-5 h-5 md:w-7 md:h-7 flex justify-center items-center mx-auto"
                       src={beds}
                     />
-                    <p> {currentRoom.beds} {t('bedss')}</p>
+                    <p>
+                      {" "}
+                      {currentRoom.beds} {t("bedss")}
+                    </p>
                   </div>
                 </div>
                 <div className=" text-left">
                   <div className="bg-white p-2 mt-10">
-                    <p className="p-8 text-2xl font-bold ">{t('in room')}</p>
+                    <p className="p-8 text-2xl font-bold ">{t("in room")}</p>
                     <p className=" px-8 pt-4 text-xl font-bold ">
                       {t("additional")}
                     </p>
                     <div className="flex flex-wrap justify-center  p-2 md:p-5  border m-1 md:m-4 text-left bg-white">
-                    {amenities.map((amenity, index) => (
-        <div key={index} className="w-1/2 md:w-1/3 xl:w-1/4 p-2 flex flex-row">
-          <p className="text-xl text-amber-400 font-bold px-1">{" ✓ "}</p>
-          <p className="text-base">{t(`amenities.${amenity}`)}</p>
-        </div>
-      ))}
+                      {amenities.map((amenity, index) => (
+                        <div
+                          key={index}
+                          className="w-1/2 md:w-1/3 xl:w-1/4 p-2 flex flex-row"
+                        >
+                          <p className="text-xl text-amber-400 font-bold px-1">
+                            {" ✓ "}
+                          </p>
+                          <p className="text-base">
+                            {t(`amenities.${amenity}`)}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -174,8 +205,8 @@ function RoomPage() {
             </div>
           )}
           <div className="text-left text-lg font-roboto p-5">
-          <p>{t('royal_care')}</p>
-      <p>{t('see_you')}</p>
+            <p>{t("royal_care")}</p>
+            <p>{t("see_you")}</p>
             <p>+38 (067)677-73-30</p>
           </div>
           <div>
@@ -187,7 +218,9 @@ function RoomPage() {
       </div>
       <div className="fixed bottom-5 right-0 opacity-70 hover:opacity-100 md:right-5   w-48 ">
         <button className=" h-10 bg-gradient-to-br from-amber-600 to-amber-400 rounded-md w-[70%] hover:shadow-lg shadow-md shadow-orange-500/90  hover:shadow-orange-500/90">
-          <Link to="/book">{t("book_now2")}</Link>
+          <a href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782">
+            {t("book_now2")}
+          </a>
         </button>
       </div>
     </div>
