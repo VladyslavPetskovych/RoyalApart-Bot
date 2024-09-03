@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
-import logo from '../assets/logo/Color logo - no background.png'
+import logo from "../assets/logo/Color logo - no background.png";
 
 function Header() {
   const { t } = useTranslation();
@@ -40,11 +40,7 @@ function Header() {
       <nav className="border-gray-200 px-4 lg:px-6 py-2.5 text-xl">
         <div className="flex flex-wrap justify-between lg:justify-center items-center mx-auto max-w-screen-xl">
           <Link to="/" className="flex items-center">
-            <img
-              src={logo}
-              className="mr-3 h-[60px] sm:h-[60px]"
-              alt="Logo"
-            />
+            <img src={logo} className="mr-3 h-[60px] sm:h-[60px]" alt="Logo" />
           </Link>
           <div className="flex items-center lg:hidden">
             <button
@@ -98,7 +94,16 @@ function Header() {
                   {t("apartments_header")}
                 </Link>
               </li>
-              <li>
+              <li
+                className={`block py-2 pr-4 pl-3 ${
+                  isActiveRoute("/book")
+                    ? "text-white bg-mainC"
+                    : "text-gray-400 hover:bg-gray-50"
+                } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0`}
+              >
+                <Link to="/book">{t("book_now2")}</Link>
+              </li>
+              {/* <li>
                 <a
                   href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782"
                   target="_blank"
@@ -111,7 +116,7 @@ function Header() {
                 >
                   {t("book_now2")}
                 </a>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to="/rules"
@@ -192,7 +197,16 @@ function Header() {
                   {t("apartments_header")}
                 </Link>
               </li>
-              <li>
+              <li
+                className={`block py-2 pr-4 pl-3 ${
+                  isActiveRoute("/book")
+                    ? "text-white bg-mainC"
+                    : "text-gray-400 hover:bg-gray-50"
+                } rounded lg:bg-transparent lg:hover:bg-transparent lg:hover:text-primary-700 lg:p-0`}
+              >
+                <Link to="/book">{t("book_now2")}</Link>
+              </li>
+              {/* <li>
                 <a
                   href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782"
                   target="_blank"
@@ -206,7 +220,7 @@ function Header() {
                 >
                   {t("book_now2")}
                 </a>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to="/rules"
