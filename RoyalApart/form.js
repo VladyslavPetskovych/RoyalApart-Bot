@@ -20,7 +20,25 @@ const formButtons = {
 
 const cooldowns = new Map();
 
+const resetUserState = (chatId) => {
+  roomMap.delete(chatId); // Remove the user's data from roomMap
+  delete userStates[chatId]; // If you're using a separate userStates object
+  console.log(`User state reset for chatId: ${chatId}`);
+};
+
+
 const sendUserData = async (chatId) => {
+  const userData = roomMap.get(chatId);
+
+  // Check if phone number exists
+  if (!userData || !userData.phone) {
+    bot.sendMessage(
+      chatId,
+      "Будь ласка, надайте свій номер телефону перед надсиланням."
+    );
+    return;
+  }
+
   const currentTime = Date.now();
   if (cooldowns.has(chatId)) {
     const lastSentTime = cooldowns.get(chatId);
@@ -32,14 +50,14 @@ const sendUserData = async (chatId) => {
       const remainingSeconds = Math.ceil(remainingTime / 1000);
       bot.sendMessage(
         chatId,
-        `Будь ласка, Зачекайте ${remainingSeconds} секунд, перед ПОВТОРНИМ надсиланням.`
+        `Будь ласка, зачекайте ${remainingSeconds} секунд перед повторним надсиланням.`
       );
       return; // Exit the function if still in cooldown
     }
   }
 
-  // If not in cooldown or cooldown has expired, proceed with sending data
-  console.log("!!!!!USER DATA IS SEND!!!!!");
+  // Send data if no cooldown and phone is provided
+  console.log("!!!!!USER DATA IS SENT!!!!!");
   console.log(chatId);
   let data = {
     chatId: chatId,
@@ -47,7 +65,7 @@ const sendUserData = async (chatId) => {
   await axios.post("http://localhost:3000/email/sendEmail", data);
   bot.sendMessage(
     chatId,
-    "Ваші дані надіслані менеджеру, дякуємо за бронювання, очікуйте"
+    "Ваші дані надіслані менеджеру, дякуємо за бронювання, очікуйте."
   );
 
   resetUserState(chatId);
@@ -56,51 +74,22 @@ const sendUserData = async (chatId) => {
   cooldowns.set(chatId, currentTime);
 };
 
-const resetUserState = (chatId) => {
-  delete userStates[chatId];
-};
-
 const askForName = async (chatId) => {
   bot.sendMessage(chatId, `\nНапишіть Ваше ім'я: \t...✍️`);
   const message = await waitForUserInput(chatId);
-  console.log("!!!!!@##@#!@!#@!#@!");
-  console.log(message.text);
-  console.log(message);
-  console.log("!!!!!@##@#!@!#@!#@!");
+  console.log(`User name: ${message.text}`);
+
   try {
-    const response = await axios.post("http://localhost:3000/users", {
+    await axios.post("http://localhost:3000/users", {
       chatId: chatId,
       name: message.text,
     });
-
-    // console.log("Response:", response.data);
   } catch (error) {
     console.error("Error:", error.message);
   }
+
   return message.text;
 };
-
-const askForPhone = async (chatId) => {
-  bot.sendMessage(
-    chatId,
-    `Тепер напишіть Ваш номер телефону у форматі "0123456789" \t...\t✍️`
-  );
-  const message = await waitForUserInput(chatId);
-  try {
-    const response = await axios.post("http://localhost:3000/users", {
-      chatId: chatId,
-      phone: parseInt(message.text),
-    });
-
-    //console.log("Response:", response.data);
-  } catch (error) {
-    console.error("Error:", error.message);
-  }
-  return message.text;
-};
-
-const userResolvers = new Map();
-const userListeners = new Map();
 
 const waitForUserInput = (chatId) => {
   return new Promise((resolve) => {
@@ -124,23 +113,85 @@ const waitForUserInput = (chatId) => {
   });
 };
 
+const askForPhone = async (chatId) => {
+  bot.sendMessage(
+    chatId,
+    `Будь ласка, надішліть свій номер телефону, натиснувши кнопку нижче:`,
+    {
+      reply_markup: {
+        keyboard: [
+          [
+            {
+              text: "📲 Надіслати мій номер телефону",
+              request_contact: true, // This allows the user to send their contact
+            },
+          ],
+        ],
+        one_time_keyboard: true, // The keyboard will disappear after use
+        resize_keyboard: true, // Resize keyboard for better visibility
+      },
+    }
+  );
+
+  return new Promise((resolve) => {
+    const contactListener = (msg) => {
+      if (msg.contact && msg.chat.id === chatId) {
+        const phoneNumber = msg.contact.phone_number;
+        console.log(`Received phone number: ${phoneNumber}`);
+
+        // Send phone number to server
+        axios
+          .post("http://localhost:3000/users", {
+            chatId: chatId,
+            phone: phoneNumber,
+          })
+          .then(() => {
+            bot.sendMessage(
+              chatId,
+              `Ваш номер телефону ${phoneNumber} було успішно отримано.`
+            );
+            console.log(
+              `Phone number ${phoneNumber} saved for chatId: ${chatId}`
+            );
+          })
+          .catch((error) => {
+            console.error("Error saving phone number:", error);
+            bot.sendMessage(
+              chatId,
+              "Сталася помилка при збереженні вашого номеру телефону."
+            );
+          });
+
+        resolve(phoneNumber);
+        bot.removeListener("message", contactListener); // Remove listener after resolving
+      }
+    };
+
+    bot.on("message", contactListener);
+  });
+};
+
+const userResolvers = new Map();
+const userListeners = new Map();
+
 const form = async (receivedChatId) => {
-  const userName = await askForName(receivedChatId);
+  let userData = roomMap.get(receivedChatId) || {};
 
-  const userData = {
-    name: userName,
-    phone: "",
-    coment: "",
-  };
+  // Ask for name if it's not provided
+  if (!userData.name) {
+    const userName = await askForName(receivedChatId);
+    userData.name = userName;
+    roomMap.set(receivedChatId, userData);
+  }
 
-  roomMap.set(receivedChatId, userData);
+  // Ask for phone if it's not provided
+  if (!userData.phone) {
+    const userPhone = await askForPhone(receivedChatId);
+    userData.phone = userPhone;
+    roomMap.set(receivedChatId, userData);
+  }
 
-  const userPhone = await askForPhone(receivedChatId);
-
-  const existingUserData = roomMap.get(receivedChatId);
-  existingUserData.phone = userPhone;
-  roomMap.set(receivedChatId, existingUserData);
-
+  // Now both name and phone should be provided
   const response = await axios.get(
     `http://localhost:3000/users/${receivedChatId}`
   );
@@ -158,9 +209,9 @@ const form = async (receivedChatId) => {
 
   bot.sendMessage(
     receivedChatId,
-    `${roomMessage}\n\n\n\tВаші дані: \nім'я: ${userName}\nномер телефону: ${userPhone} \nКоментар: ${
-      Userinf.coment || "-"
-    }`,
+    `${roomMessage}\n\n\n\tВаші дані: \nім'я: ${
+      userData.name
+    }\nномер телефону: ${userData.phone} \nКоментар: ${Userinf.coment || "-"}`,
     formButtons
   );
 };
