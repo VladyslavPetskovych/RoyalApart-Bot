@@ -36,6 +36,10 @@ app.get("/getData", async function (req, res) {
     const chatIds = chatIdsResponse.data.userIds;
     console.log("Chat IDs received:", chatIds);
 
+    await bot.sendPhoto(938729564, tempImagePath, {
+        caption: ` ${response.data.msg}`,
+   });
+
     // Send photo to each chat ID
     // for (const chatId of chatIds) {
     //   try {
