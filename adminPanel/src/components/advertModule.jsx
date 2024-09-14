@@ -22,7 +22,7 @@ const ModalAdvert = ({ isOpen, onClose, onSubmit, children }) => {
       });
       setTimeout(async () => {
         try {
-          await axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/server2/");
+          await axios.get("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/server2/getData");
           alert("Дані надіслані успішно:");
           onClose();
         } catch (error) {
