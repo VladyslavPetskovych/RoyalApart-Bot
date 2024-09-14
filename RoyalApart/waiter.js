@@ -32,28 +32,28 @@ app.get("/getData", async function (req, res) {
     const chatIds = chatIdsResponse.data.userIds;
     console.log("Chat IDs received:", chatIds);
 
-    await bot.sendPhoto(938729564, tempImagePath, {
-        caption: ` ${response.data.msg}`,
-   });
+  //   await bot.sendPhoto(938729564, tempImagePath, {
+  //       caption: ` ${response.data.msg}`,
+  //  });
   const caption = ` ${response.data.msg}`;
-   // Send photo to each chat ID
-  //  for (let i = 0; i < chatIds.length; i++) {
-  //   const chatId = chatIds[i];
+   //Send photo to each chat ID
+   for (let i = 0; i < chatIds.length; i++) {
+    const chatId = chatIds[i];
 
-  //   // Delay in milliseconds (e.g., 1000 ms = 1 second)
-  //   const delay = 500; // Adjust the delay as needed
+    // Delay in milliseconds (e.g., 1000 ms = 1 second)
+    const delay = 500; // Adjust the delay as needed
 
-  //   // Use setTimeout to introduce a delay
-  //   await new Promise(resolve => setTimeout(resolve, delay));
+    // Use setTimeout to introduce a delay
+    await new Promise(resolve => setTimeout(resolve, delay));
 
-  //   try {
-  //     console.log(`Sending photo to chat ID: ${chatId}`);
-  //     await bot.sendPhoto(chatId, tempImagePath, { caption });
-  //     console.log(`Message sent successfully to chat ID: ${chatId}`);
-  //   } catch (error) {
-  //     console.error(`Error sending message to chat ID ${chatId}:`, error);
-  //   }
-  // }
+    try {
+      console.log(`Sending photo to chat ID: ${chatId}`);
+      await bot.sendPhoto(chatId, tempImagePath, { caption });
+      console.log(`Message sent successfully to chat ID: ${chatId}`);
+    } catch (error) {
+      console.error(`Error sending message to chat ID ${chatId}:`, error);
+    }
+  }
 
     res.status(200).send("Message sent");
   } catch (error) {
