@@ -13,20 +13,16 @@ app.get("/getData", async function (req, res) {
   try {
     console.log("Request received at /getData");
 
-    // Make a request to Server A to fetch data including the image as a Base64 string
-    console.log("Making POST request to /advert/sendData");
-    const response = await axios.post("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/advert/sendData");
-    console.log("Received response from /advert/sendData:", response.data);
 
-    // Convert the Base64 string back to binary image data
-    console.log("Converting Base64 to binary data");
+    const response = await axios.post("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/advert/sendData");
+
     const imageData = Buffer.from(response.data.imgData, "base64");
 
-    // Save the binary image data as an image file in the tempImg folder
+ 
     const tempImagePath = path.join(__dirname, "tempImg", "tempImage.jpg");
-    console.log("Saving image data to:", tempImagePath);
+
     fs.writeFileSync(tempImagePath, imageData);
-    console.log("Image saved successfully");
+
 
     // Fetch chat IDs from the server
     console.log("Making GET request to /getAllUsers/AllUsers");
@@ -39,19 +35,25 @@ app.get("/getData", async function (req, res) {
     await bot.sendPhoto(938729564, tempImagePath, {
         caption: ` ${response.data.msg}`,
    });
+  const caption = ` ${response.data.msg}`;
+   // Send photo to each chat ID
+  //  for (let i = 0; i < chatIds.length; i++) {
+  //   const chatId = chatIds[i];
 
-    // Send photo to each chat ID
-    // for (const chatId of chatIds) {
-    //   try {
-    //     console.log(`Sending photo to chat ID: ${chatId}`);
-    //     await bot.sendPhoto(chatId, tempImagePath, {
-    //       caption: ` ${response.data.msg}`,
-    //     });
-    //     console.log(`Message sent successfully to chat ID: ${chatId}`);
-    //   } catch (error) {
-    //     console.error(`Error sending message to chat ID ${chatId}:`, error);
-    //   }
-    // }
+  //   // Delay in milliseconds (e.g., 1000 ms = 1 second)
+  //   const delay = 500; // Adjust the delay as needed
+
+  //   // Use setTimeout to introduce a delay
+  //   await new Promise(resolve => setTimeout(resolve, delay));
+
+  //   try {
+  //     console.log(`Sending photo to chat ID: ${chatId}`);
+  //     await bot.sendPhoto(chatId, tempImagePath, { caption });
+  //     console.log(`Message sent successfully to chat ID: ${chatId}`);
+  //   } catch (error) {
+  //     console.error(`Error sending message to chat ID ${chatId}:`, error);
+  //   }
+  // }
 
     res.status(200).send("Message sent");
   } catch (error) {
