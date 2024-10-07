@@ -25,10 +25,10 @@ function SaleModal({ toggleModal }) {
         setSales(salesResponse.data);
 
         const roomsResponse = await axios.get(
-          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/aparts"
+          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/copied-rooms"
         );
         setRooms(roomsResponse.data.data);
-
+        console.log(roomsResponse.data.data)
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -57,13 +57,13 @@ function SaleModal({ toggleModal }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       onClick={handleOverlayClick}
     >
       <div className="relative bg-white mt-16 text-black font-roboto text-lg rounded-lg p-5 w-[85%] md:w-[75%]  lg:w-2/3 lg:h-[84%] overflow-auto">
         <button
           onClick={toggleModal}
-          className="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white px-4 py-2 rounded"
+          className="absolute top-0 right-0 mt-2 mr-10 bg-red-500 text-white px-4 py-2 rounded"
         >
           Х
         </button>

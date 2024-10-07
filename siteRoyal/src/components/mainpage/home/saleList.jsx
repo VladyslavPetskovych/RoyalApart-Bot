@@ -20,21 +20,21 @@ function OneSale({ sale, room }) {
   return (
     <div className="flex flex-col items-center justify-between p-4">
       <div className="flex flex-col items-center justify-center mb-6">
-        <p className="text-2xl m-3">{room.name}</p>
+        <p className="text-2xl mb-1">{room.name}</p>
         {room.imgurl && room.imgurl[0] && (
           <img
             src={`https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.wubid}/${room.imgurl[0]}`}
             alt={room.name}
-            className="md:w-[60%] mb-4"
+            className="md:w-[50%] "
           />
         )}
       </div>
       <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-row m-0.5 mb-2">
+        <div className="flex flex-row  mb-1">
           <p className="mx-2 animate-pulse bg-amber-500 px-2">
             Знижка {sale.discount}%{" "}
           </p>
-          <p> {room.price > 10000 ? "договірна" : `від ${room.price} грн`}</p>
+          <p> {room.price > 10000 ? "договірна" : ` ${room.price} грн`}</p>
         </div>
         <div className="text-center">
           <p className="font-semibold">
@@ -72,35 +72,35 @@ function formatTimeLeft(timeLeft) {
 }
 
 function SaleList({ sales, rooms }) {
-    const [filteredRooms, setFilteredRooms] = useState([]);
-  
-    useEffect(() => {
-      const filterRooms = () => {
-        const filtered = rooms
-          .filter((room) => sales.some((sale) => room.wubid === sale.roomId))
-          .map((room) => ({
-            ...room,
-            sale: sales.find((sale) => sale.roomId === room.wubid),
-          }));
-        setFilteredRooms(filtered);
-      };
-  
-      filterRooms();
-    }, [sales, rooms]);
-  
-    return (
-      <div>
-        {filteredRooms.length > 0 ? (
-          filteredRooms.map((room) => (
-            <div key={room.wubid} className="border p-2 mb-2">
-              <OneSale sale={room.sale} room={room} />
-            </div>
-          ))
-        ) : (
-          <p>No sales available</p>
-        )}
-      </div>
-    );
-  }
+  const [filteredRooms, setFilteredRooms] = useState([]);
+
+  useEffect(() => {
+    const filterRooms = () => {
+      const filtered = rooms
+        .filter((room) => sales.some((sale) => room.wubid === sale.roomId))
+        .map((room) => ({
+          ...room,
+          sale: sales.find((sale) => sale.roomId === room.wubid),
+        }));
+      setFilteredRooms(filtered);
+    };
+
+    filterRooms();
+  }, [sales, rooms]);
+
+  return (
+    <div>
+      {filteredRooms.length > 0 ? (
+        filteredRooms.map((room) => (
+          <div key={room.wubid} className="border p-2 mb-2">
+            <OneSale sale={room.sale} room={room} />
+          </div>
+        ))
+      ) : (
+        <p>No sales available</p>
+      )}
+    </div>
+  );
+}
 
 export default SaleList;

@@ -36,13 +36,16 @@ function MainPageContent() {
               <div>
                 <button className=" inline-flex items-center justify-center p-0 mb-2 me-2 overflow-hidden  shadow-lg shadow-orange-500/50 hover:p-[1px] text-gray-900 rounded-lg  hover:text-black ">
                   <span className="text-xl md:text-2xl px-6 py-4  text-textW  bg-gradient-to-r to-shit from-shit2 rounded-md  ">
-                    <a
+                    {/* <a
                       href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       {t("book_now")}
-                    </a>
+                    </a> */}
+                    <Link to={'/book'}>
+                    {t("book_now")}
+                    </Link>
                   </span>
                 </button>
               </div>

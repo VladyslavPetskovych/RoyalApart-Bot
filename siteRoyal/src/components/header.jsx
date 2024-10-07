@@ -40,7 +40,7 @@ function Header() {
       <nav className="border-gray-200 px-4 lg:px-6 py-2.5 text-xl">
         <div className="flex flex-wrap justify-between lg:justify-center items-center mx-auto max-w-screen-xl">
           <Link to="/" className="flex items-center">
-            <img src={logo} className="mr-3 h-[60px] sm:h-[60px]" alt="Logo" />
+            <img src={logo} className="mr-3 h-[60px] sm:h-[60px] z-30" alt="Logo" />
           </Link>
           <div className="flex items-center lg:hidden">
             <button

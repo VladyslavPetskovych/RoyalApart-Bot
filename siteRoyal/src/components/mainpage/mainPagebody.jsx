@@ -14,6 +14,7 @@ import MySVG from "../../assets/svgg.svg";
 import "./mainPagebody.css";
 import SEO from "../SEO";
 import Sale from "./home/saleButton";
+import MiniHotelButton from "../../components/buttons/miniHotelButton";
 
 function MainPageBody() {
   const { t } = useTranslation();
@@ -62,10 +63,11 @@ function MainPageBody() {
           <MainPageContent />
         </div>
       </div>
-      <Sale/>
+      <Sale />
       <Telegram />
       <Courosel />
       <WhyRoyal />
+      <MiniHotelButton />
       <div className="w-[94vw] h-[330px] px-8 lg:h-[500px]">
         <SliderCategories />
       </div>
