@@ -68,7 +68,7 @@ function MainPageBody() {
       <Courosel />
       <WhyRoyal />
       <MiniHotelButton />
-      <div className="w-[94vw] h-[330px] px-8 lg:h-[500px]">
+      <div className="w-[94vw] h-[330px] px-8 lg:h-[500px] mx-auto">
         <SliderCategories />
       </div>
       <div className="left-0 top-0 w-full h-6 -mt-1">

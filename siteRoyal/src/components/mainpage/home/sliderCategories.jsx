@@ -76,7 +76,7 @@ const News = ({ data }) => {
         </div>
       ))
     ) : (
-      <p>{t('loading')}</p> // Translate "Loading..."
+      <p>{t('loading')}</p> 
     );
 
   return (
@@ -90,7 +90,7 @@ const News = ({ data }) => {
 };
 
 function SliderCategories() {
-  const { t } = useTranslation(); // Use the useTranslation hook
+  const { t } = useTranslation(); 
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -115,7 +115,7 @@ function SliderCategories() {
   }
 
   return (
-    <div className="">
+    <div className="my-10">
       <h2 className="text-3xl font-oswald">{t('apartments')}</h2>
       {loading ? <p>{t('loading')}</p> : <News data={data.data} />}
     </div>

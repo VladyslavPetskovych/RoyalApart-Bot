@@ -31,7 +31,7 @@ function Courosel() {
 
   return (
     <>
-        <div className=" left-0 top-0 w-full h-6 -mt-1">
+      <div className=" left-0 top-0 w-full h-6 -mt-1">
         <div className="bg-gradient-to-b from-black to-back w-full h-full transition-all duration-500"></div>
       </div>
       <div className="bg-back h-[600px] flex w-full lg:h-[420px] flex-col lg:flex-row">
