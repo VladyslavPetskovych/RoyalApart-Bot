@@ -15,7 +15,7 @@ const MiniHotel = () => {
   }, []);
 
   return (
-    <div className="h-full w-screen ">
+    <div className="h-full w-full overflow-x-hidden">
       <div className="bg-shit2 h-24 "></div>
       <div>
         <p className="text-2xl md:text-4xl lg:text-4xl font-oswald  m-5">
@@ -32,7 +32,6 @@ const MiniHotel = () => {
             квартирі працює Wi-Fi. Постільна білизна, рушники, засоби гігієни
             входять у вартість проживання.
           </p>
-    
         </div>
       </div>
 
@@ -88,8 +87,8 @@ const MiniHotel = () => {
           </div>
         </div>
       </div>
-      <div className=" z-50 fixed bottom-10 right-16 opacity-70 hover:opacity-100 md:right-5   w-48 ">
-        <button className=" h-10 bg-gradient-to-br from-amber-600 to-amber-400 rounded-md w-[70%] hover:shadow-lg shadow-md shadow-orange-500/90  hover:shadow-orange-500/90">
+      <div className="z-50 fixed bottom-24 right-8 opacity-70 hover:opacity-100 w-48">
+        <button className="h-10 bg-gradient-to-br from-amber-600 to-amber-400 rounded-md w-full hover:shadow-lg shadow-md shadow-orange-500/90 hover:shadow-orange-500/90">
           <a href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782">
             Забронювати
           </a>
