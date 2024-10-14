@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import k23 from "../../assets/miniHotel/K23.jpg";
 import k24 from "../../assets/miniHotel/K24.jpg";
 import k25 from "../../assets/miniHotel/K25.jpg";
 import k26 from "../../assets/miniHotel/K26.jpg";
@@ -12,6 +13,7 @@ import "aos/dist/aos.css";
 const MiniHotel = () => {
   useEffect(() => {
     AOS.init({ duration: 700 });
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -35,8 +37,8 @@ const MiniHotel = () => {
         </div>
       </div>
 
-      <div className="bg-back h-[400vh] text-black">
-        <div className="grid grid-cols-2 grid-rows-6 gap-0 h-full">
+      <div className="bg-back h-[450vh] text-black">
+        <div className="grid grid-cols-2 grid-rows-7 gap-0 h-full">
           <div className="bg-red-400">
             <img className="object-cover h-full w-full" src={k28} alt="" />
           </div>
@@ -84,6 +86,14 @@ const MiniHotel = () => {
           </div>
           <div className="bg-red-400">
             <img className="object-cover h-full w-full" src={k24} alt="" />
+          </div>
+          <div className="bg-red-400">
+            <img className="object-cover h-full w-full" src={k23} alt="" />
+          </div>
+          <div className="bg-back m-auto">
+            <p className="font-oswald text-3xl " data-aos="fade-left">
+              Ковжуна 2/3
+            </p>
           </div>
         </div>
       </div>
