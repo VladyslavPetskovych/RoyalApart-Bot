@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import k22 from "../../assets/miniHotel/K22.jpg";
 import k23 from "../../assets/miniHotel/K23.jpg";
 import k24 from "../../assets/miniHotel/K24.jpg";
 import k25 from "../../assets/miniHotel/K25.jpg";
@@ -37,8 +38,8 @@ const MiniHotel = () => {
         </div>
       </div>
 
-      <div className="bg-back h-[450vh] text-black">
-        <div className="grid grid-cols-2 grid-rows-7 gap-0 h-full">
+      <div className="bg-back h-[490vh] text-black">
+        <div className="grid grid-cols-2 grid-rows-8 gap-0 h-full">
           <div className="bg-red-400">
             <img className="object-cover h-full w-full" src={k28} alt="" />
           </div>
@@ -94,6 +95,14 @@ const MiniHotel = () => {
             <p className="font-oswald text-3xl " data-aos="fade-left">
               Ковжуна 2/3
             </p>
+          </div>
+          <div className="bg-back m-auto">
+            <p className="font-oswald text-3xl " data-aos="fade-right">
+              Ковжуна 2/2
+            </p>
+          </div>
+          <div className="bg-red-400">
+            <img className="object-cover h-full w-full" src={k22} alt="" />
           </div>
         </div>
       </div>
