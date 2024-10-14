@@ -158,7 +158,7 @@ export default function FormComponent() {
             wuBook id
           </label>
           <input type="number" onChange={(e) => setWubid(e.target.value)} />
-          <button className="bg-red-500 m-2" onClick={handleOpenModal}>
+          <button className="bg-red-500 m-2" type="button" onClick={handleOpenModal}>
             знайти ID
           </button>
           <Wubook isOpen={isModalOpen} onClose={handleCloseModal}>
