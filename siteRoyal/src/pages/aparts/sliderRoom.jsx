@@ -99,7 +99,7 @@ function Slider({ room, isMaximize }) {
           {preloadedImages.map((image, index) => (
             <div key={index} className={`object-cover ${
               isMaximize
-                ? "h-[300px] md:h-[600px] md:px-24 lg:px-48 w-full"
+                ? "h-[300px] md:h-[630px] md:px-24 lg:px-48 w-full"
                 : "h-[300px] md:h-[340px] w-full"
             } flex-none relative`}>
               {loadingStates[index] ? (
