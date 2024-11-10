@@ -90,7 +90,7 @@ function Slider({ room, isMaximize }) {
 
       {preloadedImages.length > 0 && (
         <div
-          className="w-full flex transition-transform duration-1000 ease-in-out"
+          className="w-full flex  transition-transform duration-1000 ease-in-out"
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
             position: 'relative',
@@ -99,7 +99,7 @@ function Slider({ room, isMaximize }) {
           {preloadedImages.map((image, index) => (
             <div key={index} className={`object-cover ${
               isMaximize
-                ? "h-[300px] md:h-[550px] w-full"
+                ? "h-[300px] md:h-[600px] md:px-24 lg:px-48 w-full"
                 : "h-[300px] md:h-[340px] w-full"
             } flex-none relative`}>
               {loadingStates[index] ? (
