@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import k21 from "../../assets/miniHotel/K21.jpg";
 import k22 from "../../assets/miniHotel/K22.jpg";
 import k23 from "../../assets/miniHotel/K23.jpg";
 import k24 from "../../assets/miniHotel/K24.jpg";
@@ -38,23 +39,23 @@ const MiniHotel = () => {
         </div>
       </div>
 
-      <div className="bg-back h-[490vh] text-black">
-        <div className="grid grid-cols-2 grid-rows-8 gap-0 h-full">
+      <div className="bg-back h-[530vh] text-black">
+        <div className="grid grid-cols-2 grid-rows-9 gap-0 h-full">
           <div className="bg-red-400">
-            <img className="object-cover h-full w-full" src={k28} alt="" />
+            <img className="object-cover h-full w-full" src={k29} alt="" />
           </div>
           <div className="bg-back m-auto">
             <p className="font-oswald text-3xl " data-aos="fade-left">
-              Ковжуна 2/8
+              Ковжуна 2/9
             </p>
           </div>
           <div className="bg-back m-auto">
             <p className="font-oswald text-3xl " data-aos="fade-right">
-              Ковжуна 2/9
+              Ковжуна 2/8
             </p>
           </div>
           <div className="bg-red-400">
-            <img className="object-cover h-full w-full" src={k29} alt="" />
+            <img className="object-cover h-full w-full" src={k28} alt="" />
           </div>
           <div className="bg-red-400">
             <img className="object-cover h-full w-full" src={k27} alt="" />
@@ -103,6 +104,14 @@ const MiniHotel = () => {
           </div>
           <div className="bg-red-400">
             <img className="object-cover h-full w-full" src={k22} alt="" />
+          </div>
+          <div className="bg-red-400">
+            <img className="object-cover h-full w-full" src={k21} alt="" />
+          </div>
+          <div className="bg-back m-auto">
+            <p className="font-oswald text-3xl " data-aos="fade-right">
+              Ковжуна 2/1
+            </p>
           </div>
         </div>
       </div>

@@ -76,9 +76,9 @@ function Slider({ room, isMaximize }) {
   return (
     <div className={`relative overflow-hidden ${isMaximize ? '' : ' w-[340px] md:w-[410px]'}`}>
       <Maximizee isOpen={isModalOpen} onClose={handleCloseModal} room={room} />
-      {!isMaximize && (
+      {/* {!isMaximize && (
         <img
-          src={maximize}
+          src={f}
           alt="Maximize"
           onClick={handleMaximizeClick}
           className={`h-5 w-5 absolute top-0 right-0 m-1.5 cursor-pointer hover:h-[21px] hover:w-[21px] ${
@@ -86,7 +86,7 @@ function Slider({ room, isMaximize }) {
           }`}
           style={{ zIndex: 10 }}
         />
-      )}
+      )} */}
 
       {preloadedImages.length > 0 && (
         <div
@@ -99,7 +99,7 @@ function Slider({ room, isMaximize }) {
           {preloadedImages.map((image, index) => (
             <div key={index} className={`object-cover ${
               isMaximize
-                ? "h-[300px] md:h-[630px] md:px-24 lg:px-48 w-full"
+                ? "h-[300px] md:h-[830px] md:px-24 lg:px-48 w-full"
                 : "h-[300px] md:h-[340px] w-full"
             } flex-none relative`}>
               {loadingStates[index] ? (

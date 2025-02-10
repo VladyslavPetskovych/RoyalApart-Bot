@@ -37,10 +37,8 @@ function RoomPage() {
     "water",
     "dining_table",
     "bed_linen",
-    "washing_machine",
     "towels",
     "fridge",
-    "wardrobe",
   ];
 
   useEffect(() => {
