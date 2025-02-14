@@ -1,14 +1,4 @@
-// function findUniqueObjects(json1, json2) {
-//   const map1 = new Map(json1.map((obj) => [obj.wubid, obj]));
-//   const map2 = new Map(json2.map((obj) => [obj.wubid, obj]));
 
-//   const uniqueInJson1 = json1.filter((obj) => !map2.has(obj.wubid));
-//   const uniqueInJson2 = json2.filter((obj) => !map1.has(obj.wubid));
-
-//   return { uniqueInJson1, uniqueInJson2 };
-// }
-
-// Example usage:
 const aparts = [
   {
     _id: {

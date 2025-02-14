@@ -153,12 +153,10 @@ router.post("/newRoom", upload.single("image"), async (req, res) => {
       wubid,
     } = req.body;
 
-    // Check if an image file was uploaded
     if (!req.file) {
       return res.status(400).json({ message: "Image file is required" });
     }
 
-    // Create a new room object with the extracted data and the image file path
     const newRoom = new Roomsr({
       name: address, // Assuming 'address' as the room name
       numrooms: roomcount,
@@ -171,16 +169,13 @@ router.post("/newRoom", upload.single("image"), async (req, res) => {
       floor: floor,
       surface: square,
       wubid: wubid,
-      // Add other fields as needed
+   
     });
 
-    // Save the new room to the database
     await newRoom.save();
 
-    // Respond with success message
     res.status(201).json({ message: "Room created successfully" });
   } catch (error) {
-    // If an error occurs, respond with an error message
     console.error("Error saving room:", error);
     res.status(500).json({ message: "Failed to save room" });
   }
