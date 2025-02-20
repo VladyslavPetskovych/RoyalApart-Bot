@@ -9,6 +9,7 @@ import Courosel from "./courosel";
 import { useTranslation } from "react-i18next";
 import SliderCategories from "./home/sliderCategories";
 import WhyRoyal from "./whyRoyal";
+import Jaccuzzi from "./jaccuzzi"
 import "../../../src/hideScrollbar.css";
 import MySVG from "../../assets/svgg.svg";
 import "./mainPagebody.css";
@@ -68,6 +69,7 @@ function MainPageBody() {
       <Courosel />
       <WhyRoyal />
       <MiniHotelButton />
+      <Jaccuzzi/>
       <div className="w-[94vw] h-[330px] px-8 lg:h-[500px] mx-auto">
         <SliderCategories />
       </div>

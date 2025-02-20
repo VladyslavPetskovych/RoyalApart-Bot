@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 function Book() {
-  const [iframeHeight, setIframeHeight] = useState(window.innerHeight); // Default height is full viewport
+  const [iframeHeight, setIframeHeight] = useState(window.innerHeight);
 
   useEffect(() => {
-    const updateHeight = () => setIframeHeight(window.innerHeight); // Adjust on resize
+    const updateHeight = () => setIframeHeight(window.innerHeight); 
 
     window.addEventListener("resize", updateHeight);
 
-    // Remove page scrollbar
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
 
     return () => {
       window.removeEventListener("resize", updateHeight);
-      document.body.style.overflow = ""; // Restore default
+      document.body.style.overflow = ""; 
       document.documentElement.style.overflow = "";
     };
   }, []);

@@ -45,7 +45,7 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
     });
 
     setFilteredRooms(filtered);
-    setCurrentPage(1); // Reset current page when filters change
+    setCurrentPage(1); 
   }, [allRooms, searchQuery, selectedCategory, selectedNumRoom]);
 
   const totalPages = Math.ceil(filteredRooms.length / itemsPerPage);
@@ -55,7 +55,9 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+    window.scrollTo(0, 0); 
   };
+
   const { t } = useTranslation();
   return (
     <div className="w-screen md:w-[100%]">
@@ -76,14 +78,14 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
           <button
             onClick={() => paginate(1)}
             disabled={currentPage === 1}
-            className="px-0 md:px-3  py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30 rounded-md mr-2 hover:underline hover:transition-all"
+            className="px-0 md:px-3 py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30 rounded-md mr-2 hover:underline hover:transition-all"
           >
             {t("First")}
           </button>
           <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-0 md:px-3  py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30 rounded-md mr-2 hover:underline hover:transition-all"
+            className="px-0 md:px-3 py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30 rounded-md mr-2 hover:underline hover:transition-all"
           >
             {t("Previous")}
           </button>
@@ -93,14 +95,14 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
           <button
             onClick={() => paginate(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-0 md:px-3  py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30  rounded-md ml-2 mr-2 hover:underline hover:transition-all"
+            className="px-0 md:px-3 py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30 rounded-md ml-2 mr-2 hover:underline hover:transition-all"
           >
             {t("Next")}
           </button>
           <button
             onClick={() => paginate(totalPages)}
             disabled={currentPage === totalPages}
-            className="px-0 md:px-3 py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30  rounded-md ml-2 hover:underline hover:transition-all"
+            className="px-0 md:px-3 py-2 bg-shit2 bg-opacity-20 hover:bg-opacity-30 rounded-md ml-2 hover:underline hover:transition-all"
           >
             {t("Last")}
           </button>
