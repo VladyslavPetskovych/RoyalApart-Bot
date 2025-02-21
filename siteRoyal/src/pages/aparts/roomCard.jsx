@@ -3,15 +3,16 @@ import axios from "axios";
 import SingleRoom from "./singleRoom";
 import SearchBar from "./searchBar";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import RoomPage from "../roomPage/roomPage";
+import bathData from "/bath.json"; // Ensure correct path
 
 function RoomCard({ selectedNumRoom, selectedCategory }) {
   const [allRooms, setAllRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10); // Adjust this value as needed
+  const [itemsPerPage] = useState(10);
+
+  const bathWubids = new Set(bathData.bath); // Convert bath list to a Set for fast lookup
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,18 +35,39 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
 
-      const matchesCategories =
-        !selectedCategory ||
-        selectedCategory.length === 0 ||
-        selectedCategory.includes(room.category);
-      const matchesNumRoom =
-        selectedNumRoom.length === 0 || selectedNumRoom.includes(room.numrooms);
+      const hasBath = bathWubids.has(room.wubid); // Check if the room is in the bath list
+
+      const categoryFilterActive =
+        selectedCategory && selectedCategory.length > 0;
+      const numRoomFilterActive = selectedNumRoom && selectedNumRoom.length > 0;
+
+      let matchesCategories = true;
+      if (categoryFilterActive) {
+        if (selectedCategory.includes("bath")) {
+          // If "bath" is selected, room must be in bath list AND match at least one other category
+          const otherCategories = selectedCategory.filter(
+            (cat) => cat !== "bath"
+          );
+          matchesCategories =
+            hasBath &&
+            (otherCategories.length === 0 ||
+              otherCategories.includes(room.category));
+        } else {
+          // Otherwise, match by normal category filtering
+          matchesCategories = selectedCategory.includes(room.category);
+        }
+      }
+
+      let matchesNumRoom = true;
+      if (numRoomFilterActive) {
+        matchesNumRoom = selectedNumRoom.includes(room.numrooms);
+      }
 
       return matchesSearchQuery && matchesCategories && matchesNumRoom;
     });
 
     setFilteredRooms(filtered);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   }, [allRooms, searchQuery, selectedCategory, selectedNumRoom]);
 
   const totalPages = Math.ceil(filteredRooms.length / itemsPerPage);
@@ -55,10 +77,11 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
   };
 
   const { t } = useTranslation();
+
   return (
     <div className="w-screen md:w-[100%]">
       <div className="flex flex-col md:flex-row font-oswald items-center mb-4">
@@ -70,7 +93,7 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
             <SingleRoom key={room.wubid} room={room} />
           ))
         ) : (
-          <p> {t("No rooms found.")}</p>
+          <p>{t("No rooms found.")}</p>
         )}
       </div>
       {filteredRooms.length > 0 && (
