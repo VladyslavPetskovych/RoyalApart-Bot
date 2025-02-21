@@ -14,24 +14,27 @@ function Jaccuzzi() {
         <p className="font-bold  font-popins text-2xl text-black ">
           Апартаменти з джакузі / ванною
         </p>
-        <Link to={"/aparts"}>
+        <Link to={"/aparts?category=bath"}>
           <button className=" m-2 mb-4 bg-gradient-to-br  text-back from-amber-500 to-amber-400 text-lg font-bold shadow-orange-500/90  hover:shadow-orange-500/90  p-3 ">
             Джакузі / Ванна
           </button>
         </Link>
       </div>
       <div className="w-full  flex flex-row  justify-around  pb-20">
-        <Link to={"/aparts"} className="w-[90%] md:w-1/4 h-96  hover:p-2">
+        <Link
+          to={"/aparts?category=bath"}
+          className="w-[90%] md:w-1/4 h-96  hover:p-2"
+        >
           <img className="w-full h-full  object-cover" src={jac1} alt="" />
         </Link>
         <Link
-          to={"/aparts"}
+          to={"/aparts?category=bath"}
           className=" hidden md:block   md:w-1/4 h-96  hover:p-2"
         >
           <img className="  w-full h-full object-cover" src={jac2} alt="" />
         </Link>
         <Link
-          to={"/aparts"}
+          to={"/aparts?category=bath"}
           className="hidden md:block w-1/4 h-96 hover:p-2 "
         >
           <img className="w-full h-full  object-cover" src={jac3} alt="" />

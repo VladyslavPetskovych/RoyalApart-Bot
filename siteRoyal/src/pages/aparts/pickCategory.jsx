@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 function PickCategory({ setSelectedCategory }) {
   const { t } = useTranslation();
-  const [selectedCategories, setSelectedCategoriesLocal] = useState([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const isBathPreselected = queryParams.get("category") === "bath";
+
+  const [selectedCategories, setSelectedCategoriesLocal] = useState(
+    isBathPreselected ? ["bath"] : []
+  );
 
   const handleCategoryClick = (category) => {
-    setSelectedCategoriesLocal((prevSelectedCategories) => {
-      if (prevSelectedCategories.includes(category)) {
-        return prevSelectedCategories.filter((cat) => cat !== category);
-      } else {
-        return [...prevSelectedCategories, category];
-      }
-    });
+    setSelectedCategoriesLocal((prevSelectedCategories) =>
+      prevSelectedCategories.includes(category)
+        ? prevSelectedCategories.filter((cat) => cat !== category)
+        : [...prevSelectedCategories, category]
+    );
   };
 
   useEffect(() => {
