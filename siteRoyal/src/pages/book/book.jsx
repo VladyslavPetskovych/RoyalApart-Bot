@@ -20,8 +20,8 @@ function Book() {
 
   return (
     <div className="bg-shit2 flex flex-col items-center w-full h-screen">
-      <p className="text-2xl font-roboto text-center mt-16">
-        Бронюй квартиру швидко і зручно
+      <p className="text-2xl font-roboto text-center mt-20">
+        
       </p>
       <iframe
         id="wubook_iframe"
