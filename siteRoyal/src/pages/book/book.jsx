@@ -1,41 +1,61 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 function Book() {
-  const [iframeHeight, setIframeHeight] = useState(window.innerHeight);
-
   useEffect(() => {
-    const updateHeight = () => setIframeHeight(window.innerHeight); 
 
-    window.addEventListener("resize", updateHeight);
+    const script = document.createElement("script");
+    script.src = "https://wubook.net/js/wblib.jgz";
+    script.async = true;
+    document.body.appendChild(script);
 
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
+    // Initialize WuBook when the script has loaded
+    script.onload = () => {
+      const WuBook = new _WuBook(1638349860);
+      const wbparams = {
+        width: 100,
+        height: "auto",
+        lang: "",
+        layout: "",
+        mobile: 0,
+        width_unit: "%",
+        mheight: 1000,
+      };
+      WuBook.design_iframe("_baror_", wbparams);
+    };
 
+    // Cleanup the script on component unmount
     return () => {
-      window.removeEventListener("resize", updateHeight);
-      document.body.style.overflow = ""; 
-      document.documentElement.style.overflow = "";
+      document.body.removeChild(script);
     };
   }, []);
 
   return (
-    <div className="bg-shit2 flex flex-col items-center w-full h-screen">
-      <p className="text-2xl font-roboto text-center mt-20">
-        
-      </p>
-      <iframe
-        id="wubook_iframe"
-        src="https://wubook.net/neb/bk?f=&n=1&ep=95d630b4&iframe_session=-1"
-        width="100%"
-        height="100%"
+    <div className="py-24 z-50 overflow-hidden bg-shit2">
+      <div
+        id="_baror_"
         style={{
-          border: "none",
-          display: "block",
-          flexGrow: 1,
+          overflow: "hidden", // Prevents internal scrollbar
         }}
-        scrolling="yes"
-        allow="fullscreen; encrypted-media; gyroscope; picture-in-picture"
-      ></iframe>
+      >
+        <a
+          href="https://wubook.net/"
+          style={{
+            display: "block",
+            marginTop: "5px",
+            textDecoration: "none",
+            border: "none",
+          }}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://wubook.net/imgs/default/booking_by_wu.gif"
+            alt="wubook"
+            title="Hotel and tourism solutions"
+            style={{ border: "none", textDecoration: "none" }}
+          />
+        </a>
+      </div>
     </div>
   );
 }
