@@ -21,7 +21,6 @@ function SingleRoom({ room }) {
             </p>
           </Link>
           <div className="flex flex-col justify-start text-left font-roboto text-base">
-          
             <div className="flex flex-row  items-center">
               <p className="mr-1 font-semibold">{t("num_rooms")}: </p>
               <p>{room.numrooms} </p>
@@ -47,14 +46,14 @@ function SingleRoom({ room }) {
           </div>
           <Link to={`/room/${room.wubid}`}>
             <p className="text-blue-900 hover:underline cursor-pointer text-base  font-roboto font-semibold text-left">
-              {t('more inf')}
+              {t("more inf")}
             </p>
           </Link>
         </div>
 
         <div className="w-[100%] md:mt-10 font-roboto font-semibold text-lg">
           <button className=" h-10 bg-gradient-to-br from-amber-600 to-amber-400 rounded-md w-[70%] hover:shadow-lg shadow-md shadow-orange-500/90  hover:shadow-orange-500/90">
-            <a href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782">{t("book_now2")}</a>
+            <Link to={"/book"}>{t("book_now")}</Link>
           </button>
         </div>
       </div>

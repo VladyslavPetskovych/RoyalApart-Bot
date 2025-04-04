@@ -216,9 +216,7 @@ function RoomPage() {
       </div>
       <div className="fixed bottom-5 right-0 opacity-70 hover:opacity-100 md:right-5   w-48 ">
         <button className=" h-10 bg-gradient-to-br from-amber-600 to-amber-400 rounded-md w-[70%] hover:shadow-lg shadow-md shadow-orange-500/90  hover:shadow-orange-500/90">
-          <a href="https://wubook.net/nneb/mprop?f=today&n=1&ep=95d630b4&w_id=6782">
-            {t("book_now2")}
-          </a>
+          <Link to={"/book"}>{t("book_now")}</Link>
         </button>
       </div>
     </div>
