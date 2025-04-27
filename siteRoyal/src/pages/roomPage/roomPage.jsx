@@ -9,9 +9,9 @@ import user from "../../assets/roomPage/user.png";
 import floor from "../../assets/roomPage/stairs.png";
 import SliderCategories from "../../components/mainpage/home/sliderCategories";
 import Googlemap from "./googlemap";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { slugify } from "transliteration";
+import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+import {slugify} from "transliteration";
 
 function RoomPage() {
   const { t, i18n } = useTranslation();
@@ -45,13 +45,10 @@ function RoomPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/copied-rooms"
+            `http://localhost:3000/siteRoyal/copied-rooms/${wubidL}`
+          //   `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/copied-rooms/${wubidL}`
         );
-        const allRooms = response.data.data;
-
-        const foundRoom = allRooms.find((room) => {
-          return room.wubid === wubidL;
-        });
+        const foundRoom = response.data;
 
         setCurrentRoom(foundRoom);
         setLoading(false); // Set loading to false when data is fetched

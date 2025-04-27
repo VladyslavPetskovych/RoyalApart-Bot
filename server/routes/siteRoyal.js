@@ -156,6 +156,68 @@ router.get("/copied-rooms", async (req, res) => {
   }
 });
 
+// TODO цей розкоментовуєш, метод що зверху видалити/закоментувати
+// router.get("/copied-rooms", async (req, res) => {
+//   try {
+//     const query = req.query;
+//     const queryStr = JSON.stringify(query);
+//     const queryObj = JSON.parse(queryStr.replace(/\b(regex|options)\b/g, match => `$${match}`));
+//     const {page = 1, limit = 10, sortedBy = "createdAt", ...searchObject} = queryObj;
+//     const skip = +limit * (+page - 1)
+//     const db = mongoose.connection.useDb("apartments");
+//
+//     for (let key in searchObject) {
+//       if (typeof searchObject[key] === "string" && searchObject[key].includes(",")) {
+//         searchObject[key] = { $in: searchObject[key].split(",") };
+//       }
+//
+//       if (!isNaN(searchObject[key])) {
+//         searchObject[key] = Number(searchObject[key]);
+//       }
+//     }
+//
+//     const [copiedRooms, copiedRoomsTotalCount, copiedRoomsSearchCount] = await Promise.all([
+//         db.collection("copy_aparts").find(searchObject).sort(sortedBy).limit(+limit).skip(skip).toArray(),
+//         db.collection("copy_aparts").countDocuments(),
+//         db.collection("copy_aparts").countDocuments(searchObject)
+//     ]);
+//
+//     return res.json({
+//       page: +page,
+//       perPage: +limit,
+//       itemsCount: copiedRoomsTotalCount,
+//       itemsFound: copiedRoomsSearchCount,
+//       data: copiedRooms,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching copied rooms:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch copied rooms",
+//       error: error.message,
+//     });
+//   }
+// });
+
+router.get("/copied-rooms/:roomId", async (req, res) => {
+  try {
+    const {roomId} = req.params;
+
+    const db = mongoose.connection.useDb("apartments");
+
+    const room = await db.collection("copy_aparts").findOne({wubid: +roomId});
+
+    return res.json(room);
+  } catch (error) {
+    console.error("Error fetching copied room:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch copied room",
+      error: error.message,
+    });
+  }
+});
+
 
 
 
