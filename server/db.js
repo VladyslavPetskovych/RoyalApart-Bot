@@ -9,7 +9,6 @@ mongoose.connect(mongoURL);
 
 var conection = mongoose.connection;
 
-
 conection.on("error", () => {
   console.log("mongo db conection failed");
 });
