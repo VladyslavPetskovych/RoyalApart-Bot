@@ -18,40 +18,39 @@ function Slider({ room, isMaximize }) {
   };
 
   useEffect(() => {
-    const preloadFirstImage = () => {
-      const firstImage = new Image();
-      firstImage.src = `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.wubid}/${room.imgurl[0]}`;
-      firstImage.onload = () => handleImageLoad(0);
-      setPreloadedImages([firstImage]);
-      setLoadingStates([true]);
-    };
-
-    const preloadRemainingImages = () => {
-      const remainingImages = room.imgurl.slice(1).map((img, index) => {
-        const imageObj = new Image();
-        imageObj.src = `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.wubid}/${img}`;
-        imageObj.onload = () => handleImageLoad(index + 1);
-        return imageObj;
+    const preloadCurrentAndNext = () => {
+      const indexesToPreload = [currentIndex, (currentIndex + 1) % room.imgurl.length];
+      const newImages = [];
+  
+      indexesToPreload.forEach(index => {
+        if (!preloadedImages[index]) {
+          const img = new Image();
+          img.src = `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.wubid}/${room.imgurl[index]}`;
+          img.onload = () => handleImageLoad(index);
+          newImages[index] = img;
+        }
       });
-      setPreloadedImages((prevImages) => [...prevImages, ...remainingImages]);
-      setLoadingStates((prevLoadingStates) => [...prevLoadingStates, ...remainingImages.map(() => true)]);
+  
+      setPreloadedImages((prev) => {
+        const updated = [...prev];
+        indexesToPreload.forEach(index => {
+          if (!updated[index]) updated[index] = newImages[index];
+        });
+        return updated;
+      });
+  
+      setLoadingStates((prevLoadingStates) => {
+        const updated = [...prevLoadingStates];
+        indexesToPreload.forEach(index => {
+          if (typeof updated[index] === 'undefined') updated[index] = true;
+        });
+        return updated;
+      });
     };
-
-    const debounce = (func, delay) => {
-      let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          func(...args);
-        }, delay);
-      };
-    };
-
-    const debouncedPreload = debounce(preloadRemainingImages, 200);
-
-    preloadFirstImage();
-    debouncedPreload();
-  }, [room]);
+  
+    preloadCurrentAndNext();
+  }, [currentIndex, room]);
+  
 
   const handleImageLoad = (index) => {
     setLoadingStates((prevLoadingStates) => {
@@ -109,6 +108,7 @@ function Slider({ room, isMaximize }) {
               ) : (
                 <img
                   className="w-full h-full object-cover"
+                  loading="lazy"
                   src={image.src}
                   alt=""
                 />
