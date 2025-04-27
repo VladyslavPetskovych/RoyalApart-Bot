@@ -45,8 +45,8 @@ function RoomPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-            `http://localhost:3000/siteRoyal/copied-rooms/${wubidL}`
-          //   `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/copied-rooms/${wubidL}`
+            // `http://localhost:3000/siteRoyal/copied-rooms/${wubidL}`
+            `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/copied-rooms/${wubidL}`
         );
         const foundRoom = response.data;
 
