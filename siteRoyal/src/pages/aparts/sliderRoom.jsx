@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Circles } from 'react-loader-spinner';
+import { Circles } from "react-loader-spinner";
 import maximize from "../../assets/aparts/maximize.png";
 import Maximizee from "./maximize";
 
@@ -19,10 +19,13 @@ function Slider({ room, isMaximize }) {
 
   useEffect(() => {
     const preloadCurrentAndNext = () => {
-      const indexesToPreload = [currentIndex, (currentIndex + 1) % room.imgurl.length];
+      const indexesToPreload = [
+        currentIndex,
+        (currentIndex + 1) % room.imgurl.length,
+      ];
       const newImages = [];
-  
-      indexesToPreload.forEach(index => {
+
+      indexesToPreload.forEach((index) => {
         if (!preloadedImages[index]) {
           const img = new Image();
           img.src = `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.wubid}/${room.imgurl[index]}`;
@@ -30,27 +33,26 @@ function Slider({ room, isMaximize }) {
           newImages[index] = img;
         }
       });
-  
+
       setPreloadedImages((prev) => {
         const updated = [...prev];
-        indexesToPreload.forEach(index => {
+        indexesToPreload.forEach((index) => {
           if (!updated[index]) updated[index] = newImages[index];
         });
         return updated;
       });
-  
+
       setLoadingStates((prevLoadingStates) => {
         const updated = [...prevLoadingStates];
-        indexesToPreload.forEach(index => {
-          if (typeof updated[index] === 'undefined') updated[index] = true;
+        indexesToPreload.forEach((index) => {
+          if (typeof updated[index] === "undefined") updated[index] = true;
         });
         return updated;
       });
     };
-  
+
     preloadCurrentAndNext();
   }, [currentIndex, room]);
-  
 
   const handleImageLoad = (index) => {
     setLoadingStates((prevLoadingStates) => {
@@ -73,7 +75,11 @@ function Slider({ room, isMaximize }) {
   };
 
   return (
-    <div className={`relative overflow-hidden ${isMaximize ? '' : ' w-[340px] md:w-[410px]'}`}>
+    <div
+      className={`relative overflow-hidden ${
+        isMaximize ? "" : " w-[340px] md:w-[410px]"
+      }`}
+    >
       <Maximizee isOpen={isModalOpen} onClose={handleCloseModal} room={room} />
       {/* {!isMaximize && (
         <img
@@ -87,21 +93,26 @@ function Slider({ room, isMaximize }) {
         />
       )} */}
 
-      {preloadedImages.length > 0 && (
-        <div
-          className="w-full flex  transition-transform duration-1000 ease-in-out"
-          style={{
-            transform: `translateX(-${currentIndex * 100}%)`,
-            position: 'relative',
-          }}
-        >
-          {preloadedImages.map((image, index) => (
-            <div key={index} className={`object-cover ${
-              isMaximize
-                ? "h-[300px] md:h-[830px] md:px-24 lg:px-48 w-full"
-                : "h-[300px] md:h-[340px] w-full"
-            } flex-none relative`}>
-              {loadingStates[index] ? (
+      <div
+        className="w-full flex transition-transform duration-1000 ease-in-out"
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+          position: "relative",
+        }}
+      >
+        {room.imgurl.map((imgName, index) => {
+          const image = preloadedImages[index];
+          const isLoading = loadingStates[index];
+          return (
+            <div
+              key={index}
+              className={`object-cover ${
+                isMaximize
+                  ? "h-[300px] md:h-[830px] md:px-24 lg:px-48 w-full"
+                  : "h-[300px] md:h-[340px] w-full"
+              } flex-none relative`}
+            >
+              {isLoading || !image ? (
                 <div className="absolute inset-0 flex justify-center items-center">
                   <Circles color="#00BFFF" height={80} width={80} />
                 </div>
@@ -114,9 +125,10 @@ function Slider({ room, isMaximize }) {
                 />
               )}
             </div>
-          ))}
-        </div>
-      )}
+          );
+        })}
+      </div>
+
       <button
         className="absolute top-1/2 transform -translate-y-1/2 left-0 text-6xl bg-shit h-32 opacity-50 bg-opacity-0 hover:bg-opacity-40"
         onClick={goToPrevious}
