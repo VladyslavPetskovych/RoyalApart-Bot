@@ -1,20 +1,21 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const mongopass = process.env.mongopass;
+const mongopass = process.env.MONGOPASS;
 
-var mongoURL = `mongodb+srv://andriyyavir7:1111@cluster0.nbom1sb.mongodb.net/apartments`;
+// Використовуємо змінну середовища для підключення до MongoDB
+const mongoURL = `mongodb+srv://andriyyavir7:${mongopass}@cluster0.nbom1sb.mongodb.net/apartments`;
 
 mongoose.connect(mongoURL);
 
-var conection = mongoose.connection;
+var connection = mongoose.connection;
 
-conection.on("error", () => {
-  console.log("mongo db conection failed");
+connection.on("error", () => {
+  console.log("MongoDB connection failed");
 });
 
-conection.on("connected", () => {
-  console.log("Mongo DB Conection successful!!!!!!!!!!!!!!!");
+connection.on("connected", () => {
+  console.log("MongoDB connection successful!!!!!!!!!!!!!!!");
 });
 
 module.exports = mongoose;
