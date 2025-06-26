@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Room = require("../models/rooms");
 
-const WodooApart = require("../models/wodooApart");
+const WodooApart = require("../models/wodooAparts");
 
 const mongoose = require("../db");
 const fs = require("fs");
