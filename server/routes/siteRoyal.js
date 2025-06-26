@@ -152,7 +152,6 @@ router.get("/copied-rooms", async (req, res) => {
   }
 });
 
-const WodooApart = require("../models/wodooApart");
 
 router.get("/copy-to-wodoo", async (req, res) => {
   try {
