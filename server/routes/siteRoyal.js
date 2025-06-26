@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Room = require("../models/rooms");
 const axios = require("axios");
+const { parseStringPromise } = require("xml2js");
 
 const WodooApart = require("../models/wodooAparts");
 
@@ -225,7 +226,8 @@ router.get("/update-wodoo-images", async (req, res) => {
           }
         );
 
-        const parsed = await parser.parseStringPromise(response.data);
+        const parsed = await parseStringPromise(response.data);
+
         const data =
           parsed?.methodResponse?.params?.[0]?.param?.[0]?.value?.[0]
             ?.array?.[0]?.data?.[0]?.value?.[1];
