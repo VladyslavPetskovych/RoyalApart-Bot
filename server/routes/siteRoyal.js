@@ -190,11 +190,20 @@ router.get("/copy-to-wodoo", async (req, res) => {
 });
 
 router.get("/update-wodoo-images", async (req, res) => {
+  const results = [];
+
   try {
     const rooms = await WodooApart.find();
 
     for (const room of rooms) {
-      if (!room.wdid) continue;
+      if (!room.wdid) {
+        results.push({
+          name: room.name,
+          wdid: room.wdid,
+          status: "⛔ Пропущено (wdid відсутній)",
+        });
+        continue;
+      }
 
       const xmlBody = `<?xml version="1.0"?>
 <methodCall>
@@ -221,36 +230,56 @@ router.get("/update-wodoo-images", async (req, res) => {
             ?.array?.[0]?.data?.[0]?.value?.[1];
 
         if (!data?.array?.[0]?.data?.length) {
-          console.log(`❌ No images for room wdid: ${room.wdid}`);
+          results.push({
+            name: room.name,
+            wdid: room.wdid,
+            status: "❌ Немає зображень у відповіді",
+          });
           continue;
         }
 
-        const images = data.array[0].data.map((v) => {
-          const struct = v.struct[0].member;
-          const image = struct.find((m) => m.name[0] === "image_link");
-          return image.value[0];
-        });
+        const images = data.array[0].data
+          .map((v) => {
+            const struct = v.struct[0].member;
+            const image = struct.find((m) => m.name[0] === "image_link");
+            return image?.value?.[0] || null;
+          })
+          .filter(Boolean);
 
-        // Update room
-        await WodooApart.updateOne(
+        const updateResult = await WodooApart.updateOne(
           { _id: room._id },
           { $set: { imgurl: images } }
         );
 
-        console.log(`✅ Updated images for wdid: ${room.wdid}`);
+        results.push({
+          name: room.name,
+          wdid: room.wdid,
+          updated: updateResult.modifiedCount,
+          images,
+          status: "✅ Оновлено",
+        });
       } catch (innerErr) {
-        console.warn(
-          `⚠️ Failed to update wdid ${room.wdid}: ${innerErr.message}`
-        );
+        results.push({
+          name: room.name,
+          wdid: room.wdid,
+          status: "⚠️ Помилка оновлення",
+          error: innerErr.message,
+        });
       }
     }
 
-    res.json({ success: true, message: "All room images updated!" });
+    res.json({
+      success: true,
+      message: "Спроба оновлення зображень завершена",
+      updatedRooms: results,
+    });
   } catch (err) {
     console.error("Error in /update-wodoo-images:", err);
-    res
-      .status(500)
-      .json({ success: false, message: "Error updating room images" });
+    res.status(500).json({
+      success: false,
+      message: "Помилка при оновленні зображень",
+      error: err.message,
+    });
   }
 });
 
