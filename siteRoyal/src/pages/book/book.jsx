@@ -8,7 +8,6 @@ function Book() {
     script.async = true;
     document.body.appendChild(script);
 
-    // Initialize WuBook when the script has loaded
     script.onload = () => {
       const WuBook = new _WuBook(1638349860);
       const wbparams = {
@@ -23,7 +22,7 @@ function Book() {
       WuBook.design_iframe("_baror_", wbparams);
     };
 
-    // Cleanup the script on component unmount
+
     return () => {
       document.body.removeChild(script);
     };
@@ -34,7 +33,7 @@ function Book() {
       <div
         id="_baror_"
         style={{
-          overflow: "hidden", // Prevents internal scrollbar
+          overflow: "hidden", 
         }}
       >
         <a

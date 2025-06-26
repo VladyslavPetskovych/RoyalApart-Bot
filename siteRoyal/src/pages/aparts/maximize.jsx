@@ -10,25 +10,25 @@ const Maximizee = ({ isOpen, onClose, room }) => {
   useEffect(() => {
     const translateDescription = async () => {
       if (i18n.language !== "uk" && room.description) {
-        // Only attempt translation if the description is not empty and language is not Ukrainian
+  
         try {
           const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=uk&tl=${i18n.language}&dt=t&q=${encodeURIComponent(room.description)}`);
           const data = await response.json();
-          // Check if there's any translation data and handle multiple translation segments
+      
           if (data[0]) {
             const translatedText = data[0].map(segment => segment[0]).join(" ");
             setTranslatedDescription(translatedText);
           }
         } catch (error) {
           console.error("Error translating description:", error);
-          setTranslatedDescription(room.description);  // Fallback to the original description on error
+          setTranslatedDescription(room.description);  
         }
       } else {
-        setTranslatedDescription(room.description);  // Set original description if language is Ukrainian
+        setTranslatedDescription(room.description);  
       }
     };
 
-    if (isOpen) {  // Only translate if the modal/dialog is open
+    if (isOpen) {  
       translateDescription();
     }
 
