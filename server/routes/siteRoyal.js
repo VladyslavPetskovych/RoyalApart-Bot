@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Room = require("../models/rooms");
 const axios = require("axios");
-const { parseStringPromise } = require("xml2js");
 
 const WodooApart = require("../models/wodooAparts");
 
@@ -154,43 +153,6 @@ router.get("/copied-rooms", async (req, res) => {
   }
 });
 
-router.get("/copy-to-wodoo", async (req, res) => {
-  try {
-    const rooms = await Room.find().lean();
-
-    for (const room of rooms) {
-      const { _id, ...rest } = room;
-      rest.wdid = "0";
-
-      const existing = await WodooApart.findOne({ name: rest.name });
-
-      if (!existing) {
-        await WodooApart.create(rest);
-        console.log(`➕ Created: ${rest.name}`);
-      } else {
-        const { wdid, _id, ...fieldsToUpdate } = existing.toObject();
-
-        await WodooApart.updateOne(
-          { _id: existing._id },
-          { $set: { ...rest, wdid: existing.wdid || "0" } }
-        );
-        console.log(`♻️ Updated (preserved wdid): ${rest.name}`);
-      }
-    }
-
-    return res.json({
-      success: true,
-      message: "Rooms copied to wodoo_aparts with wdid successfully!",
-    });
-  } catch (err) {
-    console.error("Error copying to wodoo_aparts:", err);
-    return res.status(500).json({
-      success: false,
-      message: "Error copying rooms to wodoo_aparts",
-    });
-  }
-});
-
 router.get("/update-wodoo-images", async (req, res) => {
   const results = [];
 
@@ -198,11 +160,11 @@ router.get("/update-wodoo-images", async (req, res) => {
     const rooms = await WodooApart.find();
 
     for (const room of rooms) {
-      if (!room.wdid) {
+      if (!room.wdid || room.wdid === "0") {
         results.push({
           name: room.name,
           wdid: room.wdid,
-          status: "⛔ Пропущено (wdid відсутній)",
+          status: "⛔ Пропущено (wdid відсутній або 0)",
         });
         continue;
       }
@@ -226,26 +188,24 @@ router.get("/update-wodoo-images", async (req, res) => {
           }
         );
 
-        const parsed = await parseStringPromise(response.data);
+        // Витягуємо всі image_link вручну з XML
+        const matches = response.data.match(
+          /<name>image_link<\/name>\s*<value><string>(.*?)<\/string><\/value>/g
+        );
 
-        const data =
-          parsed?.methodResponse?.params?.[0]?.param?.[0]?.value?.[0]
-            ?.array?.[0]?.data?.[0]?.value?.[1];
-
-        if (!data?.array?.[0]?.data?.length) {
+        if (!matches || matches.length === 0) {
           results.push({
             name: room.name,
             wdid: room.wdid,
-            status: "❌ Немає зображень у відповіді",
+            status: "❌ Зображення не знайдено у відповіді",
           });
           continue;
         }
 
-        const images = data.array[0].data
-          .map((v) => {
-            const struct = v.struct[0].member;
-            const image = struct.find((m) => m.name[0] === "image_link");
-            return image?.value?.[0] || null;
+        const images = matches
+          .map((m) => {
+            const match = m.match(/<string>(.*?)<\/string>/);
+            return match ? match[1] : null;
           })
           .filter(Boolean);
 
@@ -265,7 +225,7 @@ router.get("/update-wodoo-images", async (req, res) => {
         results.push({
           name: room.name,
           wdid: room.wdid,
-          status: "⚠️ Помилка оновлення",
+          status: "⚠️ Помилка при запиті або парсингу",
           error: innerErr.message,
         });
       }
