@@ -152,14 +152,13 @@ router.get("/copied-rooms", async (req, res) => {
   }
 });
 
-
 router.get("/copy-to-wodoo", async (req, res) => {
   try {
     const rooms = await Room.find().lean();
 
     for (const room of rooms) {
       const { _id, ...rest } = room;
-      rest.wdid = "0"; 
+      rest.wdid = "0";
 
       const existing = await WodooApart.findOne({ name: rest.name });
 
@@ -167,7 +166,7 @@ router.get("/copy-to-wodoo", async (req, res) => {
         await WodooApart.create(rest);
         console.log(`➕ Created: ${rest.name}`);
       } else {
-        const { wdid, _id, ...fieldsToUpdate } = existing.toObject(); 
+        const { wdid, _id, ...fieldsToUpdate } = existing.toObject();
 
         await WodooApart.updateOne(
           { _id: existing._id },
@@ -187,6 +186,71 @@ router.get("/copy-to-wodoo", async (req, res) => {
       success: false,
       message: "Error copying rooms to wodoo_aparts",
     });
+  }
+});
+
+router.get("/update-wodoo-images", async (req, res) => {
+  try {
+    const rooms = await WodooApart.find();
+
+    for (const room of rooms) {
+      if (!room.wdid) continue;
+
+      const xmlBody = `<?xml version="1.0"?>
+<methodCall>
+  <methodName>room_images</methodName>
+  <params>
+    <param><value><string>wr_9fd536d9-2894-441a-85eb-4b1a670e2ff2</string></value></param>
+    <param><value><int>1638349860</int></value></param>
+    <param><value><int>${room.wdid}</int></value></param>
+  </params>
+</methodCall>`;
+
+      try {
+        const response = await axios.post(
+          "https://wired.wubook.net/xrws/",
+          xmlBody,
+          {
+            headers: { "Content-Type": "text/xml" },
+          }
+        );
+
+        const parsed = await parser.parseStringPromise(response.data);
+        const data =
+          parsed?.methodResponse?.params?.[0]?.param?.[0]?.value?.[0]
+            ?.array?.[0]?.data?.[0]?.value?.[1];
+
+        if (!data?.array?.[0]?.data?.length) {
+          console.log(`❌ No images for room wdid: ${room.wdid}`);
+          continue;
+        }
+
+        const images = data.array[0].data.map((v) => {
+          const struct = v.struct[0].member;
+          const image = struct.find((m) => m.name[0] === "image_link");
+          return image.value[0];
+        });
+
+        // Update room
+        await WodooApart.updateOne(
+          { _id: room._id },
+          { $set: { imgurl: images } }
+        );
+
+        console.log(`✅ Updated images for wdid: ${room.wdid}`);
+      } catch (innerErr) {
+        console.warn(
+          `⚠️ Failed to update wdid ${room.wdid}: ${innerErr.message}`
+        );
+      }
+    }
+
+    res.json({ success: true, message: "All room images updated!" });
+  } catch (err) {
+    console.error("Error in /update-wodoo-images:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Error updating room images" });
   }
 });
 
