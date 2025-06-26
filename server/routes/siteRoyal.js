@@ -153,6 +153,45 @@ router.get("/copied-rooms", async (req, res) => {
   }
 });
 
+router.get("/copy-to-wodoo", async (req, res) => {
+  try {
+    const rooms = await Room.find().lean();
+
+    for (const room of rooms) {
+      const { _id, ...rest } = room;
+      rest.wdid = "0";
+
+      const existing = await WodooApart.findOne({ name: rest.name });
+
+      if (!existing) {
+        await WodooApart.create(rest);
+        console.log(`➕ Created: ${rest.name}`);
+      } else {
+        const { wdid, _id, ...fieldsToUpdate } = existing.toObject();
+
+        await WodooApart.updateOne(
+          { _id: existing._id },
+          { $set: { ...rest, wdid: existing.wdid || "0" } }
+        );
+        console.log(`♻️ Updated (preserved wdid): ${rest.name}`);
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: "Rooms copied to wodoo_aparts with wdid successfully!",
+    });
+  } catch (err) {
+    console.error("Error copying to wodoo_aparts:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error copying rooms to wodoo_aparts",
+    });
+  }
+});
+
+
+
 router.get("/update-wodoo-images", async (req, res) => {
   const results = [];
 
