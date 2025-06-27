@@ -28,7 +28,8 @@ function Slider({ room, isMaximize }) {
       indexesToPreload.forEach((index) => {
         if (!preloadedImages[index]) {
           const img = new Image();
-          img.src = `https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/imgsRoyal/${room.wubid}/${room.imgurl[index]}`;
+          img.src = room.imgurl[index];
+
           img.onload = () => handleImageLoad(index);
           newImages[index] = img;
         }

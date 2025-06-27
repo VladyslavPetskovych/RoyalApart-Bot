@@ -9,46 +9,54 @@ import Courosel from "./courosel";
 import { useTranslation } from "react-i18next";
 import SliderCategories from "./home/sliderCategories";
 import WhyRoyal from "./whyRoyal";
-import Jaccuzzi from "./jaccuzzi"
+import Jaccuzzi from "./jaccuzzi";
 import "../../../src/hideScrollbar.css";
-import MySVG from "../../assets/svgg.svg";
-import "./mainPagebody.css";
 import SEO from "../SEO";
 import Sale from "./home/saleButton";
 import MiniHotelButton from "../../components/buttons/miniHotelButton";
 
 function MainPageBody() {
   const { t } = useTranslation();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
-
   const slides = [fon, fon2, fon3, fon4];
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [firstLoaded, setFirstLoaded] = useState(false);
+  const [restLoaded, setRestLoaded] = useState(false);
 
+  // Завантажуємо першу картинку одразу
   useEffect(() => {
-    // Preload images
-    const preloadImages = async () => {
-      const promises = slides.map((src) => {
-        return new Promise((resolve) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = resolve;
-        });
-      });
-      await Promise.all(promises);
-      setImagesLoaded(true);
-    };
-
-    preloadImages();
+    const img = new Image();
+    img.src = slides[0];
+    img.onload = () => setFirstLoaded(true);
   }, [slides]);
 
+  // Завантажуємо решту картинок у фоні
   useEffect(() => {
-    if (imagesLoaded) {
+    if (firstLoaded) {
+      const preloadRest = async () => {
+        const promises = slides.slice(1).map((src) => {
+          return new Promise((resolve) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = resolve;
+          });
+        });
+        await Promise.all(promises);
+        setRestLoaded(true);
+      };
+
+      preloadRest();
+    }
+  }, [firstLoaded, slides]);
+
+  // Перемикання слайдів після завантаження решти
+  useEffect(() => {
+    if (restLoaded) {
       const timer = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
-      }, 2000);
+      }, 4000);
       return () => clearInterval(timer);
     }
-  }, [imagesLoaded, slides.length]);
+  }, [restLoaded, slides.length]);
 
   return (
     <>
@@ -69,7 +77,7 @@ function MainPageBody() {
       <Courosel />
       <WhyRoyal />
       <MiniHotelButton />
-      <Jaccuzzi/>
+      <Jaccuzzi />
       <div className="w-[94vw] h-[330px] px-8 lg:h-[500px] mx-auto">
         <SliderCategories />
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
-import logo from "../assets/logo/Color logo - no background.png";
+import logo from "../assets/logo/logo.png"; 
 
 function Header() {
   const { t } = useTranslation();

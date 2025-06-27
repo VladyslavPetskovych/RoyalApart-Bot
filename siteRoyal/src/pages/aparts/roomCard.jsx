@@ -3,7 +3,7 @@ import axios from "axios";
 import SingleRoom from "./singleRoom";
 import SearchBar from "./searchBar";
 import { useTranslation } from "react-i18next";
-import bathData from "/bath.json"; // Ensure correct path
+import bathData from "/bath.json";
 
 function RoomCard({ selectedNumRoom, selectedCategory }) {
   const [allRooms, setAllRooms] = useState([]);
@@ -12,14 +12,15 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
-  const bathWubids = new Set(bathData.bath); // Convert bath list to a Set for fast lookup
+  const bathWubids = new Set(bathData.bath);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/copied-rooms"
+          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/get-all-wodoo"
         );
+
         setAllRooms(response.data.data);
       } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -35,7 +36,7 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
 
-      const hasBath = bathWubids.has(room.wubid); // Check if the room is in the bath list
+      const hasBath = bathWubids.has(room.wubid);
 
       const categoryFilterActive =
         selectedCategory && selectedCategory.length > 0;
@@ -44,7 +45,6 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
       let matchesCategories = true;
       if (categoryFilterActive) {
         if (selectedCategory.includes("bath")) {
-          // If "bath" is selected, room must be in bath list AND match at least one other category
           const otherCategories = selectedCategory.filter(
             (cat) => cat !== "bath"
           );
@@ -53,7 +53,6 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
             (otherCategories.length === 0 ||
               otherCategories.includes(room.category));
         } else {
-          // Otherwise, match by normal category filtering
           matchesCategories = selectedCategory.includes(room.category);
         }
       }
