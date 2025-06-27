@@ -190,8 +190,6 @@ router.get("/copy-to-wodoo", async (req, res) => {
   }
 });
 
-
-
 router.get("/update-wodoo-images", async (req, res) => {
   const results = [];
 
@@ -280,6 +278,24 @@ router.get("/update-wodoo-images", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Помилка при оновленні зображень",
+      error: err.message,
+    });
+  }
+});
+
+router.get("/get-all-wodoo", async (req, res) => {
+  try {
+    const allRooms = await WodooApart.find().lean();
+    res.json({
+      success: true,
+      count: allRooms.length,
+      data: allRooms,
+    });
+  } catch (err) {
+    console.error("Error fetching all WodooApart records:", err);
+    res.status(500).json({
+      success: false,
+      message: "Помилка при отриманні даних",
       error: err.message,
     });
   }
