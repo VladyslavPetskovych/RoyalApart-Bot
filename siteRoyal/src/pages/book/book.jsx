@@ -9,7 +9,7 @@ function Book() {
     document.body.appendChild(script);
 
     script.onload = () => {
-      const WuBook = new _WuBook(1638349860);
+      const WuBook = new _WuBook(1749140045);
       const wbparams = {
         width: 100,
         height: "auto",
