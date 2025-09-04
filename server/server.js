@@ -5,22 +5,14 @@ const cron = require("node-cron");
 const axios = require("axios");
 const dbConfig = require("./db");
 
-const corsOptions = {
-  origin: ["http://localhost:5173", "https://royalapart.online"], // дозволені фронтенди
-  credentials: true,
-};
+app.use(cors());
 
-app.use(cors(corsOptions)); // застосовуємо до всього сервера
-app.options("*", cors(corsOptions)); // для preflight запитів
-
-// Статичні файли
 app.use("/imgs", express.static("imgs"));
 app.use("/imgsRoyal", express.static("imgsRoyal"));
 app.use("/advertImgs", express.static("advertImgs"));
-
-// Головний роут
 app.get("/", (req, res) => {
-  res.json({ text: "53 квартири на сьогодні" });
+  res.set("Access-Control-Allow-Origin", "*");
+  res.json({ text: " 53 квартири на сьогодні" });
 });
 
 const apartRouter = require("./routes/apart");
@@ -32,7 +24,7 @@ const authRouter = require("./routes/auth");
 const siteRouter = require("./routes/siteRoyal");
 const advertRouter = require("./routes/advert");
 const allchatIdRouter = require("./routes/getAllUsers");
-const salesRouter = require("./routes/sales");
+const salesRouter = require("./routes/sales")
 
 app.use("/aparts", apartRouter);
 app.use("/users", userRouter);
@@ -43,13 +35,12 @@ app.use("/auth", authRouter);
 app.use("/siteRoyal", siteRouter);
 app.use("/advert", advertRouter);
 app.use("/getAllUsers", allchatIdRouter);
-app.use("/sales", salesRouter);
+app.use("/sales", salesRouter)
 
 cron.schedule("0 * * * *", async () => {
   try {
-    const response = await axios.delete(
-      "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/sales/delete-expired"
-    );
+
+    const response = await axios.delete("https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/sales/delete-expired");
     console.log(response.data);
     await axios.get(
       "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/getprices"

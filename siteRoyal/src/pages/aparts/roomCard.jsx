@@ -18,7 +18,7 @@ function RoomCard({ selectedNumRoom, selectedCategory }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://royalapart.online/siteRoyal/get-all-wodoo"
+          "https://ip-194-99-21-21-101470.vps.hosted-by-mvps.net/siteRoyal/get-all-wodoo"
         );
 
         setAllRooms(response.data.data);
